@@ -5,8 +5,6 @@ const cors = require ('cors');
 const massive = require ('massive');
 const session = require ('express-session');
 const usersController = require('./controllers/usersController');
-const booksController = require('./controllers/booksController');
-const rentalController = require('./controllers/rentalController');
 
 
 const app = express();
