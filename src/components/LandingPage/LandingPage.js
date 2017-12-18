@@ -5,6 +5,10 @@ export default class LandingPage extends Component {
     super();
   }
   render() {
-    return <div />;
+    return (
+      <div>
+        <h2>YOO</h2>
+      </div>
+    );
   }
 }

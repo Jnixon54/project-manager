@@ -12,15 +12,17 @@ export default class App extends Component {
     super();
   }
   render() {
-    return;
+    return (
+      <div>
 
-    <div>
-      <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <Route path="/Dashboard" component={Dashboard} />
-        <Route path="/ProjectView" component={ProjectView} />
-        <Route path="/SettingView" component={SettingView} />
-      </Switch>
-    </div>;
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/Dashboard" component={Dashboard} />
+          <Route path="/ProjectView" component={ProjectView} />
+          <Route path="/SettingView" component={SettingView} />
+        </Switch>
+    
+      </div>
+    );
   }
 }
