@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setEmail, setPassword } from './../../ducks/reducers/userReducer';
 
-export default class LandingPage extends Component {
+class LandingPage extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
       <div>
-        <h2>YOO</h2>
+        <input type="text" placeholder="Email" onChange={this.props.setEmail} />
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={this.props.setPassword}
+        />
       </div>
     );
   }
 }
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps, { setEmail, setPassword })(LandingPage);
