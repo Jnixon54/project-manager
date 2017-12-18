@@ -8,20 +8,18 @@ import ProjectView from './ProjectView/ProjectView';
 import SettingView from './SettingView/SettingView';
 
 export default class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
   render() {
     return (
       <div>
-
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/Dashboard" component={Dashboard} />
           <Route path="/ProjectView" component={ProjectView} />
           <Route path="/SettingView" component={SettingView} />
         </Switch>
-    
       </div>
     );
   }
