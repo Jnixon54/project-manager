@@ -9,6 +9,7 @@ class Header extends Component {
         this.state = {
             menuOpen: false
         }
+        this.openMenu = this.openMenu.bind(this)
     }
 
     openMenu(){
@@ -19,13 +20,13 @@ class Header extends Component {
     }
 
     render(){
-        const userPH = 'http://14aiks37fljp6kgn2vf63fz7s-wpengine.netdna-ssl.com/wp-content/uploads/sites/3/2014/04/user1.jpg'
+
         
         return(
             <header id='HeaderBar'>
                 <div className='headerComponents'>
                     <img className='logo' src='' alt=''/>
-                    <img onClick={his.openMenu} className='userImg' src='' alt={userPH}/>
+                    <img onClick={this.openMenu} className='userImg' src='' alt=''/>
                 </div>
                 {this.state.menuOpen === true &&
                 <menu id='menuDropdown'>
