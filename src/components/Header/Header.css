@@ -17,3 +17,15 @@
     width: 60px;
 
 }
+
+.userImg{
+    height: 50px;
+    width: 50px;
+}
+#menuDropdown{
+    position: absolute;
+    right: 0px;
+    top: 70px;
+    height: 300px;
+    width: 150px;
+}
