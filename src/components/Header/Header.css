@@ -1,0 +1,19 @@
+#HeaderBar{
+    width: 100vw;
+    height: 70px;
+    background: hotpink
+}
+
+.headerComponents{
+    display: flex;
+    width: 60%;
+    height: 100%;
+    justify-content: flex-end space-between;
+    align-items: center;
+}
+
+.logo{
+    height: 60px;
+    width: 60px;
+
+}
