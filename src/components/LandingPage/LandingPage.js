@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-export default class LandingPage extends Component {
+class LandingPage extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
-    return (
-      <div>
-        <h2>YOO</h2>
-      </div>
-    );
+    return <div>Landing Page</div>;
   }
 }
+const mapStateToProps = state => state.user;
+
+export default connect(mapStateToProps, {})(LandingPage);
