@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class SettingView extends Component {
   constructor() {
-    super((this.state = {}));
+    super();
   }
   render() {
     return <div />;
