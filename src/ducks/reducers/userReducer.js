@@ -30,16 +30,16 @@ export function setUserID(userID) {
     userID
   };
 }
-export function setEmail(email) {
+export function setEmail(e) {
   return {
-    type: 'UPDATE_EMAIL',
-    email
+    type: UPDATE_EMAIL,
+    payload: e.target.value
   };
 }
-export function setPassword(password) {
+export function setPassword(e) {
   return {
-    type: 'UPDATE_PASSWORD',
-    password
+    type: UPDATE_PASSWORD,
+    payload: e.target.value
   };
 }
 
