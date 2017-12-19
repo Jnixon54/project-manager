@@ -7,9 +7,6 @@ const session = require ('express-session');
 const passport = require('passport'),
       LocalStrategy = require('passport-local').Strategy, 
       GoogleStrategy = require('passport-google-oauth2').Strategy;
-const google= require('googleapis'),
-      OAuth2 = google.auth.OAuth2,
-      { google_auth_url, oauth2Client } = require('./google_auth/googleAuthUrl')
 const usersController = require('./controllers/users_controller');
 
 const app = express();
