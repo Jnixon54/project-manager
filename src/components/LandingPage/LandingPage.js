@@ -8,7 +8,7 @@ class LandingPage extends Component {
   }
 
   render() {
-    return <div>Landing Page</div>;
+    return <div>Landing Page Added so i could commit</div>;
   }
 }
 const mapStateToProps = state => state.user;

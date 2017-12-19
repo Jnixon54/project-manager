@@ -1,37 +1,42 @@
-#HeaderBar{
-    width: 100vw;
-    height: 70px;
-    background: hotpink;
-    display: flex;
-    justify-content: flex-end
+#HeaderBar {
+  width: 100vw;
+  height: 70px;
+  background: hotpink;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.headerComponents{
-    display: flex;
-    width: 53%;
-    height: 100%;
-    justify-content: space-between;
-    align-items: center;
-    margin-right: 20px
+.headerComponents {
+  display: flex;
+  width: 53%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
 }
 
-.logo{
-    height: 60px;
-    width: 60px;
-    background: black
-
+.logo {
+  height: 60px;
+  width: 60px;
+  background: black;
 }
 
-.userImg{
-    height: 50px;
-    width: 50px;
-    background: white;
-    z-index: 100
+.userImg {
+  height: 50px;
+  width: 50px;
+  background: white;
+  z-index: 100;
+  border-radius: 50%;
+  cursor: pointer;
 }
-#menuDropdown{
-    position: absolute;
-    right: 0px;
-    top: 70px;
-    height: 300px;
-    width: 150px;
+.userImg:hover {
+  opacity: 0.9;
+  background: blue;
+}
+#menuDropdown {
+  position: absolute;
+  right: 0px;
+  top: 70px;
+  height: 300px;
+  width: 150px;
 }
