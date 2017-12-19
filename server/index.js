@@ -1,5 +1,6 @@
 const { PORT, DB_CONN_STRING, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI, GOOGLE_AUTH_SCOPE, FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET, FACEBOOK_REDIRECT_URI } = require('../.config');
 const express = require('express');
+<<<<<<< HEAD
 const bodyParser = require('body-parser');
 const cors = require ('cors');
 const massive = require ('massive');
@@ -9,10 +10,19 @@ const passport = require('passport'),
       GoogleStrategy = require('passport-google-oauth2').Strategy;
       FacebookStrategy = require('passport-facebook').Strategy;
 const usersController = require('./controllers/users_controller');
+=======
+const { json } = require('body-parser');
+const cors = require('cors');
+const massive = require('massive');
+const session = require('express-session');
+const usersController = require('./controllers/users_controller');
+const projectsController = require('./controllers/projects_controller');
+>>>>>>> master
 
 const app = express();
 app.use(bodyParser.json()); //Must come before cors
 app.use(cors());
+<<<<<<< HEAD
 app.use(passport.initialize());
 app.use(passport.session());
 ///////////////////////////////////////////////////////////////////////////
@@ -120,9 +130,27 @@ function(accessToken, refreshToken, profile, done) {
     })
     .catch((err) => done(err));
 }))
+=======
+
+massive(DB_CONN_STRING)
+  .then(dbInstance => {
+    app.set('db', dbInstance);
+  })
+  .catch(console.log);
+
+app.use(
+  session({
+    secret: 'placeholder',
+    resave: true,
+    saveUninitialized: false,
+    cookie: { maxAge: 600000 }
+  })
+);
+>>>>>>> master
 ///////////////////////////////////////////////////////////////////////////
 // Auth endpoints
 // This user controller will have to be modified.
+<<<<<<< HEAD
 app.post('/auth/local', passport.authenticate('local'), 
   function(req, res) {
     res.status(200).send();
@@ -151,12 +179,25 @@ app.get( '/auth/facebook/callback',
 app.post('/api/auth/login', usersController.login)
 app.post('/api/auth/register', usersController.create)
 app.post('/api/auth/logout', usersController.logout)
+=======
+app.post('/api/auth/login', usersController.login);
+app.post('/api/auth/register', usersController.create);
+app.post('/api/auth/logout', usersController.logout);
+>>>>>>> master
+
+///////////////////////////////////////////////////////////////////////////
+// Dashboard Endpoints
+app.post('/api/allProjects', projectsController.getAllProjects);
+app.post('/api/allTasks', projectsController.getAllTasks);
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
 
-///////////////////////////////////////////////////////////////////////////
-// More End Points
-
+<<<<<<< HEAD
 app.listen(PORT, () => { console.log(`Listening on port ${PORT}`)})
   
+=======
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
+>>>>>>> master

@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './ducks/index';
+import promiseMiddleware from 'redux-promise-middleware';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {Provider} from 'react-redux';
 import store from './store';
@@ -14,6 +15,6 @@ import store from './store';
 
 const createStoreWithMiddleware = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware())
+  composeWithDevTools(applyMiddleware(promiseMiddleware()))
 );
 export default createStoreWithMiddleware;
