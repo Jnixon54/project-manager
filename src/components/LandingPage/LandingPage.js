@@ -10,6 +10,8 @@ class LandingPage extends Component {
   render() {
     return <div>
       <a href="http://localhost:3001/api/auth/google" >Google Login Test</a>
+      <a href="http://localhost:3001/api/auth/facebook" >Facebook Login Test</a>
+
       Landing Page Added so i could commit</div>;
 
   }

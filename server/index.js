@@ -1,4 +1,4 @@
-const { PORT, DB_CONN_STRING, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI, GOOGLE_AUTH_SCOPE } = require('../.config');
+const { PORT, DB_CONN_STRING, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI, GOOGLE_AUTH_SCOPE, FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET, FACEBOOK_REDIRECT_URI } = require('../.config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require ('cors');
@@ -7,6 +7,7 @@ const session = require ('express-session');
 const passport = require('passport'),
       LocalStrategy = require('passport-local').Strategy, 
       GoogleStrategy = require('passport-google-oauth2').Strategy;
+      FacebookStrategy = require('passport-facebook').Strategy;
 const usersController = require('./controllers/users_controller');
 
 const app = express();
@@ -46,7 +47,7 @@ passport.deserializeUser(function(id, done) {
 })
 ///////////////////////////////////////////////////////////////////////////
 // Passport strategies
-passport.use('local', new LocalStrategy(function(username, password, done) {
+passport.use('local', new LocalStrategy(function(username, password, done) { // Need to ad ability to create new account
     const db = app.get('db');
     db.users
       .findOne({ username: username })
@@ -93,6 +94,32 @@ function(accessToken, refreshToken, profile, done) {
     })
     .catch((err) => done(err));
 }))
+
+passport.use('facebook', new FacebookStrategy({
+  clientID: FACEBOOK_CLIENT_ID,
+  clientSecret: FACEBOOK_CLIENT_SECRET,
+  callbackURL: FACEBOOK_REDIRECT_URI
+}, 
+function(accessToken, refreshToken, profile, done) {
+  const db = app.get('db');
+  const facebookID = 'facebook|' + profile.id;
+  db.getUser([facebookID])
+    .then(user => {
+      if (!user[0]) {
+        db.createFacebookUser([facebookID])
+          .then(user => {
+          console.log(`Created Facebook user: ${user[0].id} ${user[0].username}`)
+          return done(null, user[0]);
+        }).catch(err => {
+          console.log('Failed to create Facebook user: ', err)
+          return done(err);
+        })
+      } else {
+        return done(null, user[0]);
+      }
+    })
+    .catch((err) => done(err));
+}))
 ///////////////////////////////////////////////////////////////////////////
 // Login endpoints
 // This user controller will have to be modified.
@@ -110,7 +137,17 @@ app.get( '/auth/google/callback',
   passport.authenticate( 'google', { 
     successRedirect: '/', //Will redirect to user dashboard
     failureRedirect: '/'
+})); // Might need to return the user here
+
+app.get('/api/auth/facebook', passport.authenticate('facebook'))
+
+app.get( '/auth/facebook/callback', 
+  passport.authenticate( 'facebook', { 
+    successRedirect: '/', //Will redirect to user dashboard
+    failureRedirect: '/'
 }));
+
+
 app.post('/api/auth/login', usersController.login)
 app.post('/api/auth/register', usersController.create)
 app.post('/api/auth/logout', usersController.logout)
