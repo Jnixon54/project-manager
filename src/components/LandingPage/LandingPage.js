@@ -8,7 +8,10 @@ class LandingPage extends Component {
   }
 
   render() {
-    return <div>Landing Page Added so i could commit</div>;
+    return <div>
+      <a href="http://localhost:3001/api/auth/google" >Google Login Test</a>
+      Landing Page Added so i could commit</div>;
+
   }
 }
 const mapStateToProps = state => state.user;

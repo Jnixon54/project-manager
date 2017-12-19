@@ -33,6 +33,7 @@ app.use(session({
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
+  console.log('SERIAL USER', user)
   console.log('SERIALIZE USER: ', user.id + ': ' + user.username)
   done(null, user.id);
 })
@@ -77,12 +78,21 @@ passport.use('google', new GoogleStrategy({
 }, 
 function(accessToken, refreshToken, profile, done) {
   const db = app.get('db');
-  db.users.findOne({username: 'google|' + profile.id})
+  const googleID = 'google|' + profile.id;
+  db.getUser([googleID])
     .then(user => {
-      console.log(user);
-      // console.log('GOOGLE USER: ', user.dataValues.id)
-      // console.log('GOOGLE CREATED: ', created)
-      return done(null, user);
+      if (!user[0]) {
+        db.createGoogleUser([googleID])
+          .then(user => {
+          console.log(`Created Google user: ${user[0].id} ${user[0].username}`)
+          return done(null, user[0]);
+        }).catch(err => {
+          console.log('Failed to create Google user: ', err)
+          return done(err);
+        })
+      } else {
+        return done(null, user[0]);
+      }
     })
     .catch((err) => done(err));
 }))
@@ -101,8 +111,8 @@ app.get('/api/auth/google', passport.authenticate('google',
 
 app.get( '/auth/google/callback', 
   passport.authenticate( 'google', { 
-    successRedirect: '/',
-    failureRedirect: '/login'
+    successRedirect: '/', //Will redirect to user dashboard
+    failureRedirect: '/'
 }));
 app.post('/api/auth/login', usersController.login)
 app.post('/api/auth/register', usersController.create)
