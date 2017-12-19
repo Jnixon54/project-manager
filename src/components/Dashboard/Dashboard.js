@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import {
   getAllProjects,
   getAllTasks
@@ -16,20 +15,20 @@ class Dashboard extends Component {
     this.props.getAllTasks();
   }
   render() {
+    const projectBox = this.props.projects.map((project, index) => {
+      return (
+        <div key={index}>
+          <div>{project.title}</div>
+          <div>{project.owner_id}</div>
+        </div>
+      );
+    });
+
     return (
       <div>
+        {' '}
         <Header />
-        <div className="Main-container">
-          <div className="Content">
-            <h1>Test1 + Test2</h1>
-            {/* {project} */}
-            {/* {task} */}
-          </div>
-          <div className="Blog">
-            <h1>Test3</h1>
-            {/* { blog } */}
-          </div>
-        </div>
+        {this.props.projects && projectBox}
       </div>
     );
   }
