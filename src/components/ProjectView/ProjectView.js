@@ -106,12 +106,12 @@ class ProjectView extends Component {
         <div id='cardHolder'>
           {this.props.cards.length > 0 &&
             this.props.cards.map((card, index) => 
-              <div key={index} id='taskHolder'>
+              <div key={card.cardHeader + index} id='taskHolder'>
                 <h2 className='cardHeader'>{card.cardHeader}</h2>
                 {card.tasks.length > 0 &&
                   <div>
                     {card.tasks.map((toDo, index) => 
-                        <div key ={index} className='task'>
+                        <div key ={toDo + index} className='task'>
                           <div>{toDo}</div>
                         </div>)
                     }

@@ -6,7 +6,6 @@ const initialState = {
   newCard: '',
   cards: [],
   newTask: '',
-  tasks: [],
   inputOpen: false
 };
 
@@ -111,13 +110,13 @@ export default function reducer(state = initialState, action) {
 
 
     case NEW_TASK:
-    let obj = state.cards
+    let obj = [...state.cards]
       function stuff(index, task){
         obj[index].tasks.push(task)
         return obj
       }
       stuff(action.payload.index, action.payload.task)
-      
+
       return Object.assign({}, state, {cards: obj});
 
 
