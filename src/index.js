@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import { BrowserRouter } from 'react-router-dom';
-
 import { Provider } from 'react-redux';
-import { store } from './store';
+import createStoreWithMiddleware from './store';
+
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-  // provider will make sure any of my commponents that is wrap inside of provider has what it needs.
-  <Provider store={store}>
+  <Provider store={createStoreWithMiddleware}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
