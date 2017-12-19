@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './ducks/index';
+import promiseMiddleware from 'redux-promise-middleware';
 import { composeWithDevTools } from 'redux-devtools-extension';
 // import {socketMiddleware} from './connections'; // Custom middle ware for socket commands
 
@@ -12,6 +13,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const createStoreWithMiddleware = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware())
+  composeWithDevTools(applyMiddleware(promiseMiddleware()))
 );
 export default createStoreWithMiddleware;
