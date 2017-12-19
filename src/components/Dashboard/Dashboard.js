@@ -6,6 +6,10 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.props.getAllProjects().then(res => console.log(res)),
+      this.props.getAllTasks().then(res => console.log(res));
+  }
   render() {
     return (
       <div>
