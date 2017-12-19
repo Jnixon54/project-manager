@@ -55,7 +55,7 @@ export function cardInput(e) {
 export function addCard(card) {
   return {
     type: NEW_CARD,
-    payload: card
+    payload: {cardHeader: card, tasks: []}
   }
 }
 
@@ -66,10 +66,10 @@ export function taskInput(e){
     payload: e.target.value
   }
 }
-export function addTask(task) {
+export function addTask(task, index) {
   return {
     type: NEW_TASK,
-    payload: task
+    payload: {task, index}
   }
 }
 
@@ -102,19 +102,28 @@ export default function reducer(state = initialState, action) {
 
 
     case CARD_INPUT://adding cards
-      return Object.assign({}, state, {newCard: action.payload})
+      return Object.assign({}, state, {newCard: action.payload});
     case NEW_CARD:
       return Object.assign({}, state, { cards: [...state.cards, action.payload] });
 
     case TASK_INPUT://adding tasks to cards
-      return Object.assign({}, state, {newTask: action.payload})
+      return Object.assign({}, state, {newTask: action.payload});
+
+
     case NEW_TASK:
-      return Object.assign({}, state, {tasks: [...state.tasks, action.payload]})
+    let obj = state.cards
+      function stuff(index, task){
+        obj[index].tasks.push(task)
+        return obj
+      }
+      stuff(action.payload.index, action.payload.task)
+      
+      return Object.assign({}, state, {cards: obj});
 
 
 
     case OPEN_INPUT:
-      return Object.assign({}, state, {inputOpen: action.payload})
+      return Object.assign({}, state, {inputOpen: action.payload});
 
 
 

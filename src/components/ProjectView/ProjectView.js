@@ -79,21 +79,21 @@ class ProjectView extends Component {
   addTask(e){
     e.preventDefault()
 
-    this.props.addTask(this.props.newTask)
-    this.props.openInput(false)
+    
   }//done
 
   
   addCard(e){
     e.preventDefault()
-    
+
     this.props.addCard(this.props.newCard)
   }//done
     
   
-  handle(e){
+  handle(e, index){
     e.preventDefault();
-    this.addTask(e)
+    this.props.addTask(this.props.newTask, index)
+    this.props.openInput(false)
   }
 
   render() {
@@ -107,24 +107,24 @@ class ProjectView extends Component {
           {this.props.cards.length > 0 &&
             this.props.cards.map((card, index) => 
               <div key={index} id='taskHolder'>
-                <h2 className='cardHeader'>{card}</h2>
-                {this.props.tasks.length > 0 &&
+                <h2 className='cardHeader'>{card.cardHeader}</h2>
+                {card.tasks.length > 0 &&
                   <div>
-                    {this.props.tasks.map((toDo, index) => 
-                      <div key ={index} className='task'>
-                        <div>{toDo}</div>
-                      </div>)
+                    {card.tasks.map((toDo, index) => 
+                        <div key ={index} className='task'>
+                          <div>{toDo}</div>
+                        </div>)
                     }
                   </div>
                 }
                 <div id={this.props.inputOpen ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
-                  <form action="" onSubmit={this.handle}>
+                  <form action="" onSubmit={(e) => this.handle(e, index)}>
                     <input className='newCard' onChange={this.props.taskInput} type="text"/>
                   </form>
                   {this.state.coolInput === true &&
                     <div className='buttonHolder'>
-                      <div onClick={this.addTask} className='save'>Save</div>
+                      <div onClick={(e) => this.addTask(e, index)} className='save'>Save</div>
                       <div onClick={this.closeInput} className='close'>X</div>
                     </div>
                   }          
