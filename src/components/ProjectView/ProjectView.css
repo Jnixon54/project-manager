@@ -1,0 +1,192 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+  }
+  
+  .App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+  }
+  
+  .App-title {
+    font-size: 1.5em;
+  }
+  
+  .App-intro {
+    font-size: large;
+  }
+  
+  @keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  #cardHolder{
+    display: flex
+  }
+  #taskHolder{
+    width: 250px;
+    display: flex;
+    padding: 10px 0px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background: darkgray;
+    border-radius: 10px
+  }
+  .cardHeader{
+    width: 230px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lightgray;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  #card{
+    width: 230px;
+    height: 40px;
+    background: black;
+    color: white
+  }
+  
+  .task {
+    width: 230px;
+    height: 30px;
+    background: grey;
+    display: flex;
+  }
+  
+  #cardTest {
+    width: 230px;
+    height: 30px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: grey;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  #openEditer {
+    width: 230px;
+    height: 30px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: grey;
+    display: flex;
+    align-items: center;
+    animation: grow .2s forwards;
+    flex-direction: column;
+  }
+  @keyframes grow {
+    from{
+      height: 30px
+    }
+    to {
+      height: 70px
+    }
+  }
+  .newCard {
+    width: 90%;
+    height: 20px;
+  }
+  
+  .newtab {
+    width: 95%;
+    height: 20px;
+    color: papayawhip;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+  
+  }
+  
+  #inputLine {
+    height: 2px;
+    width: 220px;
+    margin-top: 10%;
+    background: lightgray
+  }
+  
+  .save {
+    height: 30px;
+    width: 50px;
+    border-radius: 30px;
+    background: mediumseagreen;
+    animation: buttonIn .2s .1s forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0
+  }
+  .close {
+    height: 30px;
+    width: 30px;
+    background: indianred;
+    font-size: 25px;
+    animation: buttonIn .2s .1s forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0
+  }
+  
+  @keyframes buttonIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px)
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0px)
+    }
+  }
+  
+  
+  .buttonHolder {
+    display: flex;
+    width: 40%;
+    height: 60%;
+    justify-content: space-between;
+    align-items: center;
+    align-self: flex-start
+  }
+  
+  input[type=text] {
+      padding: 0;
+      height: 25px;
+      position: relative;
+      left: 0;
+      outline: none;
+      border: none;
+      border-bottom: 2px solid lightgray;
+      background-color: gray;
+      font-size: 16px;
+  }
+  
+  .cardInput {
+    width: 20%
+  }
+  
+  
+  
+  
+  h1{
+    margin: 0
+  }
+  h2{
+    margin: 0
+  }
+  h3{
+    margin: 0
+  }
+  h4{
+    margin: 0
+  }
+  

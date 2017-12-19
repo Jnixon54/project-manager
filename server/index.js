@@ -18,6 +18,7 @@ const passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
   GoogleStrategy = require('passport-google-oauth2').Strategy;
 FacebookStrategy = require('passport-facebook').Strategy;
+const hashPassword = require('./utils/crypto');
 const usersController = require('./controllers/users_controller');
 const projectsController = require('./controllers/projects_controller');
 
@@ -46,7 +47,6 @@ app.use(
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
-  console.log('SERIAL USER', user);
   console.log('SERIALIZE USER: ', user.id + ': ' + user.username);
   done(null, user.id);
 });
@@ -70,20 +70,21 @@ passport.use(
   new LocalStrategy(function(username, password, done) {
     // Need to ad ability to create new account
     const db = app.get('db');
-    db.users
-      .findOne({ username: username })
+    db
+      .getUser([username])
       .then(user => {
-        console.log(user.password);
-        if (!user) {
+        if (!user[0]) {
           return done(null, false);
         }
-        if (user.password != password) {
+        if (
+          user.password_hash != hashPassword.hash(password, user[0].salt).value
+        ) {
           return done(null, false);
         }
-        return done(null, user);
+        return done(null, user[0]);
       })
       .catch(err => {
-        console.log(err);
+        console.log('Error authenticating local user: ', err);
         if (err) {
           return done(err);
         }
@@ -193,9 +194,9 @@ app.get(
   })
 );
 
-app.post('/api/auth/login', usersController.login);
-app.post('/api/auth/register', usersController.create);
-app.post('/api/auth/logout', usersController.logout);
+app.post('/login', usersController.login);
+app.post('/register', usersController.createLocalUser);
+app.post('/logout', usersController.logout);
 
 ///////////////////////////////////////////////////////////////////////////
 // Dashboard Endpoints
