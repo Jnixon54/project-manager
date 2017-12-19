@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import createStoreWithMiddleware from './store';
+
 import registerServiceWorker from './registerServiceWorker';
 import {Provider} from 'react-redux';
 import store from './store';
 // import startConnection from './connections';
 
-// startConnection(store); // Socket store init
-
 ReactDOM.render(
-  <Provider store={store}>
-  <App />
-  </Provider>
-, document.getElementById('root'));
+  <Provider store={createStoreWithMiddleware}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+
+  document.getElementById('root')
+);
 registerServiceWorker();
