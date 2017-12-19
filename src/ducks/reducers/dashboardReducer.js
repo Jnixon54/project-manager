@@ -12,10 +12,6 @@ const GET_TASKS = 'GET_TASKS';
 
 // Reducer
 export default function reducer(state = initialState, action) {
-  console.log('Reducer fired');
-  console.log('State:', state);
-  console.log('Action:', action);
-
   switch (action.type) {
     case GET_PROJECTS + '_PENDING':
       return Object.assign({}, state, { loading: true });
@@ -34,6 +30,8 @@ export default function reducer(state = initialState, action) {
         loading: false,
         tasks: action.payload
       });
+    default:
+      return state;
   }
 }
 
@@ -43,14 +41,16 @@ export function getAllProjects() {
   return {
     type: GET_PROJECTS,
     payload: axios
-      .get('/api/allProjects')
-      .then(response => console.log(response))
+      .post('http://localhost:3001/api/allProjects', { id: 1 })
+      .then(response => response.data)
   };
 }
 
 export function getAllTasks() {
   return {
     type: GET_TASKS,
-    payload: axios.get('/api/allTasks').then(response => console.log(response))
+    payload: axios
+      .post('http://localhost:3001/api/allTasks', { id: 1 })
+      .then(response => response.data)
   };
 }

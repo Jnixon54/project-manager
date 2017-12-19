@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import {
+  getAllProjects,
+  getAllTasks
+} from './../../ducks/reducers/dashboardReducer';
 import Header from '../Header/Header';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
-    this.props.getAllProjects().then(res => console.log(res)),
-      this.props.getAllTasks().then(res => console.log(res));
+    this.props.getAllProjects();
+    this.props.getAllTasks();
   }
   render() {
     return (
@@ -29,3 +34,8 @@ export default class Dashboard extends Component {
     );
   }
 }
+const mapStateToProps = state => state.dashboard;
+
+export default connect(mapStateToProps, { getAllProjects, getAllTasks })(
+  Dashboard
+);
