@@ -1,11 +1,15 @@
-const { PORT, DB_CONN_STRING } = require('../.config');
+const { PORT, DB_CONN_STRING, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI, GOOGLE_AUTH_SCOPE } = require('../.config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require ('cors');
 const massive = require ('massive');
 const session = require ('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport'),
+      LocalStrategy = require('passport-local').Strategy, 
+      GoogleStrategy = require('passport-google-oauth2').Strategy;
+const google= require('googleapis'),
+      OAuth2 = google.auth.OAuth2,
+      { google_auth_url, oauth2Client } = require('./google_auth/googleAuthUrl')
 const usersController = require('./controllers/users_controller');
 
 const app = express();
@@ -18,15 +22,6 @@ app.use(passport.session());
 massive(DB_CONN_STRING).then(instance => {
   app.set('db', instance);
 }).catch(console.log);
-// Set a reference to the massive instance on Express' app:
-// app.set('db', masscxiveInstance);
-// console.log(db);
-// massive(DB_CONN_STRING)
-//   .then(dbInstance => {
-//     app.set('db', dbInstance);
-//     const db = app.get('db');
-//     console.log('Database Connection Successful.')})
-//   .catch(err => console.log('Database Connection Failure: ', err))
 ///////////////////////////////////////////////////////////////////////////
 app.use(session({ 
   secret: 'placeholder',
@@ -75,13 +70,40 @@ passport.use('local', new LocalStrategy(function(username, password, done) {
       });
   })
 );
+passport.use('google', new GoogleStrategy({
+  clientID: GOOGLE_CLIENT_ID,
+  clientSecret: GOOGLE_CLIENT_SECRET,
+  callbackURL: GOOGLE_REDIRECT_URI
+}, 
+function(accessToken, refreshToken, profile, done) {
+  const db = app.get('db');
+  db.users.findOne({username: 'google|' + profile.id})
+    .then(user => {
+      console.log(user);
+      // console.log('GOOGLE USER: ', user.dataValues.id)
+      // console.log('GOOGLE CREATED: ', created)
+      return done(null, user);
+    })
+    .catch((err) => done(err));
+}))
 ///////////////////////////////////////////////////////////////////////////
 // Login endpoints
 // This user controller will have to be modified.
 app.post('/api/auth/local', passport.authenticate('local'), 
   function(req, res) {
-    res.status(200).send()
+    res.status(200).send();
 });
+app.get('/api/auth/google', passport.authenticate('google', 
+  GOOGLE_AUTH_SCOPE), 
+  function(req, res) {
+    res.status(200).send();
+})
+
+app.get( '/auth/google/callback', 
+  passport.authenticate( 'google', { 
+    successRedirect: '/',
+    failureRedirect: '/login'
+}));
 app.post('/api/auth/login', usersController.login)
 app.post('/api/auth/register', usersController.create)
 app.post('/api/auth/logout', usersController.logout)
