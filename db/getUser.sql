@@ -1,0 +1,1 @@
+SELECT id, username, display_name, email, password_hash, salt FROM users WHERE username = $1;
