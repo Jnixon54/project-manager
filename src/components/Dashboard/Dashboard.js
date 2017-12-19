@@ -20,6 +20,8 @@ class Dashboard extends Component {
         <div key={index}>
           <div>{project.title}</div>
           <div>{project.owner_id}</div>
+          <div>{project.created_at}</div>
+          <div>{project.updated_at}</div>
         </div>
       );
     });
