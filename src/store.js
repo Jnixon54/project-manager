@@ -7,5 +7,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // const createStoreWithMiddleware = applyMiddleware(socketMiddleware)(createStore);
 // export default createStoreWithMiddleware(reducers);
 
-const createStoreWithMiddleware = applyMiddleware(composeWithDevTools)(createStore);
-export default createStoreWithMiddleware(reducers);
+// const createStoreWithMiddleware = applyMiddleware(composeWithDevTools)(createStore);
+// export default createStoreWithMiddleware(reducers);
+
+const createStoreWithMiddleware = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware())
+);
+export default createStoreWithMiddleware;
