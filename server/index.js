@@ -89,24 +89,6 @@ passport.use(
           return done(err);
         }
       });
-    // db.users
-    //   .findOne({ username: username })
-    //   .then(user => {
-    //     console.log(user.password);
-    //     if (!user) {
-    //       return done(null, false);
-    //     }
-    //     if (user.password != password) {
-    //       return done(null, false);
-    //     }
-    //     return done(null, user);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     if (err) {
-    //       return done(err);
-    //     }
-    //   });
   })
 );
 passport.use(
