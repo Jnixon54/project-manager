@@ -121,13 +121,13 @@ function(accessToken, refreshToken, profile, done) {
     .catch((err) => done(err));
 }))
 ///////////////////////////////////////////////////////////////////////////
-// Login endpoints
+// Auth endpoints
 // This user controller will have to be modified.
-app.post('/api/auth/local', passport.authenticate('local'), 
+app.post('/auth/local', passport.authenticate('local'), 
   function(req, res) {
     res.status(200).send();
 });
-app.get('/api/auth/google', passport.authenticate('google', 
+app.get('/auth/google', passport.authenticate('google', 
   GOOGLE_AUTH_SCOPE), 
   function(req, res) {
     res.status(200).send();
@@ -139,7 +139,7 @@ app.get( '/auth/google/callback',
     failureRedirect: '/'
 })); // Might need to return the user here
 
-app.get('/api/auth/facebook', passport.authenticate('facebook'))
+app.get('/auth/facebook', passport.authenticate('facebook'))
 
 app.get( '/auth/facebook/callback', 
   passport.authenticate( 'facebook', { 
