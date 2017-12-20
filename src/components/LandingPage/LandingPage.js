@@ -45,32 +45,32 @@ class LandingPage extends Component {
         <div className="about">
           About
           <hr />
-          <p2>
+          <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             convallis nisi a lacus vehicula scelerisque. Etiam hendrerit purus
             velit, eu tristique magna aliquet in. Lorem ipsum dolor sit amet,
             consectetur adipiscing elit.
-          </p2>
+          </p>
         </div>
 
         <div className="contact">
           Contact
           <hr />
-          <p2>
+          <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             convallis nisi a lacus vehicula scelerisque. Etiam hendrerit purus
             velit, eu tristique magna aliquet in.{' '}
-          </p2>
+          </p>
         </div>
 
         <div className="guide">
           Guide On How to Use Projek
           <hr />
-          <p2>
+          <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             convallis nisi a lacus vehicula scelerisque. Etiam hendrerit purus
             velit, eu tristique magna aliquet in.{' '}
-          </p2>
+          </p>
         </div>
       </div>
     );
