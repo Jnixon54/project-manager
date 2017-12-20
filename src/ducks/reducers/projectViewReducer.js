@@ -2,6 +2,7 @@ const initialState = {
   anItem: ['createProject', 'postNewItem'],
   newList: ['a project'],
 
+  count: 0,
 
   newCard: '',
   cards: [],
@@ -25,6 +26,8 @@ const NEW_TASK = 'NEW_TASK'
 
 const OPEN_INPUT = 'OPEN_INPUT'
 
+const INCREASE_COUNT = 'INCREASE_COUNT';
+// const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 
 
 
@@ -81,10 +84,25 @@ export function openInput(input) {
   }
 }
 
+// export function increaseCount() {
+//   return {
+//     type: INCREASE_COUNT
+//   }
+// }
 
-
-
-
+export function increaseCount(data) {
+  console.log('DATA', data)
+  if (data.processed) {
+    return {
+      type: INCREASE_COUNT,
+      payload: data.count
+    }
+  } else {
+    return {
+      type: 'INCREASE_COUNT_SOCKET'
+    }
+  }
+}
 
 
 // Reducer: state & action
@@ -123,10 +141,9 @@ export default function reducer(state = initialState, action) {
 
     case OPEN_INPUT:
       return Object.assign({}, state, {inputOpen: action.payload});
-
-
-
-
+    case INCREASE_COUNT:
+      console.log('REDUCER PAYLOAD', action.payload)
+      return {...state, count: action.payload}
     default:
       return state;
       //in case none of the action types match, it can return the state to make sure it don't break anything.

@@ -7,7 +7,9 @@ import { Provider } from 'react-redux';
 import createStoreWithMiddleware from './store';
 import registerServiceWorker from './registerServiceWorker';
 import store from './store';
-// import startConnection from './connections';
+import startConnection from './utils/sockets/connections';
+
+startConnection(store);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware}>
