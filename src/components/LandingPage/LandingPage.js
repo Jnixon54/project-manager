@@ -60,7 +60,7 @@ class LandingPage extends Component {
 
         <div className="contact">
           Contact
-          <hr />
+          <hr />git
           <p2>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             convallis nisi a lacus vehicula scelerisque. Etiam hendrerit purus
