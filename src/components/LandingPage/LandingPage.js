@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import './LandingPage.css';
 import Header from '../Header/Header';
@@ -9,10 +8,6 @@ import GooglePlusSquare from 'react-icons/lib/fa/google-plus-square';
 import FacebookSquare from 'react-icons/lib/fa/facebook-square';
 
 class LandingPage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="overall">
@@ -60,7 +55,7 @@ class LandingPage extends Component {
 
         <div className="contact">
           Contact
-          <hr />git
+          <hr />
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             convallis nisi a lacus vehicula scelerisque. Etiam hendrerit purus
