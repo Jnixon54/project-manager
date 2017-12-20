@@ -12,9 +12,6 @@ import Profile from './SettingView/Profile/Profile';
 import Settings from './SettingView/Settings/Settings';
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>
