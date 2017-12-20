@@ -27,31 +27,37 @@ module.exports = {
         }
       });
   },
-  login: (req, res, next) => {
-    const db = req.app.get('db');
-    req.session.user = {};
-    db
-      .getUser([req.body.username, req.body.password])
-      .then(result => {
-        if (result.length > 0) {
-          req.session.user.id = result[0].id;
-          req.session.user.username = result[0].username;
-          console.log(
-            `User logged in: ${req.session.user.id}: ${
-              req.session.user.username
-            }`
-          );
-        }
-        res.status(200).send(req.session.user);
-        // res.redirect('http://localhost:3000/browse');
-      })
-      .catch(() => res.status(500).send('Unauthorized'));
-  },
-  logout: (req, res, next) => {
-    console.log(req.session);
+  // login: (req, res, next) => {
+  //   const db = req.app.get('db');
+  //   req.session.user = {};
+  //   db
+  //     .getUser([req.body.username])
+  //     .then(user => {
+  //       if (user.length > 0) {
+  //         if(user[0].password_hash == hashPassword.hash(req.body.password, user[0].salt).stringHash){
+  //           req.session.user.id = user[0].id;
+  //           req.session.user.username = user[0].username;
+  //           console.log(
+  //             `User logged in: ${req.session.user.id}: ${
+  //               req.session.user.username
+  //             }`
+  //           );
+  //         next();
+  //         } else {
+  //           console.log('Login Failed. Redirecting...')
+  //           res.redirect('/');
+  //           return;
+  //         }
+  //       }
+  //       res.status(200).send(req.session.user);
+  //       // res.redirect('http://localhost:3000/browse');
+  //     })
+  //     .catch(() => res.status(500).send('Unauthorized'));
+  // },
+  logout: (req, res) => {
+    console.log('User logged out: ', req.session.passport.user);
     req.session.destroy();
-    console.log(req.session);
-    res.status(200).send(req.session);
+    res.redirect('/');
   }
   // ,
   // delete: (req, res, next) => {
