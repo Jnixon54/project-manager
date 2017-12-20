@@ -28,6 +28,7 @@ app.use(bodyParser.json()); //Must come before cors
 app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
+
 ///////////////////////////////////////////////////////////////////////////
 // DATABASE
 massive(DB_CONN_STRING)
@@ -47,12 +48,12 @@ app.use(
 
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   console.log('SERIALIZE USER: ', user.id + ': ' + user.username);
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
+passport.deserializeUser(function (id, done) {
   db.users
     .findOne({ where: { id: id } })
     .then(user => {
@@ -68,7 +69,7 @@ passport.deserializeUser(function(id, done) {
 // Passport strategies
 passport.use(
   'local',
-  new LocalStrategy(function(username, password, done) {
+  new LocalStrategy(function (username, password, done) {
     // Need to ad ability to create new account
     const db = app.get('db');
     db
@@ -78,11 +79,15 @@ passport.use(
           return done(null, false);
         }
         if (
-          user.password_hash != hashPassword.hash(password, user[0].salt).value
+          user[0].password_hash !=
+          hashPassword.hash(password, user[0].salt).stringHash
         ) {
           return done(null, false);
         }
-        return done(null, user[0]);
+        let userProfile = user[0];
+        delete userProfile.password_hash;
+        delete userProfile.salt;
+        return done(null, userProfile);
       })
       .catch(err => {
         console.log('Error authenticating local user: ', err);
@@ -100,7 +105,7 @@ passport.use(
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: GOOGLE_REDIRECT_URI
     },
-    function(accessToken, refreshToken, profile, done) {
+    function (accessToken, refreshToken, profile, done) {
       const db = app.get('db');
       const googleID = 'google|' + profile.id;
       db
@@ -136,7 +141,7 @@ passport.use(
       clientSecret: FACEBOOK_CLIENT_SECRET,
       callbackURL: FACEBOOK_REDIRECT_URI
     },
-    function(accessToken, refreshToken, profile, done) {
+    function (accessToken, refreshToken, profile, done) {
       const db = app.get('db');
       const facebookID = 'facebook|' + profile.id;
       db
@@ -166,13 +171,13 @@ passport.use(
 ///////////////////////////////////////////////////////////////////////////
 // Auth endpoints
 // This user controller will have to be modified.
-app.post('/auth/local', passport.authenticate('local'), function(req, res) {
-  res.status(200).send();
-});
+// app.post('/auth/local', passport.authenticate('local'), function(req, res) {
+//   res.status(200).send();
+// });
 app.get(
   '/auth/google',
   passport.authenticate('google', GOOGLE_AUTH_SCOPE),
-  function(req, res) {
+  function (req, res) {
     res.status(200).send();
   }
 );
@@ -180,7 +185,7 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 ); // Might need to return the user here
@@ -190,19 +195,26 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 );
-
-app.post('/login', usersController.login);
+app.post(
+  '/auth/local',
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/'
+  })
+);
+// app.post('/login', usersController.login, (req, res) => console.log(req.user));
 app.post('/register', usersController.createLocalUser);
-app.post('/logout', usersController.logout);
+app.get('/logout', usersController.logout);
 
 ///////////////////////////////////////////////////////////////////////////
 // Dashboard Endpoints
 app.post('/api/allProjects', projectsController.getAllProjects);
 app.post('/api/allTasks', projectsController.getAllTasks);
+app.post('/api/addProject', projectsController.addProject)
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints
