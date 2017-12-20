@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const initialState = {
   anItem: ['createProject', 'postNewItem'],
   newList: ['a project'],
@@ -54,7 +56,10 @@ export function cardInput(e) {
 export function addCard(card) {
   return {
     type: NEW_CARD,
-    payload: {cardHeader: card, tasks: []}
+    payload: axios.post('http://localhost:3001/api/newCard', { card }).then(res => {
+      return res.data
+  })
+  // {cardHeader: res.data, tasks: []}
   }
 }
 
@@ -62,7 +67,7 @@ export function addCard(card) {
 export function taskInput(e){
   return{
     type: TASK_INPUT,
-    payload: e.target.value
+    payload: {name: e.target.name, value: e.target.value}
   }
 }
 export function addTask(task, index) {
@@ -103,10 +108,11 @@ export default function reducer(state = initialState, action) {
     case CARD_INPUT://adding cards
       return Object.assign({}, state, {newCard: action.payload});
     case NEW_CARD:
-      return Object.assign({}, state, { cards: [...state.cards, action.payload] });
+      return Object.assign({}, state, { cards: [...state.cards, action.payload], newCard: '' });
 
     case TASK_INPUT://adding tasks to cards
-      return Object.assign({}, state, {newTask: action.payload});
+      console.log(action.payload)
+      return Object.assign({}, state, {newTask: action.payload.value, cardID: action.payload.name});
 
 
     case NEW_TASK:
@@ -117,7 +123,7 @@ export default function reducer(state = initialState, action) {
       }
       stuff(action.payload.index, action.payload.task)
 
-      return Object.assign({}, state, {cards: obj});
+      return Object.assign({}, state, {cards: obj, newTask: ''});
 
 
 
