@@ -27,6 +27,7 @@ app.use(bodyParser.json()); //Must come before cors
 app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
+
 ///////////////////////////////////////////////////////////////////////////
 // DATABASE
 massive(DB_CONN_STRING)
@@ -77,11 +78,15 @@ passport.use(
           return done(null, false);
         }
         if (
-          user.password_hash != hashPassword.hash(password, user[0].salt).value
+          user[0].password_hash !=
+          hashPassword.hash(password, user[0].salt).stringHash
         ) {
           return done(null, false);
         }
-        return done(null, user[0]);
+        let userProfile = user[0];
+        delete userProfile.password_hash;
+        delete userProfile.salt;
+        return done(null, userProfile);
       })
       .catch(err => {
         console.log('Error authenticating local user: ', err);
@@ -165,9 +170,9 @@ passport.use(
 ///////////////////////////////////////////////////////////////////////////
 // Auth endpoints
 // This user controller will have to be modified.
-app.post('/auth/local', passport.authenticate('local'), function(req, res) {
-  res.status(200).send();
-});
+// app.post('/auth/local', passport.authenticate('local'), function(req, res) {
+//   res.status(200).send();
+// });
 app.get(
   '/auth/google',
   passport.authenticate('google', GOOGLE_AUTH_SCOPE),
@@ -179,7 +184,7 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 ); // Might need to return the user here
@@ -189,14 +194,20 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 );
-
-app.post('/login', usersController.login);
+app.post(
+  '/auth/local',
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/'
+  })
+);
+// app.post('/login', usersController.login, (req, res) => console.log(req.user));
 app.post('/register', usersController.createLocalUser);
-app.post('/logout', usersController.logout);
+app.get('/logout', usersController.logout);
 
 ///////////////////////////////////////////////////////////////////////////
 // Dashboard Endpoints
