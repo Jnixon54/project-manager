@@ -46,12 +46,12 @@ app.use(
 
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   console.log('SERIALIZE USER: ', user.id + ': ' + user.username);
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
+passport.deserializeUser(function (id, done) {
   db.users
     .findOne({ where: { id: id } })
     .then(user => {
@@ -67,7 +67,7 @@ passport.deserializeUser(function(id, done) {
 // Passport strategies
 passport.use(
   'local',
-  new LocalStrategy(function(username, password, done) {
+  new LocalStrategy(function (username, password, done) {
     // Need to ad ability to create new account
     const db = app.get('db');
     db
@@ -99,7 +99,7 @@ passport.use(
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: GOOGLE_REDIRECT_URI
     },
-    function(accessToken, refreshToken, profile, done) {
+    function (accessToken, refreshToken, profile, done) {
       const db = app.get('db');
       const googleID = 'google|' + profile.id;
       db
@@ -135,7 +135,7 @@ passport.use(
       clientSecret: FACEBOOK_CLIENT_SECRET,
       callbackURL: FACEBOOK_REDIRECT_URI
     },
-    function(accessToken, refreshToken, profile, done) {
+    function (accessToken, refreshToken, profile, done) {
       const db = app.get('db');
       const facebookID = 'facebook|' + profile.id;
       db
@@ -165,13 +165,13 @@ passport.use(
 ///////////////////////////////////////////////////////////////////////////
 // Auth endpoints
 // This user controller will have to be modified.
-app.post('/auth/local', passport.authenticate('local'), function(req, res) {
+app.post('/auth/local', passport.authenticate('local'), function (req, res) {
   res.status(200).send();
 });
 app.get(
   '/auth/google',
   passport.authenticate('google', GOOGLE_AUTH_SCOPE),
-  function(req, res) {
+  function (req, res) {
     res.status(200).send();
   }
 );
@@ -202,6 +202,7 @@ app.post('/logout', usersController.logout);
 // Dashboard Endpoints
 app.post('/api/allProjects', projectsController.getAllProjects);
 app.post('/api/allTasks', projectsController.getAllTasks);
+app.post('/api/addProject', projectsController.addProject)
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
