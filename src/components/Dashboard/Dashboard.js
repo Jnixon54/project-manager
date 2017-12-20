@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import {
   getAllProjects,
@@ -43,12 +44,28 @@ class Dashboard extends Component {
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
+
         <div className="box" key={index}>
-          <div>{project.title}</div>
-          <div>{project.owner_id}</div>
-          <div>{project.created_at}</div>
-          <div>{project.updated_at}</div>
+          <Link to={`/ProjectView/${project.id}`}>
+            <div>{project.title}</div>
+            <div>{project.owner_id}</div>
+            <div>{project.created_at}</div>
+            <div>{project.updated_at}</div>
+          </Link>
         </div>
+
+      );
+    });
+
+    const taskBox = this.props.tasks.map((task, index) => {
+      return (
+        <div className="dashboardTasks" key={index}><div>
+          <Link to={`/ProjectView/${task.parent_project_id}`}>
+            {task.content}
+          </Link>
+        </div>
+        </div>
+
       );
     });
 
@@ -65,12 +82,19 @@ class Dashboard extends Component {
     return (
       <div>
         <Header />
-        <div className="projectContainer">
-          <div className="box" onClick={() => this.createProjectToolTip()}>
-            <div>Create a project!</div>
+        <div className="projectsAndTasks">
+          <div className="projectContainer">
+            <div className="box" onClick={() => this.createProjectToolTip()}>
+              <div>Create a project!</div>
+            </div>
+            {this.state.toolTip && projectToolTip}
+            {this.props.projects && projectBox}
           </div>
-          {this.state.toolTip && projectToolTip}
-          {this.props.projects && projectBox}
+          <div className="taskContainer">
+            <h2>Tasks</h2>
+            <hr />
+            {this.props.tasks && taskBox}
+          </div>
         </div>
       </div>
     );
@@ -83,3 +107,4 @@ export default connect(mapStateToProps, {
   getAllTasks,
   updateNewProjectTitle
 })(Dashboard);
+
