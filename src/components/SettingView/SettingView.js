@@ -9,9 +9,6 @@ import Header from '../Header/Header';
 // import Settings from './Profile/Profile';
 
 export default class SettingView extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>
