@@ -6,9 +6,6 @@ import '../SettingView.css';
 // import { Link } from 'react-router-dom';
 
 export default class Cards extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>

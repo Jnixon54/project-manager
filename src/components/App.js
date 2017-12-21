@@ -12,16 +12,13 @@ import Profile from './SettingView/Profile/Profile';
 import Settings from './SettingView/Settings/Settings';
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/Dashboard" component={Dashboard} />
-          <Route path="/ProjectView" component={ProjectView} />
+          <Route path="/ProjectView/:id" component={ProjectView} />
           <Route
             path="/SettingView"
             render={() => (

@@ -12,5 +12,12 @@ module.exports = {
       .getAllTasksById([req.body.id])
       .then(response => res.status(200).send(response))
       .catch(err => console.log(err));
+  },
+  addProject: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance
+      .addProject([req.body.projectTitle, req.body.id])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
   }
 };
