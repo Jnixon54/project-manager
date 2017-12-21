@@ -21,6 +21,7 @@ FacebookStrategy = require('passport-facebook').Strategy;
 const hashPassword = require('./utils/crypto');
 const usersController = require('./controllers/users_controller');
 const projectsController = require('./controllers/projects_controller');
+const tasksController = require('./controllers/tasks_controller')
 
 const app = express();
 app.use(bodyParser.json()); //Must come before cors
@@ -216,7 +217,15 @@ app.post('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject)
 
 ///////////////////////////////////////////////////////////////////////////
+// Project View Endpoints
+app.post('/api/newCard', tasksController.addNewCard)
+app.post('/api/newTask', tasksController.addNewTask)
+app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
+
+
+///////////////////////////////////////////////////////////////////////////
 // More End Points
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
