@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {increaseCount} from '../../ducks/reducers/projectViewReducer';
+import { increaseCount } from '../../ducks/reducers/projectViewReducer';
+import {
+  updateUserInputField,
+  updatePasswordInputField,
+  onSubmitRegister,
+  onSubmitLogin
+} from '../../ducks/reducers/userReducer';
 
 import './LandingPage.css';
 import Header from '../Header/Header';
@@ -26,12 +32,44 @@ class LandingPage extends Component {
             <div className="loginForm">
               <h2 className="login">Login Into your Account</h2>
               <br />
-              <input className="input" placeholder="Username" /> <br />
+              <input
+                className="input"
+                placeholder="Username"
+                onChange={e => this.props.updateUserInputField(e.target.value)}
+                value={this.props.usernameInput}
+                // type="text"
+              />{' '}
               <br />
-              <input className="input" placeholder="Password" /> <br />
               <br />
-              <button>Register</button>
-              <button className="submit">Submit</button>
+              <input
+                className="input"
+                placeholder="Password"
+                onChange={e =>
+                  this.props.updatePasswordInputField(e.target.value)
+                }
+                value={this.props.passwordInput}
+              />{' '}
+              <br />
+              <br />
+              <button
+                onClick={e => {
+                  e.preventDefault();
+                  this.props.onSubmitRegister(
+                    this.props.usernameInput,
+                    this.props.passwordInput
+                  );
+                }}
+                type="submit"
+              >
+                Register
+              </button>
+              <button
+                className="submit"
+                type="submit"
+                onClick={this.props.onSubmitLogin}
+              >
+                Submit
+              </button>
               <hr />
               <button className="loginGoogle">
                 {' '}
@@ -80,7 +118,9 @@ class LandingPage extends Component {
             velit, eu tristique magna aliquet in.{' '}
           </p>
         </div>
-        <button onClick={this.props.increaseCount}>Socket Test: Increase Count</button>
+        <button onClick={this.props.increaseCount}>
+          Socket Test: Increase Count
+        </button>
         <h1>{this.props.count}</h1>
       </div>
     );
@@ -88,8 +128,16 @@ class LandingPage extends Component {
 }
 function mapStateToProps(state) {
   return {
-    count: state.projectView.count
-  }
+    count: state.projectView.count,
+    usernameInput: state.user.usernameInput,
+    passwordInput: state.user.passwordInput
+  };
 }
 
-export default connect(mapStateToProps, {increaseCount})(LandingPage);
+export default connect(mapStateToProps, {
+  increaseCount,
+  updateUserInputField,
+  updatePasswordInputField,
+  onSubmitRegister,
+  onSubmitLogin
+})(LandingPage);

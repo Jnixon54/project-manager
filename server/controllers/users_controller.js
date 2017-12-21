@@ -1,7 +1,8 @@
 const hashPassword = require('../utils/crypto');
 
 module.exports = {
-  createLocalUser: (req, res, next) => {
+  createLocalUser: (req, res) => {
+    console.log('BODY: ', req.body);
     const db = req.app.get('db');
     const hashData = hashPassword.saltHashString(req.body.password);
     req.session.user = {};
@@ -14,6 +15,7 @@ module.exports = {
           'Created new user: ',
           `${req.session.user.id}: ${req.session.user.username}`
         );
+
         res.status(200).send(req.session.user);
       })
       .catch(err => {
