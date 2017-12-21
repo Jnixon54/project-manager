@@ -11,7 +11,13 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="overall">
-        <Header />
+        <header id="HeaderBar">
+          <img
+            className="logo"
+            src="https://i.pinimg.com/236x/05/00/c8/0500c8d129dabb81af2ea998558c8cc0.jpg"
+            alt=""
+          />
+        </header>
         <div className="home">
           Home
           <form>
