@@ -27,6 +27,8 @@ const NEW_TASK = 'NEW_TASK'
 
 const OPEN_INPUT = 'OPEN_INPUT'
 
+const ALL_CARDS = 'ALL_CARDS'
+
 
 
 
@@ -53,13 +55,23 @@ export function cardInput(e) {
     payload: e.target.value
   }
 }
-export function addCard(card) {
+export function addCard(card, projectID) {
   return {
     type: NEW_CARD,
-    payload: axios.post('http://localhost:3001/api/newCard', { card }).then(res => {
-      return res.data
+    payload: axios.post('http://localhost:3001/api/newCard', { card, projectID }).then(res => {
+      return res
   })
   // {cardHeader: res.data, tasks: []}
+  }
+}
+export function getCards(projectID) {
+  return {
+    type: ALL_CARDS,
+    payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
+      
+      console.log('data', response.data)
+      return response.data
+    })
   }
 }
 
@@ -104,11 +116,46 @@ export default function reducer(state = initialState, action) {
 
     //Spencer's additions\/
 
+    case ALL_CARDS + '_PENDING'://grabbing all cards from database
+      return Object.assign({}, state, {isLoading: true})
+    case ALL_CARDS + '_FULFILLED':
+      console.log('card Payload', action.payload)
+      let testVar = action.payload
+
+
+      let finalArr = []
+      function makeItWork(array){
+      
+        let newArr = array
+        console.log('newArr', newArr)
+        let tasksArr = []
+    
+        for(let i = 0; i < newArr.length; i++){
+          let obj = {cardHeader: '', tasks: []}
+      
+          obj.cardHeader = newArr[i].title
+          if(newArr[i].content !== null){
+            tasksArr.push(newArr[i].content)
+          }
+          if(newArr[i+1]) {
+            if(obj.cardHeader === newArr[i+1].title){
+              continue;
+            }
+          }
+          obj.tasks = tasksArr
+          tasksArr = []
+          finalArr.push(obj)
+        }
+        return finalArr
+      }
+      makeItWork(testVar)
+      return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
 
     case CARD_INPUT://adding cards
       return Object.assign({}, state, {newCard: action.payload});
-    case NEW_CARD:
-      return Object.assign({}, state, { cards: [...state.cards, action.payload], newCard: '' });
+
+    case NEW_CARD: 
+      
 
     case TASK_INPUT://adding tasks to cards
       console.log(action.payload)

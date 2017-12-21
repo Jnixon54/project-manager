@@ -13,7 +13,8 @@ import {
   cardInput,
   addTask,
   taskInput,
-  openInput
+  openInput,
+  getCards
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -39,6 +40,11 @@ class ProjectView extends Component {
     this.handle = this.handle.bind(this)
   }
 
+
+  componentDidMount(){
+    this.props.getCards(this.props.match.params.id)
+  }
+
   //METHODS HERE:
 
 
@@ -62,7 +68,9 @@ class ProjectView extends Component {
   addCard(e){
     e.preventDefault()
 
-    this.props.addCard(this.props.newCard)
+    this.props.addCard(this.props.newCard, this.props.match.params.id).then(res => {
+      this.props.getCards(this.props.match.params.id)
+    })
   }//done
     
   
@@ -118,5 +126,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards })(ProjectView)
 );
