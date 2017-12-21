@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import {increaseCount} from '../../ducks/reducers/projectViewReducer';
 
 import './LandingPage.css';
 import Header from '../Header/Header';
@@ -72,10 +74,16 @@ class LandingPage extends Component {
             velit, eu tristique magna aliquet in.{' '}
           </p>
         </div>
+        <button onClick={this.props.increaseCount}>Socket Test: Increase Count</button>
+        <h1>{this.props.count}</h1>
       </div>
     );
   }
 }
-const mapStateToProps = state => state.user;
+function mapStateToProps(state) {
+  return {
+    count: state.projectView.count
+  }
+}
 
-export default connect(mapStateToProps, {})(LandingPage);
+export default connect(mapStateToProps, {increaseCount})(LandingPage);
