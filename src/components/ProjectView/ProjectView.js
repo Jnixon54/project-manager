@@ -13,7 +13,8 @@ import {
   cardInput,
   addTask,
   taskInput,
-  openInput
+  openInput,
+  getCards
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -30,11 +31,7 @@ class ProjectView extends Component {
       
     };
 
-    //BINDING METHODS:
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleAddClick = this.handleAddClick.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-
+    //BINDING METHODS
     this.addCard = this.addCard.bind(this)
 
     this.addText = this.addText.bind(this)
@@ -43,27 +40,12 @@ class ProjectView extends Component {
     this.handle = this.handle.bind(this)
   }
 
+
+  componentDidMount(){
+    this.props.getCards(this.props.match.params.id)
+  }
+
   //METHODS HERE:
-  handleInputChange(event) {
-    this.setState({ newItems: event.target.value });
-  }
-
-  handleAddClick() {
-    // console.log(this.props);
-    // instead of => this.props.dispatch(addToList(this.state.newItems)); when add {addToList: addToList} in cnnect
-    var oldList = this.props.newList;
-    oldList.push(this.state.newItems);
-
-    this.props.addToList(oldList);
-  }
-  handleRemove() {
-    console.log(this.props);
-    var oldList = this.props.newList;
-    oldList.splice(oldList.newItems); //cut out of new list and remove it from the list
-    // newList.splice(newList.indexOf(targetItem), 1);
-
-    this.props.removeFromList(oldList);
-  }
 
 
   addText(){
@@ -86,23 +68,25 @@ class ProjectView extends Component {
   addCard(e){
     e.preventDefault()
 
-    this.props.addCard(this.props.newCard)
+    this.props.addCard(this.props.newCard, this.props.match.params.id).then(res => {
+      this.props.getCards(this.props.match.params.id)
+    })
   }//done
     
   
-  handle(e, index){
+  handle(e, cardID, projectID){
     e.preventDefault();
-    this.props.addTask(this.props.newTask, index)
+    this.props.addTask(this.props.newTask, cardID, projectID).then(res => {
+      this.props.getCards(this.props.match.params.id)
+    })
     this.props.openInput(false)
-  }
+  }//done
 
   render() {
     return (
       <div>
         <Header />
-        <input onChange={this.handleInputChange} />
-        <button onClick={this.handleAddClick}>Add Item</button>
-        <button onClick={this.handleRemove}>X</button>
+        <div id='projectBody'>
         <div id='cardHolder'>
           {this.props.cards.length > 0 &&
             this.props.cards.map((card, index) => 
@@ -119,22 +103,19 @@ class ProjectView extends Component {
                 }
                 <div id={this.props.inputOpen ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
-                  <form action="" onSubmit={(e) => this.handle(e, index)}>
-                    <input className='newCard' onChange={this.props.taskInput} type="text"/>
-                  </form>
-                  {this.state.coolInput === true &&
-                    <div className='buttonHolder'>
-                      <div onClick={(e) => this.addTask(e, index)} className='save'>Save</div>
-                      <div onClick={this.closeInput} className='close'>X</div>
-                    </div>
-                  }          
+                  <form action="" onSubmit={(e) => this.handle(e, card.cardID, this.props.match.params.id)}>
+                    { index == this.props.cardID ? <input className='newCard' name={index} value={this.props.newTask}onChange={this.props.taskInput} type="text"/> :
+                    <input className='newCard' name={index} value={''}onChange={this.props.taskInput} type="text"/>}
+                    
+                  </form>     
                 </div>
               </div>
             )
           }
           <form className='cardInput' action="" onSubmit={this.addCard}>
-            <input className='newtab' style={{'paddingLeft': '10px'}} placeholder='Input new card!' onChange={this.props.cardInput} type="text"/>
+            <input className='newtab' style={{'paddingLeft': '10px'}} value={this.props.newCard ? this.props.newCard : ''} placeholder='Input new card!' onChange={this.props.cardInput} type="text"/>
           </form>
+        </div>
         </div>
       </div>
     );
@@ -147,5 +128,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards })(ProjectView)
 );
