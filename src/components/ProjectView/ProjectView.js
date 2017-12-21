@@ -74,9 +74,11 @@ class ProjectView extends Component {
   }//done
     
   
-  handle(e, index){
+  handle(e, cardID, projectID){
     e.preventDefault();
-    this.props.addTask(this.props.newTask, index)
+    this.props.addTask(this.props.newTask, cardID, projectID).then(res => {
+      this.props.getCards(this.props.match.params.id)
+    })
     this.props.openInput(false)
   }//done
 
@@ -101,7 +103,7 @@ class ProjectView extends Component {
                 }
                 <div id={this.props.inputOpen ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
-                  <form action="" onSubmit={(e) => this.handle(e, index)}>
+                  <form action="" onSubmit={(e) => this.handle(e, card.cardID, this.props.match.params.id)}>
                     { index == this.props.cardID ? <input className='newCard' name={index} value={this.props.newTask}onChange={this.props.taskInput} type="text"/> :
                     <input className='newCard' name={index} value={''}onChange={this.props.taskInput} type="text"/>}
                     

@@ -11,6 +11,19 @@ module.exports = {
             .catch(console.log)
 
     },
+    addNewTask: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        console.log(req.body)
+
+
+        dbInstance.addNewTask([req.body.projectID, req.body.cardID, req.body.task])
+            .then(response => {
+                res.status(200).send(response)})
+
+            .catch(console.log)
+
+    },
+
     getAllCards: (req, res, next) => {
         const dbInstance = req.app.get('db')
 

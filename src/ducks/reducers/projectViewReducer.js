@@ -82,10 +82,12 @@ export function taskInput(e){
     payload: {name: e.target.name, value: e.target.value}
   }
 }
-export function addTask(task, index) {
+export function addTask(task, cardID, projectID) {
   return {
     type: NEW_TASK,
-    payload: {task, index}
+    payload: axios.post('http://localhost:3001/api/newTask', {task, cardID, projectID}).then(res => {
+      return res
+    })
   }
 }
 
@@ -131,11 +133,13 @@ export default function reducer(state = initialState, action) {
         let tasksArr = []
     
         for(let i = 0; i < newArr.length; i++){
-          let obj = {cardHeader: '', tasks: []}
+          console.log('array bits', newArr[i])
+          let obj = {cardHeader: '', tasks: [], cardID: ""}
       
           obj.cardHeader = newArr[i].title
+          obj.cardID = newArr[i].id
           if(newArr[i].content !== null){
-            tasksArr.push(newArr[i].content)
+            tasksArr.unshift(newArr[i].content)
           }
           if(newArr[i+1]) {
             if(obj.cardHeader === newArr[i+1].title){
@@ -149,6 +153,7 @@ export default function reducer(state = initialState, action) {
         return finalArr
       }
       makeItWork(testVar)
+      console.log(finalArr)
       return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
 
     case CARD_INPUT://adding cards
