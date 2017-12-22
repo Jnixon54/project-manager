@@ -94,6 +94,7 @@ class ProjectView extends Component {
 
   editModel(taskID, task){
     this.setState({editAlert: true})
+    console.log(taskID)
     this.props.openEditTask(taskID, task)
   }
   closeEditModal(){
@@ -124,11 +125,14 @@ class ProjectView extends Component {
               this.props.cards.map((card, index) => 
                 <div key={card.cardHeader + index} id='taskHolder'>
                   <h2 className='cardHeader'>{card.cardHeader}</h2>
-                  {card.tasks.length > 0 &&
+                  
+                  {card.tasks.length > 0 && 
                     <div>
+                      
                       {card.tasks.map((task, index) => 
+                        
                         <div>
-                          {!this.state.editAlert &&
+                          {!this.state.editAlert && task.taskID &&
                             <div key ={task + index} className='task'>
                               <div className='taskContent'>
                                 <div>{task.task}</div>
@@ -136,7 +140,7 @@ class ProjectView extends Component {
                               </div>
                             </div>
                           }
-                          {this.state.editAlert && this.props.editTaskID !== task.taskID &&
+                          {this.state.editAlert && this.props.editTaskID !== task.taskID && task.taskID &&
                             <div key ={task + index} className='task'>
                               <div className='taskContent'>
                                 <div>{task.task}</div>
@@ -144,7 +148,7 @@ class ProjectView extends Component {
                               </div>
                             </div>
                           }
-                          {this.state.editAlert && this.props.editTaskID === task.taskID &&
+                          {this.state.editAlert && this.props.editTaskID === task.taskID && task.taskID &&
                             <div key={task + index} className='deleteModel'>
                               <div className='deleteTaskContent'>
                                 <form action="" onSubmit={(e) => this.sendEdit(e, task.taskID, this.props.editTaskTask)}>
