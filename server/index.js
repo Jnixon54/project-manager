@@ -231,7 +231,7 @@ app.post(
     // failureRedirect: '/',
     failureFlash: true
   }), (req, res) => {
-    console.log(req)
+    console.log('LOGIN: ', req.user)
     if (req.user) res.send(req.user)
   });
 // app.post('/login', usersController.login, (req, res) => console.log(req.user));

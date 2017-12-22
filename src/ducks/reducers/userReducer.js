@@ -29,16 +29,17 @@ function reducer(state = initialState, action) {
       return {...state, usernameInput: '',
                         passwordInput: '',
                         username: action.payload.username,
-                        userID: action.payload.userID,
+                        userID: action.payload.id,
                         display_name: action.payload.display_name,
                         email: action.payload.email };
     case ON_SUBMIT_LOGIN + '_PENDING':
       return { ...state };
     case ON_SUBMIT_LOGIN + '_FULFILLED':
+    console.log(action.payload)
       return {...state, usernameInput: '',
                         passwordInput: '',
                         username: action.payload.username,
-                        userID: action.payload.userID,
+                        userID: action.payload.id,
                         display_name: action.payload.display_name,
                         email: action.payload.email };
     // case ON_SUBMIT_LOGIN:
@@ -71,7 +72,7 @@ export function onSubmitRegister(username, password) {
       username: username,
       password: password
     })
-    .then(response => response.data)
+    .then(response => console.log(response))
   };
 }
 
