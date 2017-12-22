@@ -31,6 +31,11 @@ const OPEN_INPUT = 'OPEN_INPUT'
 const INCREASE_COUNT = 'INCREASE_COUNT';
 // const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 const ALL_CARDS = 'ALL_CARDS'
+//edit and delete tasks
+const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
+const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
+const SEND_EDITTASK = 'SEND_EDITTASK'
+const DELETE_TASK = 'DELETE_TASK'
 
 
 
@@ -94,14 +99,43 @@ export function addTask(task, cardID, projectID) {
   }
 }
 
-
-
 export function openInput(input) {
   return {
     type: OPEN_INPUT,
     payload: input
   }
 }
+
+//editing tasks
+export function openEditTask(taskID, task) {
+  return {
+    type: OPEN_TASKEDIT,
+    payload: {taskID, task}
+  }
+}
+
+export function changeEditTask(e){
+  return {
+    type: CHANGE_EDITTASK,
+    payload: e.target.value
+  }
+}
+export function sendEditTask(taskID, task){
+  return {
+    type: SEND_EDITTASK,
+    payload: axios.post('http://localhost:3001/api/editTask', {taskID, task})
+  }
+}
+export function deleteTask(taskID){
+  return {
+    type: DELETE_TASK,
+    payload: axios.post('http://localhost:3001/api/deleteTask', {taskID})
+  }
+}
+
+
+
+
 
 // export function increaseCount() {
 //   return {
@@ -139,39 +173,56 @@ export default function reducer(state = initialState, action) {
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
       return Object.assign({}, state, { isLoading: true })
     case ALL_CARDS + '_FULFILLED':
-      let testVar = action.payload
-
-
-      let finalArr = []
-      function makeItWork(array) {
-
-        let newArr = array
-        console.log('newArr', newArr)
-        let tasksArr = []
-
-        for (let i = 0; i < newArr.length; i++) {
-          console.log('array bits', newArr[i])
-          let obj = { cardHeader: '', tasks: [], cardID: "" }
-
-          obj.cardHeader = newArr[i].title
-          obj.cardID = newArr[i].id
-          if (newArr[i].content !== null) {
-            tasksArr.unshift(newArr[i].content)
-          }
-          if (newArr[i + 1]) {
-            if (obj.cardHeader === newArr[i + 1].title) {
-              continue;
+      console.log('card Payload', action.payload)
+        let testVar = action.payload
+        let finalArr = []
+  
+        function makeItWork(array) {
+          console.log(array)
+          let newArr = array
+          let tasksArr = []
+          let tasksObj = { task: '', taskID: '' }
+  
+          for (let i = 0; i < newArr.length; i++) {
+            let obj = { cardHeader: '', tasks: [], cardID: '' }
+  
+            obj.cardHeader = newArr[i].title
+            obj.cardID = newArr[i].id
+            if (newArr[i].content !== null) {
+              tasksObj.task = newArr[i].content
             }
+            if (newArr[i].task_id !== null) {
+              tasksObj.taskID = newArr[i].task_id
+            }
+            if (newArr[i + 1]) {
+              if (obj.cardHeader !== newArr[i + 1].title) {
+                tasksArr.push(tasksObj)
+                tasksObj = { task: '', taskID: '' }
+                obj.tasks = tasksArr
+              }
+              if (obj.cardHeader === newArr[i + 1].title) {
+                tasksArr.push(tasksObj)
+                tasksObj = { task: '', taskID: '' }
+                continue;
+              }
+            }
+            else {
+              tasksArr.push(tasksObj)
+            }
+  
+            console.log(finalArr, "Check here")
+            obj.tasks = tasksArr.sort((a,b) => {return a.taskID - b.taskID})
+            tasksArr = []
+            finalArr.push(obj)
           }
-          obj.tasks = tasksArr
-          tasksArr = []
-          finalArr.push(obj)
+          console.log("CHECKOUT YOUR FINALARR HERE ", finalArr)
+          return finalArr
+  
+  
         }
-        return finalArr
-      }
-      makeItWork(testVar)
-      console.log(finalArr)
-      return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
+        makeItWork(testVar)
+        console.log(finalArr)
+        return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
 
     case CARD_INPUT://adding cards
       return Object.assign({}, state, { newCard: action.payload });
@@ -196,7 +247,14 @@ export default function reducer(state = initialState, action) {
 
 
     case OPEN_INPUT:
-      return Object.assign({}, state, { inputOpen: action.payload });
+      return Object.assign({}, state, {inputOpen: action.payload});
+
+    case OPEN_TASKEDIT:
+      return Object.assign({}, state, {editTaskID: action.payload.taskID, editTaskTask: action.payload.task})
+    case CHANGE_EDITTASK:
+      return Object.assign({}, state, {editTaskTask: action.payload})
+
+
     case INCREASE_COUNT:
       console.log('REDUCER PAYLOAD', action.payload)
       return { ...state, count: action.payload }

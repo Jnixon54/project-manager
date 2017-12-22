@@ -37,6 +37,34 @@
     background: grey;
     display: flex;
   }
+  .taskContent {
+    width: 100%;
+    display: flex;
+    margin: 10px;
+    justify-content: space-between;
+  }
+  .deleteTaskContent {
+    width: 100%;
+  }
+  .deleteModel {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    animation: grow .2s forwards;
+    background: grey;
+    height: 30px
+  }
+  .confirmationButtons {
+    display: flex
+  }
+
+  #deleteTask {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15px;
+    height: 15px
+  }
   
   #cardTest {
     width: 230px;
@@ -89,28 +117,6 @@
     background: lightgray
   }
   
-  .save {
-    height: 30px;
-    width: 50px;
-    border-radius: 30px;
-    background: mediumseagreen;
-    animation: buttonIn .2s .1s forwards;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0
-  }
-  .close {
-    height: 30px;
-    width: 30px;
-    background: indianred;
-    font-size: 25px;
-    animation: buttonIn .2s .1s forwards;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0
-  }
   
   @keyframes buttonIn {
     from {
@@ -148,6 +154,11 @@
   .cardInput {
     width: 20%
   }
+
+  .editPic {
+    width: 30px;
+    height: 30px
+  }
   
   
   
@@ -164,14 +175,6 @@
   h4{
     margin: 0
   }
-  
-  .taskRow {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0px 20px
-  }
-  .deleteTask {
-    color: red;
-    cursor: pointer;
+  h5{
+    margin: 0
   }
