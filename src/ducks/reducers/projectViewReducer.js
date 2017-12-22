@@ -222,7 +222,7 @@ export default function reducer(state = initialState, action) {
         }
         makeItWork(testVar)
         console.log(finalArr)
-        return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
+        return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false, newTask: '' });
 
     case CARD_INPUT://adding cards
       return Object.assign({}, state, { newCard: action.payload });
@@ -233,16 +233,6 @@ export default function reducer(state = initialState, action) {
       console.log(action.payload)
       return Object.assign({}, state, { newTask: action.payload.value, cardID: action.payload.name });
 
-
-    case NEW_TASK:
-      let obj = [...state.cards]
-      function stuff(index, task) {
-        obj[index].tasks.push(task)
-        return obj
-      }
-      stuff(action.payload.index, action.payload.task)
-
-      return Object.assign({}, state, { cards: obj, newTask: '' });
 
 
 
