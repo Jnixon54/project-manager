@@ -222,7 +222,7 @@ app.post('/api/newCard', tasksController.addNewCard)
 app.post('/api/newTask', tasksController.addNewTask)
 app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
 
-
+app.post('/api/editTask', tasksController.editTask)
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
 

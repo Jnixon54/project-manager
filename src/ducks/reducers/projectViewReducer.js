@@ -31,6 +31,7 @@ const ALL_CARDS = 'ALL_CARDS'
 //edit and delete tasks
 const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
 const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
+const SEND_EDITTASK = 'SEND_EDITTASK'
 
 
 
@@ -113,6 +114,12 @@ export function changeEditTask(e){
   return {
     type: CHANGE_EDITTASK,
     payload: e.target.value
+  }
+}
+export function sendEditTask(taskID, task){
+  return {
+    type: SEND_EDITTASK,
+    payload: axios.post('http://localhost:3001/api/editTask', {taskID, task})
   }
 }
 
@@ -218,7 +225,6 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {editTaskID: action.payload.taskID, editTaskTask: action.payload.task})
     case CHANGE_EDITTASK:
       return Object.assign({}, state, {editTaskTask: action.payload})
-
 
 
 

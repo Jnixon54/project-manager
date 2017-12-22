@@ -16,7 +16,8 @@ import {
   openInput,
   getCards,
   openEditTask,
-  changeEditTask
+  changeEditTask,
+  sendEditTask
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -43,6 +44,7 @@ class ProjectView extends Component {
     this.handle = this.handle.bind(this)
     this.editModel = this.editModel.bind(this)
     this.closeEditModal = this.closeEditModal.bind(this)
+    this.sendEdit = this.sendEdit.bind(this)
   }
 
 
@@ -95,6 +97,13 @@ class ProjectView extends Component {
   closeEditModal(){
     this.setState({editAlert: false})
   }
+  sendEdit(e, taskID, task){
+    e.preventDefault()
+    this.props.sendEditTask(taskID, task).then(res => {
+      this.props.getCards(this.props.match.params.id)
+    })
+    this.setState({editAlert: false})
+  }
 
   render() {
     return (
@@ -130,7 +139,9 @@ class ProjectView extends Component {
                         {this.state.editAlert && this.props.editTaskID === task.taskID &&
                           <div key={task + index} className='deleteModel'>
                             <div className='deleteTaskContent'>
-                              <input onChange={e => this.props.changeEditTask(e)}value={this.props.editTaskTask}/>
+                              <form action="" onSubmit={(e) => this.sendEdit(e, task.taskID, this.props.editTaskTask)}>
+                                <input type='text' className='newCard' onChange={e => this.props.changeEditTask(e)} value={this.props.editTaskTask}/>
+                              </form>
                               <div className='confirmationButtons'>
                                 <h4>Assign</h4>
                                 <h4>Delete</h4>
@@ -148,7 +159,7 @@ class ProjectView extends Component {
                 <div id={this.props.inputOpen ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
                   <form action="" onSubmit={(e) => this.handle(e, card.cardID, this.props.match.params.id)}>
-                    { index == this.props.cardID ? <input className='newCard' name={index} value={this.props.newTask}onChange={this.props.taskInput} type="text"/> :
+                    { index == this.props.cardID ? <input className='newCard' name={index} value={this.props.newTask} onChange={this.props.taskInput} type="text"/> :
                     <input className='newCard' name={index} value={''}onChange={this.props.taskInput} type="text"/>}
                     
                   </form>     
@@ -172,5 +183,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask })(ProjectView)
 );

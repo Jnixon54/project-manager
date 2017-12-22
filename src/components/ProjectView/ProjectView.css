@@ -50,8 +50,8 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin: 10px;
     animation: grow .2s forwards;
+    background: grey;
     height: 30px
   }
   .confirmationButtons {
@@ -117,28 +117,6 @@
     background: lightgray
   }
   
-  .save {
-    height: 30px;
-    width: 50px;
-    border-radius: 30px;
-    background: mediumseagreen;
-    animation: buttonIn .2s .1s forwards;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0
-  }
-  .close {
-    height: 30px;
-    width: 30px;
-    background: indianred;
-    font-size: 25px;
-    animation: buttonIn .2s .1s forwards;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0
-  }
   
   @keyframes buttonIn {
     from {
