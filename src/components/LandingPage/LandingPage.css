@@ -2,6 +2,14 @@
   height: 2800px;
 }
 
+.logo {
+  height: 60px;
+  width: 60px;
+  background: black;
+  margin-right: 50%;
+  margin-top: 0.3%;
+}
+
 .home,
 .about,
 .contact,

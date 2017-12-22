@@ -4,6 +4,7 @@ const initialState = {
   anItem: ['createProject', 'postNewItem'],
   newList: ['a project'],
 
+  count: 0,
 
   newCard: '',
   cards: [],
@@ -27,6 +28,8 @@ const NEW_TASK = 'NEW_TASK'
 
 const OPEN_INPUT = 'OPEN_INPUT'
 
+const INCREASE_COUNT = 'INCREASE_COUNT';
+// const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 const ALL_CARDS = 'ALL_CARDS'
 //edit and delete tasks
 const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
@@ -47,14 +50,14 @@ export function addToList(newItem) {
 export function removeFromList(newItem) {
   return {
     type: REMOVE_ITEM_FROM_LIST,
-    payload: function() {}
+    payload: function () { }
   };
 }
 
 
 //adding cards
 export function cardInput(e) {
-  return{
+  return {
     type: CARD_INPUT,
     payload: e.target.value
   }
@@ -64,15 +67,15 @@ export function addCard(card, projectID) {
     type: NEW_CARD,
     payload: axios.post('http://localhost:3001/api/newCard', { card, projectID }).then(res => {
       return res
-  })
-  // {cardHeader: res.data, tasks: []}
+    })
+    // {cardHeader: res.data, tasks: []}
   }
 }
 export function getCards(projectID) {
   return {
     type: ALL_CARDS,
     payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
-      
+
       console.log('data', response.data)
       return response.data
     })
@@ -80,16 +83,16 @@ export function getCards(projectID) {
 }
 
 //adding tasks
-export function taskInput(e){
-  return{
+export function taskInput(e) {
+  return {
     type: TASK_INPUT,
-    payload: {name: e.target.name, value: e.target.value}
+    payload: { name: e.target.name, value: e.target.value }
   }
 }
 export function addTask(task, cardID, projectID) {
   return {
     type: NEW_TASK,
-    payload: axios.post('http://localhost:3001/api/newTask', {task, cardID, projectID}).then(res => {
+    payload: axios.post('http://localhost:3001/api/newTask', { task, cardID, projectID }).then(res => {
       return res
     })
   }
@@ -127,6 +130,25 @@ export function sendEditTask(taskID, task){
 
 
 
+// export function increaseCount() {
+//   return {
+//     type: INCREASE_COUNT
+//   }
+// }
+
+export function increaseCount(data) {
+  console.log('DATA', data)
+  if (data.processed) {
+    return {
+      type: INCREASE_COUNT,
+      payload: data.count
+    }
+  } else {
+    return {
+      type: 'INCREASE_COUNT_SOCKET'
+    }
+  }
+}
 
 
 // Reducer: state & action
@@ -142,7 +164,7 @@ export default function reducer(state = initialState, action) {
     //Spencer's additions\/
 
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
-      return Object.assign({}, state, {isLoading: true})
+      return Object.assign({}, state, { isLoading: true })
     case ALL_CARDS + '_FULFILLED':
       console.log('card Payload', action.payload)
         let testVar = action.payload
@@ -196,25 +218,24 @@ export default function reducer(state = initialState, action) {
         return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
 
     case CARD_INPUT://adding cards
-      return Object.assign({}, state, {newCard: action.payload});
+      return Object.assign({}, state, { newCard: action.payload });
 
-    case NEW_CARD: 
-      
+
 
     case TASK_INPUT://adding tasks to cards
       console.log(action.payload)
-      return Object.assign({}, state, {newTask: action.payload.value, cardID: action.payload.name});
+      return Object.assign({}, state, { newTask: action.payload.value, cardID: action.payload.name });
 
 
     case NEW_TASK:
-    let obj = [...state.cards]
-      function stuff(index, task){
+      let obj = [...state.cards]
+      function stuff(index, task) {
         obj[index].tasks.push(task)
         return obj
       }
       stuff(action.payload.index, action.payload.task)
 
-      return Object.assign({}, state, {cards: obj, newTask: ''});
+      return Object.assign({}, state, { cards: obj, newTask: '' });
 
 
 
@@ -227,9 +248,11 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {editTaskTask: action.payload})
 
 
-
+    case INCREASE_COUNT:
+      console.log('REDUCER PAYLOAD', action.payload)
+      return { ...state, count: action.payload }
     default:
       return state;
-      //in case none of the action types match, it can return the state to make sure it don't break anything.
+    //in case none of the action types match, it can return the state to make sure it don't break anything.
   }
 }

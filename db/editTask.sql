@@ -1,1 +1,1 @@
-UPDATE tasks SET content = $2 WHERE task_id = $1
+UPDATE tasks SET content = $2 where task_id = $1

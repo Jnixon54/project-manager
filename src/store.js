@@ -2,7 +2,9 @@ import { createStore, applyMiddleware } from 'redux';
 import reducers from './ducks/index';
 import promiseMiddleware from 'redux-promise-middleware';
 import { composeWithDevTools } from 'redux-devtools-extension';
-// import {socketMiddleware} from './connections'; // Custom middle ware for socket commands
+import {Provider} from 'react-redux';
+import store from './store';
+import {socketMiddleware} from './utils/sockets/connections'; // Custom middleware for socket commands
 
 // redux Middleware for handling socket traffic
 // const createStoreWithMiddleware = applyMiddleware(socketMiddleware)(createStore);
@@ -13,6 +15,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const createStoreWithMiddleware = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(promiseMiddleware()))
+  composeWithDevTools(applyMiddleware(socketMiddleware, promiseMiddleware()))
 );
 export default createStoreWithMiddleware;
