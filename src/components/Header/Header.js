@@ -35,9 +35,6 @@ class Header extends Component {
         {this.state.menuOpen === true && (
           <menu id="menuDropdown">
             <Link to="/Dashboard">
-              <h3>Dashboard</h3>
-            </Link>
-            <Link to="/ProjectView">
               <h3>Projects</h3>
             </Link>
             <Link to="/SettingView">
