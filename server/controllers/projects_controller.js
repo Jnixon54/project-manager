@@ -1,5 +1,6 @@
 module.exports = {
   getAllProjects: (req, res, next) => {
+    console.log(req.body.id);
     const dbInstance = req.app.get('db');
     dbInstance
       .getProjectById([req.body.id])
