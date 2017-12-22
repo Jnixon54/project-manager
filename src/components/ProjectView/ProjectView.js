@@ -14,7 +14,9 @@ import {
   addTask,
   taskInput,
   openInput,
-  getCards
+  getCards,
+  openEditTask,
+  changeEditTask
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -28,7 +30,8 @@ class ProjectView extends Component {
       toDos: [],
       newChore: '',
       coolInput: false,
-      
+      deleteTaskTask: 0,
+      editAlert: false
     };
 
     //BINDING METHODS
@@ -38,6 +41,8 @@ class ProjectView extends Component {
     this.closeInput = this.closeInput.bind(this)
 
     this.handle = this.handle.bind(this)
+    this.editModel = this.editModel.bind(this)
+    this.closeEditModal = this.closeEditModal.bind(this)
   }
 
 
@@ -82,11 +87,21 @@ class ProjectView extends Component {
     this.props.openInput(false)
   }//done
 
+
+  editModel(taskID, task){
+    this.setState({editAlert: true})
+    this.props.openEditTask(taskID, task)
+  }
+  closeEditModal(){
+    this.setState({editAlert: false})
+  }
+
   render() {
     return (
       <div>
         <Header />
         <div id='projectBody'>
+        
         <div id='cardHolder'>
           {this.props.cards.length > 0 &&
             this.props.cards.map((card, index) => 
@@ -94,11 +109,40 @@ class ProjectView extends Component {
                 <h2 className='cardHeader'>{card.cardHeader}</h2>
                 {card.tasks.length > 0 &&
                   <div>
-                    {card.tasks.map((toDo, index) => 
-                        <div key ={toDo + index} className='task'>
-                          <div>{toDo}</div>
-                        </div>)
+                    {card.tasks.map((task, index) => 
+                      <div>
+                        {!this.state.editAlert &&
+                          <div key ={task + index} className='task'>
+                            <div className='taskContent'>
+                              <div>{task.task}</div>
+                              <div id='deleteTask' onClick={() => this.editModel(task.taskID, task.task)}><img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/></div>
+                            </div>
+                          </div>
+                        }
+                        {this.state.editAlert && this.props.editTaskID !== task.taskID &&
+                          <div key ={task + index} className='task'>
+                            <div className='taskContent'>
+                              <div>{task.task}</div>
+                              <div id='deleteTask' onClick={() => this.editModel(task.taskID, task.task)}><img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/></div>
+                            </div>
+                          </div>
+                        }
+                        {this.state.editAlert && this.props.editTaskID === task.taskID &&
+                          <div key={task + index} className='deleteModel'>
+                            <div className='deleteTaskContent'>
+                              <input onChange={e => this.props.changeEditTask(e)}value={this.props.editTaskTask}/>
+                              <div className='confirmationButtons'>
+                                <h4>Assign</h4>
+                                <h4>Delete</h4>
+                                <h4 onClick={this.closeEditModal}>Close</h4>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                      )
                     }
+                    
                   </div>
                 }
                 <div id={this.props.inputOpen ? 'openEditer' : 'cardTest'} onClick={this.addText}>
@@ -128,5 +172,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask })(ProjectView)
 );
