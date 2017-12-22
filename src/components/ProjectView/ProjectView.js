@@ -17,7 +17,8 @@ import {
   getCards,
   openEditTask,
   changeEditTask,
-  sendEditTask
+  sendEditTask,
+  deleteTask
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -45,6 +46,7 @@ class ProjectView extends Component {
     this.editModel = this.editModel.bind(this)
     this.closeEditModal = this.closeEditModal.bind(this)
     this.sendEdit = this.sendEdit.bind(this)
+    this.handleDeleteTask = this.handleDeleteTask.bind(this)
   }
 
 
@@ -104,6 +106,12 @@ class ProjectView extends Component {
     })
     this.setState({editAlert: false})
   }
+  handleDeleteTask(taskID){
+    this.props.deleteTask(taskID).then(res => {
+      this.props.getCards(this.props.match.params.id)
+    })
+    this.setState({editAlert: false})
+  }
 
   render() {
     return (
@@ -144,7 +152,7 @@ class ProjectView extends Component {
                                 </form>
                                 <div className='confirmationButtons'>
                                   <h4>Assign</h4>
-                                  <h4>Delete</h4>
+                                  <h4 onClick={() => this.handleDeleteTask(task.taskID)}>Delete</h4>
                                   <h4 onClick={this.closeEditModal}>Close</h4>
                                 </div>
                               </div>
@@ -185,5 +193,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask })(ProjectView)
 );

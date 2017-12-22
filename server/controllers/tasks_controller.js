@@ -42,5 +42,15 @@ module.exports = {
                 res.status(200).send(response.data)
             })
             .catch(console.log)
-    }
+    },
+    deleteTask: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+ 
+        dbInstance.deleteTask([req.body.taskID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
 }

@@ -35,6 +35,7 @@ const ALL_CARDS = 'ALL_CARDS'
 const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
 const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
 const SEND_EDITTASK = 'SEND_EDITTASK'
+const DELETE_TASK = 'DELETE_TASK'
 
 
 
@@ -123,6 +124,12 @@ export function sendEditTask(taskID, task){
   return {
     type: SEND_EDITTASK,
     payload: axios.post('http://localhost:3001/api/editTask', {taskID, task})
+  }
+}
+export function deleteTask(taskID){
+  return {
+    type: DELETE_TASK,
+    payload: axios.post('http://localhost:3001/api/deleteTask', {taskID})
   }
 }
 

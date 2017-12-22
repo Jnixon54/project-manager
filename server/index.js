@@ -224,6 +224,7 @@ app.post('/api/newTask', tasksController.addNewTask)
 app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
 
 app.post('/api/editTask', tasksController.editTask)
+app.post('/api/deleteTask', tasksController.deleteTask)
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
 
