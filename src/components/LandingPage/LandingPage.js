@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import { increaseCount } from '../../ducks/reducers/projectViewReducer';
 import {
   updateUserInputField,
@@ -16,6 +17,20 @@ import GooglePlusSquare from 'react-icons/lib/fa/google-plus-square';
 import FacebookSquare from 'react-icons/lib/fa/facebook-square';
 
 class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  onSubmitRegister(username, password){
+    axios
+      .post('http://localhost:3001/register/', {
+        username: username,
+        password: password
+      })
+      .then(response => console.log(response.data))
+  }
+
   render() {
     return (
       <div className="overall">
@@ -54,7 +69,7 @@ class LandingPage extends Component {
               <button
                 onClick={e => {
                   e.preventDefault();
-                  this.props.onSubmitRegister(
+                  this.onSubmitRegister(
                     this.props.usernameInput,
                     this.props.passwordInput
                   );
@@ -66,9 +81,14 @@ class LandingPage extends Component {
               <button
                 className="submit"
                 type="submit"
-                onClick={this.props.onSubmitLogin}
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.props.onSubmitLogin(
+                    this.props.usernameInput,
+                    this.props.passwordInput
+                  )}}
               >
-                Submit
+                Login
               </button>
               <hr />
               <button className="loginGoogle">

@@ -2,8 +2,8 @@ const axios = require('axios');
 
 // State Variables
 const initialState = {
-  usernameInput: '',
-  passwordInput: '',
+  usernameInput: 'asd',
+  passwordInput: 'asd',
   userIsLoggedIn: false,
   username: '',
   userID: '',
@@ -29,8 +29,14 @@ function reducer(state = initialState, action) {
     case ON_SUBMIT_REGISTER + '_FULFILLED':
       console.log('fulfilled');
       return { ...state, usernameInput: '', passwordInput: '' };
-    case ON_SUBMIT_LOGIN:
-      return { ...state, userIsLoggedIn: true };
+    case ON_SUBMIT_LOGIN + '_PENDING':
+      console.log('pending');
+      return { ...state };
+    case ON_SUBMIT_LOGIN + '_FULFILLED':
+      console.log('fulfilled');
+      return { ...state, usernameInput: '', passwordInput: '' };
+    // case ON_SUBMIT_LOGIN:
+    //   return { ...state, userIsLoggedIn: true };
     default:
       return state;
   }
@@ -63,9 +69,15 @@ export function onSubmitRegister(username, password) {
   };
 }
 
-export function onSubmitLogin() {
+export function onSubmitLogin(username, password) {
   return {
-    type: 'ON_SUBMIT_LOGIN'
+    type: 'ON_SUBMIT_LOGIN',
+    payload: axios
+      .post('http://localhost:3001/auth/local', {
+        username: username,
+        password: password
+      })
+      .then(response => console.log(response.data))
     // payload: id
   };
 }
