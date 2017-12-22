@@ -22,14 +22,14 @@ class LandingPage extends Component {
     this.state = {};
   }
 
-  onSubmitRegister(username, password){
-    axios
-      .post('http://localhost:3001/register/', {
-        username: username,
-        password: password
-      })
-      .then(response => console.log(response.data))
-  }
+  // onSubmitRegister(username, password){
+  //   axios
+  //     .post('http://localhost:3001/register/', {
+  //       username: username,
+  //       password: password
+  //     })
+  //     .then(response => this.props.history.push('/dashboard'))
+  // }
 
   render() {
     return (
@@ -69,10 +69,12 @@ class LandingPage extends Component {
               <button
                 onClick={e => {
                   e.preventDefault();
-                  this.onSubmitRegister(
+                  this.props.onSubmitRegister(
                     this.props.usernameInput,
                     this.props.passwordInput
-                  );
+                  ).then(() => {
+                    this.props.history.push('/dashboard')
+                  }).catch();
                 }}
                 type="submit"
               >
@@ -86,7 +88,9 @@ class LandingPage extends Component {
                   this.props.onSubmitLogin(
                     this.props.usernameInput,
                     this.props.passwordInput
-                  )}}
+                  ).then(() => {
+                    this.props.history.push('/dashboard')
+                  }).catch();}}
               >
                 Login
               </button>

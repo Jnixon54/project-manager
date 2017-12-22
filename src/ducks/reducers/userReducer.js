@@ -24,17 +24,23 @@ function reducer(state = initialState, action) {
     case UPDATE_PASSWORD_INPUT_FIELD:
       return { ...state, passwordInput: action.payload };
     case ON_SUBMIT_REGISTER + '_PENDING':
-      console.log('pending');
       return { ...state };
     case ON_SUBMIT_REGISTER + '_FULFILLED':
-      console.log('fulfilled');
-      return { ...state, usernameInput: '', passwordInput: '' };
+      return {...state, usernameInput: '',
+                        passwordInput: '',
+                        username: action.payload.username,
+                        userID: action.payload.userID,
+                        display_name: action.payload.display_name,
+                        email: action.payload.email };
     case ON_SUBMIT_LOGIN + '_PENDING':
-      console.log('pending');
       return { ...state };
     case ON_SUBMIT_LOGIN + '_FULFILLED':
-      console.log('fulfilled');
-      return { ...state, usernameInput: '', passwordInput: '' };
+      return {...state, usernameInput: '',
+                        passwordInput: '',
+                        username: action.payload.username,
+                        userID: action.payload.userID,
+                        display_name: action.payload.display_name,
+                        email: action.payload.email };
     // case ON_SUBMIT_LOGIN:
     //   return { ...state, userIsLoggedIn: true };
     default:
@@ -61,11 +67,11 @@ export function onSubmitRegister(username, password) {
   return {
     type: 'ON_SUBMIT_REGISTER',
     payload: axios
-      .post('http://localhost:3001/register/', {
-        username: username,
-        password: password
-      })
-      .then(response => console.log(response.data))
+    .post('http://localhost:3001/register/', {
+      username: username,
+      password: password
+    })
+    .then(response => response.data)
   };
 }
 
@@ -77,7 +83,7 @@ export function onSubmitLogin(username, password) {
         username: username,
         password: password
       })
-      .then(response => console.log(response.data))
+      .then(response => response.data)
     // payload: id
   };
 }

@@ -18,6 +18,7 @@ const passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
   GoogleStrategy = require('passport-google-oauth2').Strategy;
 FacebookStrategy = require('passport-facebook').Strategy;
+const flash = require('req-flash');
 const hashPassword = require('./utils/crypto');
 const usersController = require('./controllers/users_controller');
 const projectsController = require('./controllers/projects_controller');
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 ///////////////////////////////////////////////////////////////////////////
 // DATABASE
 massive(DB_CONN_STRING)
@@ -54,11 +56,11 @@ app.use(
     cookie: { maxAge: 600000 }
   })
 );
-
+app.use(flash());
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
-  console.log('SERIALIZE USER: ', user.id + ': ' + user.username);
+  console.log(`SERIALIZE USER: ${user.id} | ${user.username}`);
   done(null, user.id);
 });
 
@@ -66,7 +68,7 @@ passport.deserializeUser(function(id, done) {
   db.users
     .findOne({ where: { id: id } })
     .then(user => {
-      console.log('DESERIALIZE USER', user);
+      console.log(`DESERIALIZE USER: ${user[0].id} | ${user[0].username}`);
       if (user) {
         return done(null, user);
       }
@@ -79,22 +81,19 @@ passport.deserializeUser(function(id, done) {
 passport.use(
   'local',
   new LocalStrategy(function(username, password, done) {
-    // Need to ad ability to create new account
-    console.log('local auth strat', username, password);
     const db = app.get('db');
     db
       .getUser([username])
       .then(user => {
         if (!user[0]) {
-          console.log('no user found, creating user' + username)
           const hashData = hashPassword.saltHashString(password);
           db.createLocalUser([username, hashData.stringHash, hashData.salt])
             .then((user) => {
-              console.log(user[0])
+              console.log(`Created new user: ${user[0].id} | ${user[0].username}`)
               return done(null, user[0]);
             })
             .catch(err => {
-              console.log('Error authenticating local user: ', err);
+              console.log('Error creating and authenticating local user: ', err);
               if (err) {
                 return done(err);
               }})
@@ -105,9 +104,10 @@ passport.use(
           user[0].password_hash !=
           hashPassword.hash(password, user[0].salt).stringHash // salt and hashing password to compare
         ) {
-          return done(null, false);
+          console.log('Wrong Password!')
+          return done(null, false, {message: 'Incorrect Password'});
         }
-        if (user[0]) {
+        if (user[0] && user[0].password_hash == hashPassword.hash(password, user[0].salt).stringHash) {
           let userProfile = user[0];
           delete userProfile.password_hash;
           delete userProfile.salt;
@@ -227,26 +227,23 @@ app.get(
 app.post(
   '/auth/local',
   passport.authenticate('local', {
-    successRedirect: 'http://localhost:3000/dashboard',
-    failureRedirect: '/'
-  })
-);
+    // successRedirect: 'http://localhost:3000/dashboard',
+    // failureRedirect: '/',
+    failureFlash: true
+  }), (req, res) => {
+    console.log(req)
+    if (req.user) res.send(req.user)
+  });
 // app.post('/login', usersController.login, (req, res) => console.log(req.user));
 // app.post('/register', usersController.createLocalUser);
-// app.post('/register', passport.authenticate('local', {
-//   // successRedirect: 'http://localhost:3000/dashboard',
-//   failureRedirect: '/'
-// }), (req, res) => {
-//   console.log(res)
-//   if (req.user) res.redirect('http://localhost:3000/dashboard')
-// });
-
 app.post('/register', passport.authenticate('local', {
   // successRedirect: 'http://localhost:3000/dashboard',
-  failureRedirect: '/'
+  // failureRedirect: '/',
+  failureFlash: true
 }), (req, res) => {
-  console.log(res)
-  if (req.user) res.redirect('http://localhost:3000/dashboard')
+  console.log(req)
+  if (req.user) res.send(req.user)
+  // if (req.user) console.log('poop');
 });
 
 app.get('/logout', usersController.logout);

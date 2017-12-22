@@ -1,4 +1,3 @@
-
 /* global location */
 /* eslint no-restricted-globals: ["off", "location"] */
 import * as projectViewActions from '../../ducks/reducers/projectViewReducer';
@@ -17,9 +16,9 @@ export function socketMiddleware(store) {
     if (socket && action.type === 'INCREASE_COUNT_SOCKET') {
       socket.emit('increase_count', { count: state.projectView.count })
     }
-    if (socket && action.type === 'JOIN_ROOM_SOCKET') {
-      socket.join(action.payload);
-    }
+    // if (socket && action.type === 'JOIN_ROOM_SOCKET') {
+    //   socket.join(action.payload);
+    // }
     return next(action);
   }
 }
