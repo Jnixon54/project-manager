@@ -45,8 +45,9 @@
   .taskContent {
     width: 100%;
     display: flex;
-    margin: 10px;
+    margin: 0 10px;
     justify-content: space-between;
+    align-items: center
   }
   .deleteTaskContent {
     display: flex;
@@ -56,7 +57,7 @@
     width: 100%;
   }
   .deleteModel {
-    width: 100%;
+    width: 226px;
     display: flex;
     flex-wrap: wrap;
     animation: editGrow .4s forwards;
@@ -66,25 +67,44 @@
   @keyframes editGrow {
     from{
       height: 30px;
+
+    width: 226px;
       background: grey;
       border: none
     }
     to {
       height: 70px;
+
+    width: 226px;
       background: rgb(153, 153, 153);
       border: solid black 2px
     }
   }
   .confirmationButtons {
-    display: flex
+    display: flex;
+    width: 100%;
+    justify-content: space-around
   }
 
-  #deleteTask {
+  #editTaskInvisible {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 15px;
+    opacity: 0;
     height: 15px
+  }
+  #editTaskVisible {
+    opacity: 0;
+    animation: editAppear .3s forwards
+  }
+  @keyframes editAppear {
+    from {
+      opacity: 0
+    }
+    to {
+      opacity: 1
+    }
   }
   
   #cardTest {
@@ -178,9 +198,12 @@
 
   .editPic {
     width: 30px;
-    height: 30px
+    height: 30px;
   }
   
+  .editPic:hover {
+    display: block
+  }
   
   
   

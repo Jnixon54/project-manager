@@ -127,6 +127,9 @@ class ProjectView extends Component {
   newTaskSelector(cardID){
     this.setState({taskCardID: cardID})
   }
+  editHoverID(taskID){
+    this.setState({hoverID: taskID})
+  }
 
   render() {
     return (
@@ -147,23 +150,27 @@ class ProjectView extends Component {
                         
                         <div key ={task + index}>
                           {!this.state.editAlert && task.taskID &&
-                            <div className='task'>
+                            <div onMouseEnter={() => this.editHoverID(task.taskID)} onMouseLeave={() => this.editHoverID(0)} className='task'>
                               <div className='taskContent'>
                                 <div>{task.task}</div>
-                                <div id='deleteTask' onClick={() => this.editModel(task.taskID, task.task)}><img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/></div>
+                                <div id={this.state.hoverID === task.taskID ? 'editTaskVisible' : 'editTaskInvisible'} onClick={() => this.editModel(task.taskID, task.task)}>
+                                  <img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/>
+                                </div>
                               </div>
                             </div>
                           }
                           {this.state.editAlert && this.props.editTaskID !== task.taskID && task.taskID &&
-                            <div key ={task + index} className='task'>
+                            <div className='task'>
                               <div className='taskContent'>
                                 <div>{task.task}</div>
-                                <div id='deleteTask' onClick={() => this.editModel(task.taskID, task.task)}><img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/></div>
+                                <div id={this.state.hoverID === task.taskID ? 'editTaskVisible' : 'editTaskInvisible'} onClick={() => this.editModel(task.taskID, task.task)}>
+                                  <img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/>
+                                </div>
                               </div>
                             </div>
                           }
                           {this.state.editAlert && this.props.editTaskID === task.taskID && task.taskID &&
-                            <div key={task + index} className='deleteModel'>
+                            <div className='deleteModel'>
                               <div className='deleteTaskContent'>
                                 <form action="" onSubmit={(e) => this.sendEdit(e, task.taskID, this.props.editTaskTask)}>
                                   <input type='text' className='newCard' onChange={e => this.props.changeEditTask(e)} value={this.props.editTaskTask}/>
