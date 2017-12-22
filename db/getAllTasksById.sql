@@ -1,4 +1,1 @@
-SELECT *
-FROM tasks
-WHERE id = $1
-Order by created_at;
+SELECT tasks.task_id, content, parent_project_id FROM tasks JOIN task_users on tasks.task_id = task_users.task_id WHERE user_id = $1

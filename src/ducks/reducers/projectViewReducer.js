@@ -31,6 +31,11 @@ const OPEN_INPUT = 'OPEN_INPUT'
 const INCREASE_COUNT = 'INCREASE_COUNT';
 // const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 const ALL_CARDS = 'ALL_CARDS'
+//edit and delete tasks
+const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
+const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
+const SEND_EDITTASK = 'SEND_EDITTASK'
+const DELETE_TASK = 'DELETE_TASK'
 
 
 
@@ -46,14 +51,14 @@ export function addToList(newItem) {
 export function removeFromList(newItem) {
   return {
     type: REMOVE_ITEM_FROM_LIST,
-    payload: function() {}
+    payload: function () { }
   };
 }
 
 
 //adding cards
 export function cardInput(e) {
-  return{
+  return {
     type: CARD_INPUT,
     payload: e.target.value
   }
@@ -63,15 +68,15 @@ export function addCard(card, projectID) {
     type: NEW_CARD,
     payload: axios.post('http://localhost:3001/api/newCard', { card, projectID }).then(res => {
       return res
-  })
-  // {cardHeader: res.data, tasks: []}
+    })
+    // {cardHeader: res.data, tasks: []}
   }
 }
 export function getCards(projectID) {
   return {
     type: ALL_CARDS,
     payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
-      
+
       console.log('data', response.data)
       return response.data
     })
@@ -79,22 +84,20 @@ export function getCards(projectID) {
 }
 
 //adding tasks
-export function taskInput(e){
-  return{
+export function taskInput(e) {
+  return {
     type: TASK_INPUT,
-    payload: {name: e.target.name, value: e.target.value}
+    payload: { name: e.target.name, value: e.target.value }
   }
 }
 export function addTask(task, cardID, projectID) {
   return {
     type: NEW_TASK,
-    payload: axios.post('http://localhost:3001/api/newTask', {task, cardID, projectID}).then(res => {
+    payload: axios.post('http://localhost:3001/api/newTask', { task, cardID, projectID }).then(res => {
       return res
     })
   }
 }
-
-
 
 export function openInput(input) {
   return {
@@ -102,6 +105,37 @@ export function openInput(input) {
     payload: input
   }
 }
+
+//editing tasks
+export function openEditTask(taskID, task) {
+  return {
+    type: OPEN_TASKEDIT,
+    payload: {taskID, task}
+  }
+}
+
+export function changeEditTask(e){
+  return {
+    type: CHANGE_EDITTASK,
+    payload: e.target.value
+  }
+}
+export function sendEditTask(taskID, task){
+  return {
+    type: SEND_EDITTASK,
+    payload: axios.post('http://localhost:3001/api/editTask', {taskID, task})
+  }
+}
+export function deleteTask(taskID){
+  return {
+    type: DELETE_TASK,
+    payload: axios.post('http://localhost:3001/api/deleteTask', {taskID})
+  }
+}
+
+
+
+
 
 // export function increaseCount() {
 //   return {
@@ -137,73 +171,95 @@ export default function reducer(state = initialState, action) {
     //Spencer's additions\/
 
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
-      return Object.assign({}, state, {isLoading: true})
+      return Object.assign({}, state, { isLoading: true })
     case ALL_CARDS + '_FULFILLED':
       console.log('card Payload', action.payload)
-      let testVar = action.payload
-
-
-      let finalArr = []
-      function makeItWork(array){
-      
-        let newArr = array
-        console.log('newArr', newArr)
-        let tasksArr = []
-    
-        for(let i = 0; i < newArr.length; i++){
-          console.log('array bits', newArr[i])
-          let obj = {cardHeader: '', tasks: [], cardID: ""}
-      
-          obj.cardHeader = newArr[i].title
-          obj.cardID = newArr[i].id
-          if(newArr[i].content !== null){
-            tasksArr.unshift(newArr[i].content)
-          }
-          if(newArr[i+1]) {
-            if(obj.cardHeader === newArr[i+1].title){
-              continue;
+        let testVar = action.payload
+        let finalArr = []
+  
+        function makeItWork(array) {
+          console.log(array)
+          let newArr = array
+          let tasksArr = []
+          let tasksObj = { task: '', taskID: '' }
+  
+          for (let i = 0; i < newArr.length; i++) {
+            let obj = { cardHeader: '', tasks: [], cardID: '' }
+  
+            obj.cardHeader = newArr[i].title
+            obj.cardID = newArr[i].id
+            if (newArr[i].content !== null) {
+              tasksObj.task = newArr[i].content
             }
+            if (newArr[i].task_id !== null) {
+              tasksObj.taskID = newArr[i].task_id
+            }
+            if (newArr[i + 1]) {
+              if (obj.cardHeader !== newArr[i + 1].title) {
+                tasksArr.push(tasksObj)
+                tasksObj = { task: '', taskID: '' }
+                obj.tasks = tasksArr
+              }
+              if (obj.cardHeader === newArr[i + 1].title) {
+                tasksArr.push(tasksObj)
+                tasksObj = { task: '', taskID: '' }
+                continue;
+              }
+            }
+            else {
+              tasksArr.push(tasksObj)
+            }
+  
+            console.log(finalArr, "Check here")
+            obj.tasks = tasksArr.sort((a,b) => {return a.taskID - b.taskID})
+            tasksArr = []
+            finalArr.push(obj)
           }
-          obj.tasks = tasksArr
-          tasksArr = []
-          finalArr.push(obj)
+          console.log("CHECKOUT YOUR FINALARR HERE ", finalArr)
+          return finalArr
+  
+  
         }
-        return finalArr
-      }
-      makeItWork(testVar)
-      console.log(finalArr)
-      return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
+        makeItWork(testVar)
+        console.log(finalArr)
+        return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false });
 
     case CARD_INPUT://adding cards
-      return Object.assign({}, state, {newCard: action.payload});
+      return Object.assign({}, state, { newCard: action.payload });
 
-    case NEW_CARD: 
-      
+
 
     case TASK_INPUT://adding tasks to cards
       console.log(action.payload)
-      return Object.assign({}, state, {newTask: action.payload.value, cardID: action.payload.name});
+      return Object.assign({}, state, { newTask: action.payload.value, cardID: action.payload.name });
 
 
     case NEW_TASK:
-    let obj = [...state.cards]
-      function stuff(index, task){
+      let obj = [...state.cards]
+      function stuff(index, task) {
         obj[index].tasks.push(task)
         return obj
       }
       stuff(action.payload.index, action.payload.task)
 
-      return Object.assign({}, state, {cards: obj, newTask: ''});
+      return Object.assign({}, state, { cards: obj, newTask: '' });
 
 
 
     case OPEN_INPUT:
       return Object.assign({}, state, {inputOpen: action.payload});
+
+    case OPEN_TASKEDIT:
+      return Object.assign({}, state, {editTaskID: action.payload.taskID, editTaskTask: action.payload.task})
+    case CHANGE_EDITTASK:
+      return Object.assign({}, state, {editTaskTask: action.payload})
+
+
     case INCREASE_COUNT:
       console.log('REDUCER PAYLOAD', action.payload)
-      return {...state, count: action.payload}
+      return { ...state, count: action.payload }
     default:
       return state;
-      //in case none of the action types match, it can return the state to make sure it don't break anything.
+    //in case none of the action types match, it can return the state to make sure it don't break anything.
   }
 }
