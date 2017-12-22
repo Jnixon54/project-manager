@@ -42,7 +42,7 @@ class ProjectView extends Component {
     this.addText = this.addText.bind(this)
     this.closeInput = this.closeInput.bind(this)
 
-    this.handle = this.handle.bind(this)
+    this.handleAddTask = this.handleAddTask.bind(this)
     this.editModel = this.editModel.bind(this)
     this.closeEditModal = this.closeEditModal.bind(this)
     this.sendEdit = this.sendEdit.bind(this)
@@ -75,20 +75,27 @@ class ProjectView extends Component {
 
 
   addCard(e) {
-    e.preventDefault()
 
-    this.props.addCard(this.props.newCard, this.props.match.params.id).then(res => {
-      this.props.getCards(this.props.match.params.id)
-    })
+    e.preventDefault()
+    if(this.props.newCard){
+
+      this.props.addCard(this.props.newCard, this.props.match.params.id).then(res => {
+        this.props.getCards(this.props.match.params.id)
+      })
+    }
   }//done
 
 
-  handle(e, cardID, projectID) {
+  handleAddTask(e, cardID, projectID) {
+
     e.preventDefault();
-    this.props.addTask(this.props.newTask, cardID, projectID).then(res => {
-      this.props.getCards(this.props.match.params.id)
-    })
-    this.props.openInput(false)
+    if(this.props.newTask){
+      this.props.addTask(this.props.newTask, cardID, projectID).then(res => {
+        this.props.getCards(this.props.match.params.id)
+      })
+      this.props.openInput(false)
+    }
+
   }//done
 
 
@@ -101,17 +108,24 @@ class ProjectView extends Component {
     this.setState({editAlert: false})
   }
   sendEdit(e, taskID, task){
+
     e.preventDefault()
+    if(task !== ''){
     this.props.sendEditTask(taskID, task).then(res => {
       this.props.getCards(this.props.match.params.id)
     })
-    this.setState({editAlert: false})
+      this.setState({editAlert: false})
+    }
   }
   handleDeleteTask(taskID){
     this.props.deleteTask(taskID).then(res => {
       this.props.getCards(this.props.match.params.id)
     })
     this.setState({editAlert: false})
+  }
+
+  newTaskSelector(cardID){
+    this.setState({taskCardID: cardID})
   }
 
   render() {
@@ -131,9 +145,9 @@ class ProjectView extends Component {
                       
                       {card.tasks.map((task, index) => 
                         
-                        <div>
+                        <div key ={task + index}>
                           {!this.state.editAlert && task.taskID &&
-                            <div key ={task + index} className='task'>
+                            <div className='task'>
                               <div className='taskContent'>
                                 <div>{task.task}</div>
                                 <div id='deleteTask' onClick={() => this.editModel(task.taskID, task.task)}><img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/></div>
@@ -168,13 +182,15 @@ class ProjectView extends Component {
                     
                     </div>
                   }
-                  <div id={this.props.inputOpen ? 'openEditer' : 'cardTest'} onClick={this.addText}>
+                  <div id={this.props.inputOpen && this.state.taskCardID === card.cardID ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
-                    <form action="" onSubmit={(e) => this.handle(e, card.cardID, this.props.match.params.id)}>
-                      { index == this.props.cardID ? <input className='newCard' name={index} value={this.props.newTask} onChange={this.props.taskInput} type="text"/> :
-                        <input className='newCard' name={index} value={''}onChange={this.props.taskInput} type="text"/>
-                      }
-                    
+                    <form action="" onSubmit={(e) => this.handleAddTask(e, card.cardID, this.props.match.params.id)}>
+                      <input  className='newCard' 
+                              onClick={() => this.newTaskSelector(card.cardID)} 
+                              name={index} 
+                              value={this.state.taskCardID === card.cardID ? this.props.newTask : ''} 
+                              onChange={this.props.taskInput} 
+                              type="text"/>
                     </form>     
                   </div>
                 </div>
