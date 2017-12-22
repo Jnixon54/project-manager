@@ -22,8 +22,8 @@ class Dashboard extends Component {
     this.sendNewProject = this.sendNewProject.bind(this);
   }
   componentDidMount() {
-    this.props.getAllProjects();
-    this.props.getAllTasks();
+    this.props.getAllProjects(this.props.userID);
+    this.props.getAllTasks(this.props.userID);
   }
 
   // changes local state to allow tooltip to popup on create new project
@@ -35,7 +35,8 @@ class Dashboard extends Component {
   //then routes to the project view with the new projects id
   sendNewProject(e) {
     e.preventDefault();
-    axios.post('http://localhost:3001/api/addProject', { projectTitle: this.props.newProjectTitle, id: 1 }).then(response => {
+    console.log('USERID: ', this.props.userID)
+    axios.post('http://localhost:3001/api/addProject', { projectTitle: this.props.newProjectTitle, id: this.props.userID }).then(response => {
       this.props.history.push(`/ProjectView/${response.data[0].id}`)
     });
   }
@@ -101,7 +102,15 @@ class Dashboard extends Component {
     );
   }
 }
-const mapStateToProps = state => state.dashboard;
+// const mapStateToProps = state => state.dashboard;
+
+function mapStateToProps(state) {
+  return {
+    userID: state.user.userID,
+    projects: state.dashboard.projects,
+    tasks: state.dashboard.tasks
+  }
+}
 
 export default connect(mapStateToProps, {
   getAllProjects,

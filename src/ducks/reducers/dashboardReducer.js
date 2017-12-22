@@ -44,20 +44,20 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 
-export function getAllProjects() {
+export function getAllProjects(userID) {
   return {
     type: GET_PROJECTS,
     payload: axios
-      .post('http://localhost:3001/api/allProjects', { id: 1 })
+      .post('http://localhost:3001/api/allProjects', { id: userID })
       .then(response => response.data)
   };
 }
 
-export function getAllTasks() {
+export function getAllTasks(userID) {
   return {
     type: GET_TASKS,
     payload: axios
-      .post('http://localhost:3001/api/allTasks', { id: 1 })
+      .post('http://localhost:3001/api/allTasks', { id: userID })
       .then(response => response.data)
   };
 }
