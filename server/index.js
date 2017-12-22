@@ -18,6 +18,7 @@ const passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
   GoogleStrategy = require('passport-google-oauth2').Strategy;
 FacebookStrategy = require('passport-facebook').Strategy;
+const flash = require('req-flash');
 const hashPassword = require('./utils/crypto');
 const usersController = require('./controllers/users_controller');
 const projectsController = require('./controllers/projects_controller');
@@ -25,10 +26,19 @@ const tasksController = require('./controllers/tasks_controller');
 const socket = require('./socketServer');
 
 const app = express();
+app.use( express.static( `${__dirname}/../build` ) );
 app.use(bodyParser.json()); //Must come before cors
-app.use(cors());
+// app.use(cors());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 ///////////////////////////////////////////////////////////////////////////
 // DATABASE
@@ -46,11 +56,11 @@ app.use(
     cookie: { maxAge: 600000 }
   })
 );
-
+app.use(flash());
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
-  console.log('SERIALIZE USER: ', user.id + ': ' + user.username);
+  console.log(`SERIALIZE USER: ${user.id} | ${user.username}`);
   done(null, user.id);
 });
 
@@ -58,7 +68,7 @@ passport.deserializeUser(function(id, done) {
   db.users
     .findOne({ where: { id: id } })
     .then(user => {
-      console.log('DESERIALIZE USER', user);
+      console.log(`DESERIALIZE USER: ${user[0].id} | ${user[0].username}`);
       if (user) {
         return done(null, user);
       }
@@ -71,24 +81,38 @@ passport.deserializeUser(function(id, done) {
 passport.use(
   'local',
   new LocalStrategy(function(username, password, done) {
-    // Need to ad ability to create new account
     const db = app.get('db');
     db
       .getUser([username])
       .then(user => {
         if (!user[0]) {
-          return done(null, false);
+          const hashData = hashPassword.saltHashString(password);
+          db.createLocalUser([username, hashData.stringHash, hashData.salt])
+            .then((user) => {
+              console.log(`Created new user: ${user[0].id} | ${user[0].username}`)
+              return done(null, user[0]);
+            })
+            .catch(err => {
+              console.log('Error creating and authenticating local user: ', err);
+              if (err) {
+                return done(err);
+              }})
+          // return done(null, false);
         }
         if (
+          user[0] &&
           user[0].password_hash !=
-          hashPassword.hash(password, user[0].salt).stringHash
+          hashPassword.hash(password, user[0].salt).stringHash // salt and hashing password to compare
         ) {
-          return done(null, false);
+          console.log('Wrong Password!')
+          return done(null, false, {message: 'Incorrect Password'});
         }
-        let userProfile = user[0];
-        delete userProfile.password_hash;
-        delete userProfile.salt;
-        return done(null, userProfile);
+        if (user[0] && user[0].password_hash == hashPassword.hash(password, user[0].salt).stringHash) {
+          let userProfile = user[0];
+          delete userProfile.password_hash;
+          delete userProfile.salt;
+          return done(null, userProfile);
+        }
       })
       .catch(err => {
         console.log('Error authenticating local user: ', err);
@@ -186,7 +210,7 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/dashboard', //Will redirect to user dashboard
+    successRedirect: 'http://localhost:3000/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 ); // Might need to return the user here
@@ -196,19 +220,32 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/dashboard', //Will redirect to user dashboard
+    successRedirect: 'http://localhost:3000/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 );
 app.post(
   '/auth/local',
   passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/'
-  })
-);
+    // successRedirect: 'http://localhost:3000/dashboard',
+    // failureRedirect: '/',
+    failureFlash: true
+  }), (req, res) => {
+    console.log(req)
+    if (req.user) res.send(req.user)
+  });
 // app.post('/login', usersController.login, (req, res) => console.log(req.user));
-app.post('/register', usersController.createLocalUser);
+// app.post('/register', usersController.createLocalUser);
+app.post('/register', passport.authenticate('local', {
+  // successRedirect: 'http://localhost:3000/dashboard',
+  // failureRedirect: '/',
+  failureFlash: true
+}), (req, res) => {
+  console.log(req)
+  if (req.user) res.send(req.user)
+  // if (req.user) console.log('poop');
+});
+
 app.get('/logout', usersController.logout);
 
 ///////////////////////////////////////////////////////////////////////////
@@ -233,3 +270,6 @@ const server = app.listen(PORT, () => {
 });
 
 const io = socket(server);
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})

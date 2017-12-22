@@ -1,8 +1,9 @@
 const hashPassword = require('../utils/crypto');
+const axios = require('axios');
 
 module.exports = {
   createLocalUser: (req, res) => {
-    console.log('BODY: ', req.body);
+    // console.log('BODY: ', req.body);
     const db = req.app.get('db');
     const hashData = hashPassword.saltHashString(req.body.password);
     req.session.user = {};
