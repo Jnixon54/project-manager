@@ -31,6 +31,7 @@ const OPEN_INPUT = 'OPEN_INPUT'
 const INCREASE_COUNT = 'INCREASE_COUNT';
 // const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 const ALL_CARDS = 'ALL_CARDS'
+const GET_CARDS = 'GET_CARDS'
 //edit and delete tasks
 const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
 const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
@@ -78,6 +79,14 @@ export function getCards(projectID) {
     payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
 
       console.log('data', response.data)
+      return response.data
+    })
+  }
+}
+export function getCards2(projectID){
+  return {
+    type: GET_CARDS,
+    payload: axios.get(`http://localhost:3001/api/getAllCards2/${projectID}`).then(response => {
       return response.data
     })
   }
@@ -169,6 +178,11 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { items: action.payload });
 
     //Spencer's additions\/
+
+    case GET_CARDS + '_PENDING':
+      return Object.assign({}, state, { isLoading: true })
+    case GET_CARDS + '_FULFILLED':
+      return Object.assign({}, state, { cards: action.payload, newCard: '', isLoading: false })
 
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
       return Object.assign({}, state, { isLoading: true })

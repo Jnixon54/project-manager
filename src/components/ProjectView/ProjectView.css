@@ -29,6 +29,19 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
+  .editHeader{
+    height: 50px;
+    width: 210px;
+    padding: 0 10px;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid lightgray;
+    background-color: gray;
+    font-size: 25px;
+  }
   #card{
     width: 230px;
     height: 40px;

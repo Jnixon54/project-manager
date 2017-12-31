@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header';
 import { withRouter } from 'react-router-dom';
+import Card from './PVComponents/Card/Card'
 
 import './ProjectView.css'
 
@@ -18,7 +19,8 @@ import {
   openEditTask,
   changeEditTask,
   sendEditTask,
-  deleteTask
+  deleteTask,
+  getCards2
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -51,7 +53,8 @@ class ProjectView extends Component {
 
 
   componentDidMount() {
-    this.props.getCards(this.props.match.params.id)
+    // this.props.getCards(this.props.match.params.id)
+    this.props.getCards2(this.props.match.params.id)
   }
 
   //METHODS HERE:
@@ -132,6 +135,12 @@ class ProjectView extends Component {
   }
 
   render() {
+
+    const cardBox = this.props.cards.map((card, index) => {
+      return (
+        <Card key={index} card={card}/>
+      );
+    });
     return (
       <div>
         <Header />
@@ -139,69 +148,70 @@ class ProjectView extends Component {
         
           <div id='cardHolder'>
             {this.props.cards.length > 0 &&
-              this.props.cards.map((card, index) => 
-                <div key={card.cardHeader + index} id='taskHolder'>
-                  <h2 className='cardHeader'>{card.cardHeader}</h2>
+              cardBox
+              // this.props.cards.map((card, index) => 
+              //   <div key={card.cardHeader + index} id='taskHolder'>
+              //     <h2 className='cardHeader'>{card.cardHeader}</h2>
                   
-                  {card.tasks.length > 0 && 
-                    <div>
+              //     {card.tasks.length > 0 && 
+              //       <div>
                       
-                      {card.tasks.map((task, index) => 
+              //         {card.tasks.map((task, index) => 
                         
-                        <div key ={task + index}>
-                          {!this.state.editAlert && task.taskID &&
-                            <div onMouseEnter={() => this.editHoverID(task.taskID)} onMouseLeave={() => this.editHoverID(0)} className='task'>
-                              <div className='taskContent'>
-                                <div>{task.task}</div>
-                                <div id={this.state.hoverID === task.taskID ? 'editTaskVisible' : 'editTaskInvisible'} onClick={() => this.editModel(task.taskID, task.task)}>
-                                  <img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                          {this.state.editAlert && this.props.editTaskID !== task.taskID && task.taskID &&
-                            <div className='task'>
-                              <div className='taskContent'>
-                                <div>{task.task}</div>
-                                <div id={this.state.hoverID === task.taskID ? 'editTaskVisible' : 'editTaskInvisible'} onClick={() => this.editModel(task.taskID, task.task)}>
-                                  <img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                          {this.state.editAlert && this.props.editTaskID === task.taskID && task.taskID &&
-                            <div className='deleteModel'>
-                              <div className='deleteTaskContent'>
-                                <form action="" onSubmit={(e) => this.sendEdit(e, task.taskID, this.props.editTaskTask)}>
-                                  <input type='text' className='newCard' onChange={e => this.props.changeEditTask(e)} value={this.props.editTaskTask}/>
-                                </form>
-                                <div className='confirmationButtons'>
-                                  <h4>Assign</h4>
-                                  <h4 onClick={() => this.handleDeleteTask(task.taskID)}>Delete</h4>
-                                  <h4 onClick={this.closeEditModal}>Close</h4>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                        </div>
-                        )
-                      }
+              //           <div key ={task + index}>
+              //             {!this.state.editAlert && task.taskID &&
+              //               <div onMouseEnter={() => this.editHoverID(task.taskID)} onMouseLeave={() => this.editHoverID(0)} className='task'>
+              //                 <div className='taskContent'>
+              //                   <div>{task.task}</div>
+              //                   <div id={this.state.hoverID === task.taskID ? 'editTaskVisible' : 'editTaskInvisible'} onClick={() => this.editModel(task.taskID, task.task)}>
+              //                     <img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/>
+              //                   </div>
+              //                 </div>
+              //               </div>
+              //             }
+              //             {this.state.editAlert && this.props.editTaskID !== task.taskID && task.taskID &&
+              //               <div onMouseEnter={() => this.editHoverID(task.taskID)} onMouseLeave={() => this.editHoverID(0)} className='task'>
+              //                 <div className='taskContent'>
+              //                   <div>{task.task}</div>
+              //                   <div id={this.state.hoverID === task.taskID ? 'editTaskVisible' : 'editTaskInvisible'} onClick={() => this.editModel(task.taskID, task.task)}>
+              //                     <img className='editPic' src='https://i.pinimg.com/originals/29/bd/9c/29bd9c0b601142ada8f8a993b938090e.png' alt=''/>
+              //                   </div>
+              //                 </div>
+              //               </div>
+              //             }
+              //             {this.state.editAlert && this.props.editTaskID === task.taskID && task.taskID &&
+              //               <div className='deleteModel'>
+              //                 <div className='deleteTaskContent'>
+              //                   <form action="" onSubmit={(e) => this.sendEdit(e, task.taskID, this.props.editTaskTask)}>
+              //                     <input type='text' className='newCard' onChange={e => this.props.changeEditTask(e)} value={this.props.editTaskTask}/>
+              //                   </form>
+              //                   <div className='confirmationButtons'>
+              //                     <h4>Assign</h4>
+              //                     <h4 onClick={() => this.handleDeleteTask(task.taskID)}>Delete</h4>
+              //                     <h4 onClick={this.closeEditModal}>Close</h4>
+              //                   </div>
+              //                 </div>
+              //               </div>
+              //             }
+              //           </div>
+              //           )
+              //         }
                     
-                    </div>
-                  }
-                  <div id={this.props.inputOpen && this.state.taskCardID === card.cardID ? 'openEditer' : 'cardTest'} onClick={this.addText}>
+              //       </div>
+              //     }
+              //     <div id={this.props.inputOpen && this.state.taskCardID === card.cardID ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
-                    <form action="" onSubmit={(e) => this.handleAddTask(e, card.cardID, this.props.match.params.id)}>
-                      <input  className='newCard' 
-                              onClick={() => this.newTaskSelector(card.cardID)} 
-                              name={index} 
-                              value={this.state.taskCardID === card.cardID ? this.props.newTask : ''} 
-                              onChange={this.props.taskInput} 
-                              type="text"/>
-                    </form>     
-                  </div>
-                </div>
-              )
+              //       <form action="" onSubmit={(e) => this.handleAddTask(e, card.cardID, this.props.match.params.id)}>
+              //         <input  className='newCard' 
+              //                 onClick={() => this.newTaskSelector(card.cardID)} 
+              //                 name={index} 
+              //                 value={this.state.taskCardID === card.cardID ? this.props.newTask : ''} 
+              //                 onChange={this.props.taskInput} 
+              //                 type="text"/>
+              //       </form>     
+              //     </div>
+              //   </div>
+              // )
             }
             <form className='cardInput' action="" onSubmit={this.addCard}>
               <input className='newtab' style={{ 'paddingLeft': '10pg' }} value={this.props.newCard ? this.props.newCard : ''} placeholder='Input new card!' onChange={this.props.cardInput} type="text" />
@@ -220,5 +230,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2 })(ProjectView)
 );

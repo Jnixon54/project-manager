@@ -33,6 +33,16 @@ module.exports = {
                 res.status(200).send(response)})
             .catch(console.log)
     },
+    getAllCards2: (req,res,next) => {
+        const dbInstance = req.app.get('db')
+        
+                dbInstance.getAllCards2([req.params.projectID])
+                    .then(response => {
+                        console.log(response)
+                        res.status(200).send(response)})
+                    .catch(console.log)
+    },
+
     editTask: (req, res, next) => {
         const dbInstance = req.app.get('db')
  

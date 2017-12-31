@@ -259,6 +259,7 @@ app.post('/api/addProject', projectsController.addProject);
 app.post('/api/newCard', tasksController.addNewCard)
 app.post('/api/newTask', tasksController.addNewTask)
 app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
+app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
 
 app.post('/api/editTask', tasksController.editTask)
 app.post('/api/deleteTask', tasksController.deleteTask)
