@@ -63,4 +63,14 @@ module.exports = {
             })
             .catch(console.log)
     },
+    editCardHeader: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+ 
+        dbInstance.editCard([req.body.newHeader, req.body.cardID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
 }

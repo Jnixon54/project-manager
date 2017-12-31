@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
 import {connect} from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import {
     editCardHeader,
-    handleHeader
+    handleHeader,
+    updateHeader
   } from '../../../../ducks/reducers/cardReducer'
 
 import '../../ProjectView.css'
@@ -25,6 +27,13 @@ class Card extends Component {
     handleHeaderEdit(e){
         this.props.handleHeader(e.target.value)
     }
+    submitHeaderEdit(e, header, id){
+        e.preventDefault()
+        this.props.updateHeader(header, id).then(response => {
+            this.setState({editOpen: false})
+            this.props.getNewCards(this.props.match.params.id)
+        })
+    }
   
   render() {
       console.log(this.props)
@@ -38,7 +47,9 @@ class Card extends Component {
             <h2 className='cardHeader' onClick={() => this.openHeaderEdit(this.props.card.id, this.props.card.title)}>{this.props.card.title}</h2>
         }
         {this.state.editOpen === true && this.props.editHeaderID === this.props.card.id &&
-            <input className='editHeader' value={this.props.header} onChange={e => this.handleHeaderEdit(e)}></input>
+            <form onSubmit={e => this.submitHeaderEdit(e, this.props.header, this.props.card.id)}>
+                <input className='editHeader' value={this.props.header} onChange={e => this.handleHeaderEdit(e)}></input>
+            </form>
         }
       </div>
     );
@@ -49,4 +60,4 @@ const mapStateToProps = state => {
     return state.cardReducer;
   };
   
-  export default connect(mapStateToProps, { editCardHeader, handleHeader })(Card);
+  export default withRouter(connect(mapStateToProps, { editCardHeader, handleHeader, updateHeader })(Card));

@@ -263,6 +263,10 @@ app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
 
 app.post('/api/editTask', tasksController.editTask)
 app.post('/api/deleteTask', tasksController.deleteTask)
+
+///////////////////////////////////////////////////////////////////////////
+app.post('/api/updateHeader', tasksController.editCardHeader)
+
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
 

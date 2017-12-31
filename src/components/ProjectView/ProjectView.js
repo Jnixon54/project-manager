@@ -138,7 +138,7 @@ class ProjectView extends Component {
 
     const cardBox = this.props.cards.map((card, index) => {
       return (
-        <Card key={index} card={card}/>
+        <Card key={index} card={card} getNewCards={this.props.getCards2}/>
       );
     });
     return (
