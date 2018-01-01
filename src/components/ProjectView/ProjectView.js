@@ -20,7 +20,8 @@ import {
   changeEditTask,
   sendEditTask,
   deleteTask,
-  getCards2
+  getCards2,
+  getTasks
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -55,6 +56,7 @@ class ProjectView extends Component {
   componentDidMount() {
     // this.props.getCards(this.props.match.params.id)
     this.props.getCards2(this.props.match.params.id)
+    this.props.getTasks(this.props.match.params.id)
   }
 
   //METHODS HERE:
@@ -137,8 +139,10 @@ class ProjectView extends Component {
   render() {
 
     const cardBox = this.props.cards.map((card, index) => {
+      let tasks = this.props.tasks.filter(current => current.parent_card_id === card.id)
+      console.log(this.props.tasks, card)
       return (
-        <Card key={index} card={card} getNewCards={this.props.getCards2}/>
+        <Card key={index} card={card} cardTasks={tasks} getNewCards={this.props.getCards2}/>
       );
     });
     return (
@@ -230,5 +234,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2 })(ProjectView)
+  connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks })(ProjectView)
 );

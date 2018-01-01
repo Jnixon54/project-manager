@@ -73,4 +73,34 @@ module.exports = {
             })
             .catch(console.log)
     },
+    deleteAllTasks: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+
+        dbInstance.deleteAllTasks([req.params.cardID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
+    deleteCard: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+ 
+        dbInstance.deleteCard([req.params.cardID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
+    getTasks: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        
+        dbInstance.getTasks([req.params.projectID])
+            .then(response => {
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }

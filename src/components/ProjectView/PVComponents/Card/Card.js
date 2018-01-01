@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 
 import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import Task from '../Task/Task'
 
 import {
     editCardHeader,
     handleHeader,
-    updateHeader
+    updateHeader,
+    deleteCard,
+    deleteAllTasks
   } from '../../../../ducks/reducers/cardReducer'
 
 import '../../ProjectView.css'
@@ -15,14 +18,17 @@ class Card extends Component {
     constructor(props){
         super(props)
         this.state = {
-            editOpen: false
+            editOpen: false,
+            options: false
         }
         this.openHeaderEdit = this.openHeaderEdit.bind(this)
+        this.openEditOptions = this.openEditOptions.bind(this)
+        this.deleteCard = this.deleteCard.bind(this)
     }
 
     openHeaderEdit(cardID, title){
-        this.setState({editOpen: true})
-        this.props.editCardHeader(cardID, title)
+        this.setState({editOpen: !this.state.editOpen, options: false}) 
+
     }
     handleHeaderEdit(e){
         this.props.handleHeader(e.target.value)
@@ -34,6 +40,24 @@ class Card extends Component {
             this.props.getNewCards(this.props.match.params.id)
         })
     }
+
+    openEditOptions(cardID, title){
+        if(cardID === this.props.editHeaderID){
+            this.setState({options: false})
+            this.props.editCardHeader(0, '')
+        }
+        else {
+            this.setState({options: true})
+            this.props.editCardHeader(cardID, title)
+        }
+    }
+    deleteCard(cardID){
+        this.props.deleteAllTasks(cardID).then(response => {
+            this.props.deleteCard(cardID).then(resp => {
+                this.props.getNewCards(this.props.match.params.id)
+            })
+        })
+    }
   
   render() {
       console.log(this.props)
@@ -41,15 +65,43 @@ class Card extends Component {
     return (
       <div id='taskHolder'>
         {this.state.editOpen === false &&
-            <h2 className='cardHeader' onClick={() => this.openHeaderEdit(this.props.card.id, this.props.card.title)}>{this.props.card.title}</h2>
+            <div className='titleHolder'>
+                <div className='cardHeader'>
+                    {this.props.card.title}
+                    <img id='downArrow' src='http://freevector.co/wp-content/uploads/2010/10/61041-downwards-arrow-key.png' onClick={() => this.openEditOptions(this.props.card.id, this.props.card.title)}/>
+                </div>
+
+                {this.state.options === true && this.props.card.id === this.props.editHeaderID &&
+                    <div className='editOptionsBox'>
+                        <h3 onClick={ this.openHeaderEdit}>Edit</h3>
+                        <h3 onClick={() =>  this.deleteCard(this.props.card.id)}>Delete</h3>
+                    </div>
+                }
+            </div>
         }
         {this.state.editOpen === true && this.props.editHeaderID !== this.props.card.id &&
-            <h2 className='cardHeader' onClick={() => this.openHeaderEdit(this.props.card.id, this.props.card.title)}>{this.props.card.title}</h2>
+            <div className='titleHolder'>
+                <div className='cardHeader'>
+                    {this.props.card.title}
+                    <img id='downArrow' src='http://freevector.co/wp-content/uploads/2010/10/61041-downwards-arrow-key.png' onClick={() => this.openEditOptions(this.props.card.id, this.props.card.title)}/>
+                </div>
+
+                {this.state.options === true && this.props.card.id === this.props.editHeaderID &&
+                    <div className='editOptionsBox'>
+                        <h3 onClick={this.openHeaderEdit}>Edit</h3>
+                        <h3 onClick={() =>  this.deleteCard(this.props.card.id)}>Delete</h3>
+                    </div>
+                }
+            </div>
         }
         {this.state.editOpen === true && this.props.editHeaderID === this.props.card.id &&
             <form onSubmit={e => this.submitHeaderEdit(e, this.props.header, this.props.card.id)}>
-                <input className='editHeader' value={this.props.header} onChange={e => this.handleHeaderEdit(e)}></input>
+                <input className='editHeader' value={this.props.header} onChange={e => this.handleHeaderEdit(e)} />
+                <h3 onClick={this.openHeaderEdit}>Cancle</h3>
             </form>
+        }
+        {this.props.cardTasks &&
+            this.props.cardTasks.map(task => <Task task={task}/>)
         }
       </div>
     );
@@ -60,4 +112,4 @@ const mapStateToProps = state => {
     return state.cardReducer;
   };
   
-  export default withRouter(connect(mapStateToProps, { editCardHeader, handleHeader, updateHeader })(Card));
+  export default withRouter(connect(mapStateToProps, { editCardHeader, handleHeader, updateHeader, deleteAllTasks, deleteCard })(Card));

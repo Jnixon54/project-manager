@@ -8,6 +8,8 @@ const initialState = {
 const EDIT_HEADER_ID = 'EDIT_HEADER_ID'
 const HANDLE_HEADER = 'HANDLE_HEADER'
 const UPDATE_NEW_HEADER = 'UPDATE_NEW_HEADER'
+const DELETE_CARD = 'DELETE_CARD'
+const DELETE_ALL_TASKS = 'DELETE_ALL_TASKS'
 
 
 export function editCardHeader(cardID, title){
@@ -32,6 +34,19 @@ export function updateHeader(newHeader, cardID){
     }
 }
 
+export function deleteCard(cardID){
+    return {
+        type: DELETE_CARD,
+        payload: axios.delete(`http://localhost:3001/api/deleteCard/${cardID}`).then(response => response)
+    }
+}
+
+export function deleteAllTasks(cardID){
+    return {
+        type: DELETE_ALL_TASKS,
+        payload: axios.delete(`http://localhost:3001/api/deleteAllTasks/${cardID}`)
+    }
+}
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
