@@ -101,8 +101,19 @@ class Card extends Component {
             </form>
         }
         {this.props.cardTasks &&
-            this.props.cardTasks.map(task => <Task task={task}/>)
+            this.props.cardTasks.map((task, index) => <Task key={index + task} task={task}/>)
         }
+        {/* <div id={this.props.inputOpen && this.state.taskCardID === card.cardID ? 'openEditer' : 'cardTest'} onClick={this.addText}>
+
+            <form action="" onSubmit={(e) => this.handleAddTask(e, card.cardID, this.props.match.params.id)}>
+                <input  className='newCard' 
+                        onClick={() => this.newTaskSelector(card.cardID)} 
+                        name={index} 
+                        value={this.state.taskCardID === card.cardID ? this.props.newTask : ''} 
+                        onChange={this.props.taskInput} 
+                        type="text"/>
+            </form>     
+        </div> */}
       </div>
     );
   }
