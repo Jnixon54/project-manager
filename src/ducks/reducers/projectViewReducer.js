@@ -9,7 +9,6 @@ const initialState = {
   newCard: '',
   cards: [],
   newTask: '',
-  inputOpen: false,
   tasks: []
 };
 

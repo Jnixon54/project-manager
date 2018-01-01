@@ -117,9 +117,7 @@ class Task extends Component {
         this.setState({editAlert: false})
       }
     
-      newTaskSelector(cardID){
-        this.setState({taskCardID: cardID})
-      }
+      
       editHoverID(taskID){
         this.setState({hoverID: taskID})
       }

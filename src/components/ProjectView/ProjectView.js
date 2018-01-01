@@ -45,7 +45,7 @@ class ProjectView extends Component {
       let tasks = this.props.tasks.filter(current => current.parent_card_id === card.id)
       console.log(this.props.tasks, card)
       return (
-        <Card key={index} card={card} cardTasks={tasks} getNewCards={this.props.getCards2}/>
+        <Card key={index} card={card} cardTasks={tasks} getNewCards={this.props.getCards2} getNewTasks={this.props.getTasks}/>
       );
     });
     return (

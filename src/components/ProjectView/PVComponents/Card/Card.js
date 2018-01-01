@@ -9,7 +9,11 @@ import {
     handleHeader,
     updateHeader,
     deleteCard,
-    deleteAllTasks
+    deleteAllTasks,
+    selectedTaskInput,
+    taskInput,
+    addTask,
+    clearNewTask
   } from '../../../../ducks/reducers/cardReducer'
 
 import '../../ProjectView.css'
@@ -24,6 +28,7 @@ class Card extends Component {
         this.openHeaderEdit = this.openHeaderEdit.bind(this)
         this.openEditOptions = this.openEditOptions.bind(this)
         this.deleteCard = this.deleteCard.bind(this)
+
     }
 
     openHeaderEdit(cardID, title){
@@ -58,6 +63,25 @@ class Card extends Component {
             })
         })
     }
+
+    selectCard(cardID){
+        this.props.selectedTaskInput(cardID)
+    }
+
+    handleAddTask(e, cardID, projectID) {
+        
+        e.preventDefault();
+            if(this.props.newTask){
+                this.props.addTask(this.props.newTask, cardID, projectID).then(res => {
+                    this.props.clearNewTask()
+                    this.props.getNewTasks(this.props.match.params.id)
+                })
+            }
+        
+    }//done
+
+
+    
   
   render() {
       console.log(this.props)
@@ -100,8 +124,21 @@ class Card extends Component {
                 <h3 onClick={this.openHeaderEdit}>Cancle</h3>
             </form>
         }
+
         {this.props.cardTasks &&
             this.props.cardTasks.map((task, index) => <Task key={index + task} task={task}/>)
+        }
+
+        {
+            <div id='cardTest'>
+                <form onSubmit={e => this.handleAddTask(e, this.props.card.id, this.props.match.params.id)}>
+                    <input  type='text' 
+                            className='newCard' 
+                            onClick={() => this.selectCard(this.props.card.id)}
+                            onChange={this.props.taskInput} 
+                            value={this.props.taskInputID === this.props.card.id ? this.props.newTask : ''}/>
+                </form>
+            </div>
         }
         {/* <div id={this.props.inputOpen && this.state.taskCardID === card.cardID ? 'openEditer' : 'cardTest'} onClick={this.addText}>
 
@@ -123,4 +160,4 @@ const mapStateToProps = state => {
     return state.cardReducer;
   };
   
-  export default withRouter(connect(mapStateToProps, { editCardHeader, handleHeader, updateHeader, deleteAllTasks, deleteCard })(Card));
+  export default withRouter(connect(mapStateToProps, { editCardHeader, handleHeader, updateHeader, deleteAllTasks, deleteCard, selectedTaskInput, taskInput, addTask, clearNewTask })(Card));
