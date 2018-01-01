@@ -1,0 +1,1 @@
+SELECT * FROM cards WHERE parent_project_id = $1 ORDER BY id

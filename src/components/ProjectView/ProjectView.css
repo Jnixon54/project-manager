@@ -20,14 +20,37 @@
     margin-right: 10px;
   }
   .cardHeader{
-    width: 230px;
+    width: 210px;
     height: 50px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 10px;
     align-items: center;
     background: lightgray;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+  }
+  .editHeader{
+    height: 50px;
+    width: 210px;
+    padding: 0 10px;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid lightgray;
+    background-color: gray;
+    font-size: 25px;
+  }
+
+  .editOptionsBox{
+    width: 150px;
+    background: blue;
+    position: absolute;
+    z-index: 20;
+    right: -120px;
+    bottom: -25px
   }
   #card{
     width: 230px;
@@ -205,7 +228,15 @@
     display: block
   }
   
-  
+  .titleHolder {
+    position: relative;
+    display: flex;
+    justify-content: space-between
+  }
+  #downArrow {
+    width: 20px;
+    height: 20px
+  }
   
   h1{
     margin: 0

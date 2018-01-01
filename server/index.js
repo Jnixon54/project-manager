@@ -259,9 +259,17 @@ app.post('/api/addProject', projectsController.addProject);
 app.post('/api/newCard', tasksController.addNewCard)
 app.post('/api/newTask', tasksController.addNewTask)
 app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
+app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
 
+app.get('/api/getAllTasks/:projectID', tasksController.getTasks)
 app.post('/api/editTask', tasksController.editTask)
 app.post('/api/deleteTask', tasksController.deleteTask)
+
+///////////////////////////////////////////////////////////////////////////
+app.post('/api/updateHeader', tasksController.editCardHeader)
+app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
+app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
+
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
 
