@@ -160,7 +160,7 @@ export function deleteTask(taskID){
 export function memberSearch(user){
     return {
       type: MEMBER_SEARCH,
-      payload: axios.post('http://localhost:3001/api/memberSearch', {userName: user.toLowerCase() + '%'}).then(response => {
+      payload: axios.post('http://localhost:3001/api/memberSearch', {userName: user + '%'}).then(response => {
                 return response.data;
       })
     }

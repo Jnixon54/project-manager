@@ -269,7 +269,7 @@
     z-index: 20;
     position: absolute;
     top: 25px;
-    width: 100%
+    width: 100%;
   }
   .returnedUsers:hover {
     background: rgb(237, 237, 237);

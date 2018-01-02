@@ -47,7 +47,7 @@ class ProjectView extends Component {
     if(e.target.value.length > 2){
     this.props.memberSearch(e.target.value)
     } else{
-      this.props.memberSearch("[]")
+      this.props.memberSearch()
     }
   }
 
@@ -60,11 +60,26 @@ class ProjectView extends Component {
         <Card key={index} card={card} cardTasks={tasks} getNewCards={this.props.getCards2} getNewTasks={this.props.getTasks}/>
       );
     });
+    const filteredUsers = 
+    this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.username === curr.username));
+            
+      // for(let i = 0; i < this.props.members.length; i++){
+      //        if (curr.username !== this.props.members[i].username){
+      //          return false
+      //        }else{
+      //          continue;
+      //        }
+      //       })
 
-    const getUsers = this.props.searchedUser.map((currUser, ind) => {
-    return <h4 key={ind} className="returnedUsers" onClick={() => this.props.addGroupMember(currUser.id, this.props.match.params.id)}>{currUser.username}</h4>
+
+console.log(filteredUsers, "This is what Shitty Code looks like boys!", this.props.members)
+    const getUsers = filteredUsers.map((currUser, ind) => {
+      console.log(currUser);
+        return (
+        <h4 key={ind} 
+        onClick={() => this.props.addGroupMember(currUser.id, this.props.match.params.id)}>
+        {currUser.username}</h4>)
       })
-console.log(this.props.members)
     return (
       <div>
         <Header />
@@ -74,7 +89,11 @@ console.log(this.props.members)
         <div className="searchedUsers">
         <input type="text" onChange={this.memberSearchWorkAround} />
 
-        {this.props.searchedUser[0] && getUsers }
+        {this.props.searchedUser && 
+          <div className='returnedUsers'>
+            {getUsers }
+          </div>
+        }
         </div>
         </div>
           <div id='cardHolder'>
