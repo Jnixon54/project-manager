@@ -78,7 +78,7 @@ class ProjectView extends Component {
         <div className="projectInfo">
         <h2>{this.props.match.params.title}</h2>
         <div className="searchedUsers">
-        <input type="text" onBlur={() => this.props.memberSearch()} onChange={this.memberSearchWorkAround} />
+        <input type="text" onChange={this.memberSearchWorkAround} />
 
         {this.props.searchedUser && 
           <div className='returnedUsersBox'>

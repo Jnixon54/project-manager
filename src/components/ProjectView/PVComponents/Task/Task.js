@@ -182,8 +182,8 @@ class Task extends Component {
                 {this.state.assignModel === true &&
                       <div style={{width: '100%'}}>
                         {this.props.members && this.props.members.map(member => {
+                          console.log(member,"member!!!!!!!!!!!!!!!!!!")
                           const assignedUser = this.props.assignedTasks.filter(task => task.task_id === this.props.task.task_id)
-                          console.log('assignedUser', assignedUser, member.id)
                           return (
                           
                           <h4 className="teamMembers"
