@@ -14,9 +14,9 @@ const Login = (props) => (
 )
 
 const Profile = () => {
-  <div>
-
-  </div>
+  return (
+    <div style={{'width': '60px'}}></div>
+  )
 }
 
 const HeaderMenu = (props) => {
@@ -24,6 +24,7 @@ const HeaderMenu = (props) => {
     <Switch>
       <Route exact path="/" render={() => (<Login toggleModal={props.toggleModal}
                                                       modalOpen={props.modalOpen}/>)} />
+      <Route path="/" component={Profile} />
     </Switch>
   )
 }

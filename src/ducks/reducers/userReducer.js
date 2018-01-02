@@ -72,7 +72,7 @@ export function onSubmitRegister(username, password) {
       username: username,
       password: password
     })
-    .then(response => console.log(response))
+    .then(response => response.data)
   };
 }
 
