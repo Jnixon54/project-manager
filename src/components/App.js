@@ -8,6 +8,7 @@ import ProjectView from './ProjectView/ProjectView';
 import SettingView from './SettingView/SettingView';
 
 import Settings from './SettingView/Settings/Settings';
+import Popup from './SettingView/Settings/Popup/Popup';
 
 export default class App extends Component {
   render() {
@@ -22,7 +23,19 @@ export default class App extends Component {
             render={() => (
               <SettingView>
                 <Switch>
-                  <Route path="/SettingView/Settings" component={Settings} />
+                  <Route
+                    path="/SettingView/Settings"
+                    render={() => (
+                      <Settings>
+                        <Switch>
+                          <Route
+                            path="/SettingView/Settings/Popup"
+                            component={Popup}
+                          />
+                        </Switch>
+                      </Settings>
+                    )}
+                  />
                 </Switch>
               </SettingView>
             )}
