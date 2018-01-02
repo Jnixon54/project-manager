@@ -7,8 +7,6 @@ import Dashboard from './Dashboard/Dashboard';
 import ProjectView from './ProjectView/ProjectView';
 import SettingView from './SettingView/SettingView';
 
-import Cards from './SettingView/Cards/Cards';
-import Profile from './SettingView/Profile/Profile';
 import Settings from './SettingView/Settings/Settings';
 
 export default class App extends Component {
@@ -24,8 +22,6 @@ export default class App extends Component {
             render={() => (
               <SettingView>
                 <Switch>
-                  <Route path="/SettingView/Cards" component={Cards} />
-                  <Route path="/SettingView/Profile" component={Profile} />
                   <Route path="/SettingView/Settings" component={Settings} />
                 </Switch>
               </SettingView>

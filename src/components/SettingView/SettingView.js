@@ -16,12 +16,6 @@ export default class SettingView extends Component {
         <br />
         <br />
         <div>
-          <Link className="links" to="/SettingView/Cards">
-            Cards
-          </Link>
-          <Link className="links" to="/SettingView/Profile">
-            Profile
-          </Link>
           <Link className="links" to="/SettingView/Settings">
             Settings
           </Link>
