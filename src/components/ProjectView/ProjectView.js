@@ -11,7 +11,11 @@ import {
   addCard,
   getCards2,
   getTasks,
-  cardInput
+  cardInput,
+  memberSearch,
+  addGroupMember,
+  groupMembers,
+  getAssignedTasks
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -20,11 +24,14 @@ class ProjectView extends Component {
 
     //BINDING METHODS
     this.addCard = this.addCard.bind(this)
+    this.memberSearchWorkAround = this.memberSearchWorkAround.bind(this)
   }
   
   componentDidMount(){
     this.props.getCards2(this.props.match.params.id)
     this.props.getTasks(this.props.match.params.id)
+    this.props.groupMembers(this.props.match.params.id)
+    this.props.getAssignedTasks(this.props.match.params.id)
   }
 
   addCard(e) {
@@ -38,21 +45,48 @@ class ProjectView extends Component {
     }
   }//done
 
+  memberSearchWorkAround(e){
+    if(e.target.value.length > 2){
+    this.props.memberSearch(e.target.value)
+    } else{
+      this.props.memberSearch()
+    }
+  }
+
 
   render() {
-
+    console.log(this.props.assignedTasks, 'taskARR')
     const cardBox = this.props.cards.map((card, index) => {
       let tasks = this.props.tasks.filter(current => current.parent_card_id === card.id)
-      console.log(this.props.tasks, card)
       return (
         <Card key={index} card={card} cardTasks={tasks} getNewCards={this.props.getCards2} getNewTasks={this.props.getTasks}/>
       );
     });
+    const filteredUsers = 
+    this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.username === curr.username));
+
+    const getUsers = filteredUsers.map((currUser, ind) => {
+        return (
+        <h4 key={ind} className="returnedUsers"
+        onClick={() => this.props.addGroupMember(currUser.id, this.props.match.params.id)}>
+        {currUser.username}</h4>)
+      })
     return (
       <div>
         <Header />
         <div id='projectBody'>
-        
+        <div className="projectInfo">
+        <h2>{this.props.match.params.title}</h2>
+        <div className="searchedUsers">
+        <input type="text" onBlur={() => this.props.memberSearch()} onChange={this.memberSearchWorkAround} />
+
+        {this.props.searchedUser && 
+          <div className='returnedUsersBox'>
+            {getUsers }
+          </div>
+        }
+        </div>
+        </div>
           <div id='cardHolder'>
             {this.props.cards.length > 0 &&
               cardBox
@@ -74,5 +108,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput })(ProjectView)
+  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks })(ProjectView)
 );

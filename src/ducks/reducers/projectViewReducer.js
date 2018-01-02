@@ -9,7 +9,9 @@ const initialState = {
   newCard: '',
   cards: [],
   newTask: '',
-  tasks: []
+  tasks: [],
+  searchedUser: [],
+  members: []
 };
 
 
@@ -39,7 +41,13 @@ const SEND_EDITTASK = 'SEND_EDITTASK'
 const DELETE_TASK = 'DELETE_TASK'
 
 const GET_TASKS = 'GET_TASKS'
+const MEMBER_SEARCH = 'MEMBER_SEARCH'
+const ADD_GROUP_MEMBER = 'ADD_GROUP_MEMBER'
+const GROUP_MEMBERS = 'GROUP_MEMBER'
 
+const ASSIGN_TO_TASK = 'ASSIGN_TO_TASK'
+const GET_ASSIGNED_TASKS = 'ASSIGNED_TASKS'
+const REMOVE_USER_FROM_TASK = 'REMOVE_USER_FROM_TASK'
 
 
 
@@ -152,8 +160,46 @@ export function deleteTask(taskID){
     payload: axios.post('http://localhost:3001/api/deleteTask', {taskID})
   }
 }
+export function memberSearch(user){
+    return {
+      type: MEMBER_SEARCH,
+      payload: axios.post('http://localhost:3001/api/memberSearch', {userName: user + '%'}).then(response => {
+                return response.data;
+      })
+    }
+}
+export function addGroupMember(userId, projectId){
+  return {
+    type: ADD_GROUP_MEMBER,
+    payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)})
+  }
+}
+export function groupMembers(projectId){
+  return {
+    type: GROUP_MEMBERS,
+    payload: axios.get(`http://localhost:3001/api/groupMembers/${projectId}`).then(response => response.data)
+  }
+}
 
+export function assignToTask(taskID, userID, projectID) {
+  return {
+    type: ASSIGN_TO_TASK,
+    payload: axios.post('http://localhost:3001/api/assignToTask', {taskID, userID, projectID})
+  }
+}
 
+export function getAssignedTasks(projectID) {
+  return {
+    type: GET_ASSIGNED_TASKS,
+    payload: axios.get(`http://localhost:3001/api/assignedTasks/${projectID}`).then(response => response.data)
+  }
+}
+export function removeUserFromTask(memberID, taskID) {
+  return {
+    type: REMOVE_USER_FROM_TASK,
+    payload: axios.delete(`http://localhost:3001/api/removeUserTask/${memberID}/${taskID}`).then(response => response.data)
+  }
+}
 
 
 
@@ -164,7 +210,6 @@ export function deleteTask(taskID){
 // }
 
 export function increaseCount(data) {
-  console.log('DATA', data)
   if (data.processed) {
     return {
       type: INCREASE_COUNT,
@@ -198,12 +243,10 @@ export default function reducer(state = initialState, action) {
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
       return Object.assign({}, state, { isLoading: true })
     case ALL_CARDS + '_FULFILLED':
-      console.log('card Payload', action.payload)
         let testVar = action.payload
         let finalArr = []
   
         function makeItWork(array) {
-          console.log(array)
           let newArr = array
           let tasksArr = []
           let tasksObj = { task: '', taskID: '' }
@@ -235,18 +278,15 @@ export default function reducer(state = initialState, action) {
               tasksArr.push(tasksObj)
             }
   
-            console.log(finalArr, "Check here")
             obj.tasks = tasksArr.sort((a,b) => {return a.taskID - b.taskID})
             tasksArr = []
             finalArr.push(obj)
           }
-          console.log("CHECKOUT YOUR FINALARR HERE ", finalArr)
           return finalArr
   
   
         }
         makeItWork(testVar)
-        console.log(finalArr)
         return Object.assign({}, state, { cards: finalArr, newCard: '', isLoading: false, newTask: '' });
 
     case CARD_INPUT://adding cards
@@ -255,7 +295,6 @@ export default function reducer(state = initialState, action) {
 
 
     case TASK_INPUT://adding tasks to cards
-      console.log(action.payload)
       return Object.assign({}, state, { newTask: action.payload.value, cardID: action.payload.name });
     case GET_TASKS + '_PENDING':
         return Object.assign({}, state, { isLoading: true});
@@ -273,8 +312,19 @@ export default function reducer(state = initialState, action) {
 
 
     case INCREASE_COUNT:
-      console.log('REDUCER PAYLOAD', action.payload)
       return { ...state, count: action.payload }
+   case MEMBER_SEARCH + '_FULFILLED':
+      console.log('Member Search reducer', action.payload)
+      return { ...state, searchedUser: action.payload, loading: false }
+   case ADD_GROUP_MEMBER + '_FULFILLED':
+      return { ...state, searchedUser:[] }
+   case GROUP_MEMBERS + '_FULFILLED':
+      return { ...state, members: action.payload }
+
+    case GET_ASSIGNED_TASKS + '_PENDING':
+        return { ...state, isLoading: true}
+    case GET_ASSIGNED_TASKS + '_FULFILLED':
+        return { ...state, isLoading: false, assignedTasks: action.payload}
     default:
       return state;
     //in case none of the action types match, it can return the state to make sure it don't break anything.

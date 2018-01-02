@@ -103,4 +103,67 @@ module.exports = {
            })
            .catch(console.log)
     },
+    memberSearch: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        console.log(req.body.userName)
+        
+        dbInstance.memberSearch([req.body.userName])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    addMember: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        dbInstance.addMember([req.body.userId, req.body.projectId])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    groupMembers: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        dbInstance.groupMembers([req.params.projectId])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+
+    assignToTask: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        dbInstance.assignToTask([req.body.taskID, req.body.userID, req.body.projectID])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    assignedTasks: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        
+        dbInstance.assignedTasks([req.params.projectID])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    removeFromTask: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        console.log(req.params.assignID)
+        dbInstance.removeFromTask([req.params.taskID, req.params.memberID])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }
