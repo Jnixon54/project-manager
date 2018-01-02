@@ -33,6 +33,16 @@ module.exports = {
                 res.status(200).send(response)})
             .catch(console.log)
     },
+    getAllCards2: (req,res,next) => {
+        const dbInstance = req.app.get('db')
+        
+                dbInstance.getAllCards2([req.params.projectID])
+                    .then(response => {
+                        console.log(response)
+                        res.status(200).send(response)})
+                    .catch(console.log)
+    },
+
     editTask: (req, res, next) => {
         const dbInstance = req.app.get('db')
  
@@ -52,5 +62,45 @@ module.exports = {
                 res.status(200).send(response.data)
             })
             .catch(console.log)
+    },
+    editCardHeader: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+ 
+        dbInstance.editCard([req.body.newHeader, req.body.cardID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
+    deleteAllTasks: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+
+        dbInstance.deleteAllTasks([req.params.cardID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
+    deleteCard: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+ 
+ 
+        dbInstance.deleteCard([req.params.cardID])
+            .then(response => {
+                res.status(200).send(response.data)
+            })
+            .catch(console.log)
+    },
+    getTasks: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        
+        dbInstance.getTasks([req.params.projectID])
+            .then(response => {
+                res.status(200).send(response)
+           })
+           .catch(console.log)
     },
 }

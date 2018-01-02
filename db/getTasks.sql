@@ -1,0 +1,1 @@
+SELECT * FROM tasks WHERE parent_project_id = $1

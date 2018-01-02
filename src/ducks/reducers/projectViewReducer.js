@@ -9,7 +9,7 @@ const initialState = {
   newCard: '',
   cards: [],
   newTask: '',
-  inputOpen: false
+  tasks: []
 };
 
 
@@ -31,11 +31,14 @@ const OPEN_INPUT = 'OPEN_INPUT'
 const INCREASE_COUNT = 'INCREASE_COUNT';
 // const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 const ALL_CARDS = 'ALL_CARDS'
+const GET_CARDS = 'GET_CARDS'
 //edit and delete tasks
 const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
 const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
 const SEND_EDITTASK = 'SEND_EDITTASK'
 const DELETE_TASK = 'DELETE_TASK'
+
+const GET_TASKS = 'GET_TASKS'
 
 
 
@@ -78,6 +81,23 @@ export function getCards(projectID) {
     payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
 
       console.log('data', response.data)
+      return response.data
+    })
+  }
+}
+export function getCards2(projectID){
+  return {
+    type: GET_CARDS,
+    payload: axios.get(`http://localhost:3001/api/getAllCards2/${projectID}`).then(response => {
+      return response.data
+    })
+  }
+}
+export function getTasks(projectID){
+  return {
+    type: GET_TASKS,
+    payload: axios.get(`http://localhost:3001/api/getAllTasks/${projectID}`).then(response => {
+      console.log(response, 'tasks response')
       return response.data
     })
   }
@@ -170,6 +190,11 @@ export default function reducer(state = initialState, action) {
 
     //Spencer's additions\/
 
+    case GET_CARDS + '_PENDING':
+      return Object.assign({}, state, { isLoading: true })
+    case GET_CARDS + '_FULFILLED':
+      return Object.assign({}, state, { cards: action.payload, newCard: '', isLoading: false })
+
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
       return Object.assign({}, state, { isLoading: true })
     case ALL_CARDS + '_FULFILLED':
@@ -232,8 +257,10 @@ export default function reducer(state = initialState, action) {
     case TASK_INPUT://adding tasks to cards
       console.log(action.payload)
       return Object.assign({}, state, { newTask: action.payload.value, cardID: action.payload.name });
-
-
+    case GET_TASKS + '_PENDING':
+        return Object.assign({}, state, { isLoading: true});
+    case GET_TASKS + '_FULFILLED':
+        return Object.assign({}, state, { isLoading: false, tasks: action.payload});
 
 
     case OPEN_INPUT:
