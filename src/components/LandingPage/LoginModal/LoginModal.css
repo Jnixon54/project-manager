@@ -1,0 +1,19 @@
+.login-modal-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  /* z-index: 100; */
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 66px);
+  background-color: rgba(0, 0, 0, 0.201);
+  transition: all .5s linear;
+}
+
+.login-modal {
+  margin-top: 5vh;
+  width: 40vw;
+  height: 60vh;
+  background-color: rgb(242, 242, 242);
+  border-radius: 5px;
+}

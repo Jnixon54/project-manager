@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import {
-  updateUserInputField,
-  updatePasswordInputField,
-  onSubmitRegister,
-  onSubmitLogin
-} from '../../ducks/reducers/userReducer';
 
 import './LandingPage.css';
 import Header from '../Header/Header';
@@ -46,7 +40,7 @@ class LandingPage extends Component {
   render() {
     let animationClasses = [];
     animationClasses.push(this.state.initialAnimation ? 'after' : null);
-    console.log(animationClasses)
+
     return (
       <div className="landing-container">
         <Header id="HeaderBar">
@@ -127,17 +121,17 @@ class LandingPage extends Component {
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    count: state.projectView.count,
-    usernameInput: state.user.usernameInput,
-    passwordInput: state.user.passwordInput
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     usernameInput: state.user.usernameInput,
+//     passwordInput: state.user.passwordInput
+//   };
+// }
 
-export default connect(mapStateToProps, {
-  updateUserInputField,
-  updatePasswordInputField,
-  onSubmitRegister,
-  onSubmitLogin
-})(LandingPage);
+// export default connect(mapStateToProps, {
+//   updateUserInputField,
+//   updatePasswordInputField,
+//   onSubmitRegister,
+//   onSubmitLogin
+// })(LandingPage);
+export default LandingPage;

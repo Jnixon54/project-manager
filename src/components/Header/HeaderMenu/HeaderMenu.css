@@ -1,0 +1,26 @@
+.login-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  color: rgb(236, 246, 255);
+  margin-right: 10px;
+  cursor: pointer;
+  /* background-color: salmon; */
+}
+
+.burger-bar {
+  width: 80%;
+  height: 8%;
+  background-color: rgb(236, 246, 255);
+  margin: 3px;
+  border-radius: 1px;
+}
+
+.login-button:hover .burger-bar{
+  background-color: rgb(126,214,241);
+}
+
