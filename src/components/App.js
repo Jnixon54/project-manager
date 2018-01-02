@@ -18,7 +18,7 @@ export default class App extends Component {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/Dashboard" component={Dashboard} />
-          <Route path="/ProjectView/:id" component={ProjectView} />
+          <Route path="/ProjectView/:id/:title" component={ProjectView} />
           <Route
             path="/SettingView"
             render={() => (

@@ -103,4 +103,24 @@ module.exports = {
            })
            .catch(console.log)
     },
+    memberSearch: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        console.log(req.body.userName)
+        
+        dbInstance.memberSearch([req.body.userName])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    addMember: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        dbInstance.addMember([req.body.userId, req.body.projectId])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }
