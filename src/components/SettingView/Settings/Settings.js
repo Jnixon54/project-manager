@@ -61,6 +61,7 @@ export default class Settings extends Component {
           <Link to="/SettingView/Settings/Popup">
             <li>Change Name, initial, or Bio...</li> {this.props.children}
           </Link>
+          <br />
           <li>
             Change Avatar:
             <ImageUploader
@@ -83,15 +84,26 @@ export default class Settings extends Component {
             </button>
           </li>
           <li>Change Email</li>
-          <li>Change Password</li>
-          <li>Change Language</li>
-          <h3>Credentials</h3>
           <label>
             Primary email:
             <input type="text" name="email" />
           </label>
           <br />
           <button>Add a new email address</button>
+          <li>Change Password</li>
+          <label>
+            Password:
+            <input type="text" name="password" />
+          </label>
+          <br />
+          <button>Change Password</button>
+          <li>Change Language</li>
+          <label>
+            Language:
+            <input type="text" name="language" />
+          </label>
+          <br />
+          <button>Change Language</button>
         </div>
         {/* {this.state.showPopup ? (
           <Popup text="Close Me" closePopup={this.togglePopup.bind(this)} />
