@@ -45,6 +45,9 @@ const MEMBER_SEARCH = 'MEMBER_SEARCH'
 const ADD_GROUP_MEMBER = 'ADD_GROUP_MEMBER'
 const GROUP_MEMBERS = 'GROUP_MEMBER'
 
+const ASSIGN_TO_TASK = 'ASSIGN_TO_TASK'
+const GET_ASSIGNED_TASKS = 'ASSIGNED_TASKS'
+const REMOVE_USER_FROM_TASK = 'REMOVE_USER_FROM_TASK'
 
 
 
@@ -178,8 +181,25 @@ export function groupMembers(projectId){
   }
 }
 
+export function assignToTask(taskID, userID, projectID) {
+  return {
+    type: ASSIGN_TO_TASK,
+    payload: axios.post('http://localhost:3001/api/assignToTask', {taskID, userID, projectID})
+  }
+}
 
-
+export function getAssignedTasks(projectID) {
+  return {
+    type: GET_ASSIGNED_TASKS,
+    payload: axios.get(`http://localhost:3001/api/assignedTasks/${projectID}`).then(response => response.data)
+  }
+}
+export function removeUserFromTask(memberID, taskID) {
+  return {
+    type: REMOVE_USER_FROM_TASK,
+    payload: axios.delete(`http://localhost:3001/api/removeUserTask/${memberID}/${taskID}`).then(response => response.data)
+  }
+}
 
 
 
@@ -300,6 +320,11 @@ export default function reducer(state = initialState, action) {
       return { ...state, searchedUser:[] }
    case GROUP_MEMBERS + '_FULFILLED':
       return { ...state, members: action.payload }
+
+    case GET_ASSIGNED_TASKS + '_PENDING':
+        return { ...state, isLoading: true}
+    case GET_ASSIGNED_TASKS + '_FULFILLED':
+        return { ...state, isLoading: false, assignedTasks: action.payload}
     default:
       return state;
     //in case none of the action types match, it can return the state to make sure it don't break anything.

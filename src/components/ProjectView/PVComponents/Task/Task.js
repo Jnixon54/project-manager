@@ -17,7 +17,10 @@ import {
   sendEditTask,
   deleteTask,
   getCards2,
-  getTasks
+  getTasks,
+  assignToTask,
+  getAssignedTasks,
+  removeUserFromTask
 } from '../../../../ducks/reducers/projectViewReducer';
 
 class Task extends Component {
@@ -32,7 +35,8 @@ class Task extends Component {
           newChore: '',
           coolInput: false,
           deleteTaskTask: 0,
-          editAlert: false
+          editAlert: false,
+          assignModel: false
         };
     
         //BINDING METHODS
@@ -46,6 +50,9 @@ class Task extends Component {
         this.closeEditModal = this.closeEditModal.bind(this)
         this.sendEdit = this.sendEdit.bind(this)
         this.handleDeleteTask = this.handleDeleteTask.bind(this)
+        this.openAssign = this.openAssign.bind(this)
+        this.assigningOfTasks = this.assigningOfTasks.bind(this)
+        this.removeFromTasks = this.removeFromTasks.bind(this)
       }
     
     
@@ -98,7 +105,7 @@ class Task extends Component {
         this.props.openEditTask(taskID, task)
       }
       closeEditModal(){
-        this.setState({editAlert: false})
+        this.setState({editAlert: false, assignModel: false})
       }
       sendEdit(e, taskID, task){
     
@@ -121,9 +128,22 @@ class Task extends Component {
       editHoverID(taskID){
         this.setState({hoverID: taskID})
       }
+
+      openAssign(){
+        this.setState({assignModel: !this.state.assignModel})
+      }
+
+      assigningOfTasks(taskID, userID, projectID){
+        this.props.assignToTask(taskID, userID, projectID).then(() => 
+        this.props.getAssignedTasks(this.props.match.params.id))
+      }
+      removeFromTasks(memberID, taskID){
+        this.props.removeUserFromTask(memberID, taskID).then(() => 
+        this.props.getAssignedTasks(this.props.match.params.id))
+      }
   
   render() {
-      
+    
     return (
         <div>
             {!this.state.editAlert && this.props.task.task_id &&
@@ -153,11 +173,29 @@ class Task extends Component {
                         <input type='text' className='newCard' onChange={e => this.props.changeEditTask(e)} value={this.props.editTaskTask}/>
                     </form>
                     <div className='confirmationButtons'>
-                        <h4>Assign</h4>
+                        <h4 onClick={this.openAssign}>Assign</h4>
                         <h4 onClick={() => this.handleDeleteTask(this.props.task.task_id)}>Delete</h4>
                         <h4 onClick={this.closeEditModal}>Close</h4>
                     </div>
+                    
                 </div>
+                {this.state.assignModel === true &&
+                      <div style={{width: '100%'}}>
+                        {this.props.members && this.props.members.map(member => {
+                          const assignedUser = this.props.assignedTasks.filter(task => task.task_id === this.props.task.task_id)
+                          console.log('assignedUser', assignedUser, member.id)
+                          return (
+                          
+                          <h4 className="teamMembers"
+                          style={assignedUser.find(currentID => currentID.user_id === member.id)  ? {background: 'white'} : {background: 'blue'}}
+                          onClick={
+                            assignedUser.find(currentID => currentID.user_id === member.id) ? 
+                            () => this.removeFromTasks(member.id, this.props.task.task_id): 
+                            () => this.assigningOfTasks(this.props.task.task_id, member.id, this.props.match.params.id)}>
+                          {member.username}</h4>)
+                        })}
+                      </div>
+                    }
             </div>
             }
         </div>
@@ -171,5 +209,5 @@ const mapStateToProps = state => {
   };
   
   export default withRouter(
-    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks })(Task)
+    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask })(Task)
   );

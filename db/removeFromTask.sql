@@ -1,0 +1,1 @@
+DELETE FROM task_users WHERE task_id = $1 AND user_id = $2

@@ -28,7 +28,7 @@ class Card extends Component {
         this.openHeaderEdit = this.openHeaderEdit.bind(this)
         this.openEditOptions = this.openEditOptions.bind(this)
         this.deleteCard = this.deleteCard.bind(this)
-
+        this.closeEditOptions = this.closeEditOptions.bind(this)
     }
 
     openHeaderEdit(cardID, title){
@@ -55,6 +55,9 @@ class Card extends Component {
             this.setState({options: true})
             this.props.editCardHeader(cardID, title)
         }
+    }
+    closeEditOptions(){
+        this.setState({options: false})
     }
     deleteCard(cardID){
         this.props.deleteAllTasks(cardID).then(response => {

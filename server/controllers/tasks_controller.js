@@ -133,4 +133,37 @@ module.exports = {
            })
            .catch(console.log)
     },
+
+    assignToTask: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        dbInstance.assignToTask([req.body.taskID, req.body.userID, req.body.projectID])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    assignedTasks: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        
+        dbInstance.assignedTasks([req.params.projectID])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    removeFromTask: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        console.log(req.params.assignID)
+        dbInstance.removeFromTask([req.params.taskID, req.params.memberID])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }
