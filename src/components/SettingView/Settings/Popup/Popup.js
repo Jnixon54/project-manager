@@ -18,22 +18,28 @@ class Popup extends Component {
       <div className="popup">
         {/* <h1> Form </h1> */}
         <form>
-          <label>
-            Full Name:
-            <input type="text" name="name" />
-          </label>
+          <div className="changeForm">
+            <h3>Change Name and Bio</h3>
+            <label>
+              Full Name:
+              <input type="text" name="name" />
+            </label>
+            <br />
 
-          <label>
-            User Name:
-            <input type="text" name="username" />
-          </label>
+            <label>
+              User Name:
+              <input type="text" name="username" />
+            </label>
+            <br />
 
-          <label>
-            Bio:
-            <input type="text" name="bio" />
-          </label>
+            <label>
+              Bio:
+              <input type="text" name="bio" />
+            </label>
+            <br />
 
-          <input type="submit" value="Save" />
+            <input type="submit" value="Save" />
+          </div>
         </form>
       </div>
     );

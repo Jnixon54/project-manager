@@ -41,6 +41,7 @@ export default class Settings extends Component {
             Primary email:
             <input type="text" name="email" />
           </label>
+          <br />
           <button>Add a new email address</button>
         </div>
         {/* {this.state.showPopup ? (
