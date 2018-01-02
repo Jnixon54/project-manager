@@ -123,4 +123,14 @@ module.exports = {
            })
            .catch(console.log)
     },
+    groupMembers: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        dbInstance.groupMembers([req.params.projectId])
+            .then(response => {
+                console.log(response);
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }

@@ -266,6 +266,7 @@ app.post('/api/editTask', tasksController.editTask)
 app.post('/api/deleteTask', tasksController.deleteTask)
 app.post('/api/memberSearch', tasksController.memberSearch)
 app.post('/api/addMember', tasksController.addMember)
+app.get('/api/groupMembers/:projectId', tasksController.groupMembers)
 
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)

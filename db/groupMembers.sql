@@ -1,0 +1,1 @@
+SELECT * FROM project_users JOIN users ON users.id = project_users.user_id WHERE project_id = $1 

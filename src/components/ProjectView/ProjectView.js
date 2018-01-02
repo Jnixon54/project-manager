@@ -13,7 +13,8 @@ import {
   getTasks,
   cardInput,
   memberSearch,
-  addGroupMember
+  addGroupMember,
+  groupMembers
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -28,6 +29,7 @@ class ProjectView extends Component {
   componentDidMount(){
     this.props.getCards2(this.props.match.params.id)
     this.props.getTasks(this.props.match.params.id)
+    this.props.groupMembers(this.props.match.params.id)
   }
 
   addCard(e) {
@@ -44,7 +46,7 @@ class ProjectView extends Component {
   memberSearchWorkAround(e){
     if(e.target.value.length > 2){
     this.props.memberSearch(e.target.value)
-    } else {
+    } else{
       this.props.memberSearch("[]")
     }
   }
@@ -59,12 +61,10 @@ class ProjectView extends Component {
       );
     });
 
-
-
-
-   const getUsers = this.props.searchedUser.map((currUser, ind) => {
+    const getUsers = this.props.searchedUser.map((currUser, ind) => {
     return <h4 key={ind} className="returnedUsers" onClick={() => this.props.addGroupMember(currUser.id, this.props.match.params.id)}>{currUser.username}</h4>
       })
+console.log(this.props.members)
     return (
       <div>
         <Header />
@@ -98,5 +98,5 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember })(ProjectView)
+  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers })(ProjectView)
 );

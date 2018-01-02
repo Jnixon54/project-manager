@@ -10,7 +10,8 @@ const initialState = {
   cards: [],
   newTask: '',
   tasks: [],
-  searchedUser: []
+  searchedUser: [],
+  members: []
 };
 
 
@@ -42,6 +43,7 @@ const DELETE_TASK = 'DELETE_TASK'
 const GET_TASKS = 'GET_TASKS'
 const MEMBER_SEARCH = 'MEMBER_SEARCH'
 const ADD_GROUP_MEMBER = 'ADD_GROUP_MEMBER'
+const GROUP_MEMBERS = 'GROUP_MEMBER'
 
 
 
@@ -169,6 +171,12 @@ export function addGroupMember(userId, projectId){
     payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)})
   }
 }
+export function groupMembers(projectId){
+  return {
+    type: GROUP_MEMBERS,
+    payload: axios.get(`http://localhost:3001/api/groupMembers/${projectId}`).then(response => response.data)
+  }
+}
 
 
 
@@ -290,6 +298,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, searchedUser: action.payload, loading: false }
    case ADD_GROUP_MEMBER + '_FULFILLED':
       return { ...state, searchedUser:[] }
+   case GROUP_MEMBERS + '_FULFILLED':
+      return { ...state, members: action.payload }
     default:
       return state;
     //in case none of the action types match, it can return the state to make sure it don't break anything.
