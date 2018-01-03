@@ -3,9 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  width: 50px;
-  text-align: center;
+  height: 40px;
+  width: 40px;
   color: rgb(236, 246, 255);
   margin-right: 10px;
   cursor: pointer;
@@ -14,12 +13,12 @@
 
 .burger-bar {
   width: 80%;
-  height: 8%;
+  height: 10%;
   /* background-color: rgb(236, 246, 255); */
   /* background-color: rgb(254, 0, 47); */
   background-color: rgb(14, 31, 45);
-  margin: 3px;
-  border-radius: 1px;
+  margin: 2px;
+  border-radius: 2px;
 }
 
 .login-button:hover .burger-bar{
