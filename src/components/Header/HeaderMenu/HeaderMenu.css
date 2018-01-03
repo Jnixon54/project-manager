@@ -15,7 +15,9 @@
 .burger-bar {
   width: 80%;
   height: 8%;
-  background-color: rgb(236, 246, 255);
+  /* background-color: rgb(236, 246, 255); */
+  /* background-color: rgb(254, 0, 47); */
+  background-color: rgb(14, 31, 45);
   margin: 3px;
   border-radius: 1px;
 }

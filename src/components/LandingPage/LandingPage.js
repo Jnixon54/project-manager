@@ -45,7 +45,8 @@ class LandingPage extends Component {
       <div className="landing-container">
         <Header id="HeaderBar">
         </Header>
-        <div className="container">
+        <div className="container welcome-container">
+          <div className="big-landing-text">Group<span>i</span><span>i</span></div>
           <div className="welcome-content">
             <div className="welcome-text">
               <div className={"welcome-box create " + animationClasses.join(' ')} id="create">
