@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import axios from 'axios'
+
 import { withRouter } from 'react-router-dom';
 import '../../ProjectView.css'
 import { connect } from 'react-redux';
@@ -28,13 +30,15 @@ import {
   getTasks,
   assignToTask,
   getAssignedTasks,
-  removeUserFromTask
+  removeUserFromTask,
+  dragTask
 } from '../../../../ducks/reducers/projectViewReducer';
 
 const cardSource = {
   beginDrag(props) {
       return {
-          name: props.task.content
+          name: props.task.content,
+          id: props.task.task_id
       }
   },
 
@@ -44,7 +48,10 @@ const cardSource = {
       console.log(dropResult, item)
 
       if (dropResult) {
-          window.alert('You Dropped ' + item.name + ' into ' + dropResult.name)
+        props.dragTask(item.id, dropResult.id).then(() => {
+          
+          props.getTasks(props.match.params.id)
+        })
       }
   }
 }
@@ -257,5 +264,5 @@ const mapStateToProps = state => {
 Task = DragSource(ItemTypes.CARD, cardSource, collect)(Task)
 
   export default withRouter(
-    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask })(Task)
+    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask, dragTask })(Task)
   );

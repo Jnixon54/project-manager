@@ -30,7 +30,7 @@ import '../../ProjectView.css'
 const cardTarget = {
     drop(props) {
         console.log('title', props.card.title)
-        return { name: props.card.title}
+        return { name: props.card.title, id: props.card.id}
     }
 }
 function collect(connect, monitor) {
