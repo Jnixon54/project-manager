@@ -16,8 +16,16 @@ module.exports = {
   },
   addProject: (req, res, next) => {
     const dbInstance = req.app.get('db');
+    console.log(req.body.projectTitle, req.body.id);
     dbInstance
       .addProject([req.body.projectTitle, req.body.id])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+  },
+  getTeamProjects: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance
+      .getTeamProjects([req.body.id])
       .then(response => res.status(200).send(response))
       .catch(err => console.log(err));
   }
