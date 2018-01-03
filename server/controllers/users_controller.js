@@ -30,6 +30,7 @@ module.exports = {
         }
       });
   },
+
   // login: (req, res, next) => {
   //   const db = req.app.get('db');
   //   req.session.user = {};
@@ -61,7 +62,35 @@ module.exports = {
     console.log('User logged out: ', req.session.passport.user);
     req.session.destroy();
     res.redirect('/');
+  },
+  updateDisplayName: (req, res) => {
+    const userId = req.session.user.id;
+    const dbInstance = req.app.get('db');
+    db.sqlQuesry([userId, req.body.newdisplayName].then().catch(err => console.log(err))
+  },
+
+  updateUserName: (req, res) => {
+    const userId = req.session.user.id;
+    const dbInstance = req.app.get('db');
+    db.sqlQuesry([userId, req.body.newUserName].then().catch(err => console.log(err))
+  },
+  updateFullName: (req, res) => {
+    const userId = req.session.user.id;
+    const dbInstance = req.app.get('db');
+    db.sqlQuesry([userId, req.body.newFullName].then().catch(err => console.log(err))
+  },
+  updateEmail: (req, res) => {
+    const userId = req.session.user.id;
+    const dbInstance = req.app.get('db');
+    db.sqlQuesry([userId, req.body.newUserEmail].then().catch(err => console.log(err))
+  },
+  updateBio: (req, res) => {
+    const userId = req.session.user.id;
+    const dbInstance = req.app.get('db');
+    db.sqlQuesry([userId, req.body.newUserBio].then().catch(err => console.log(err))
   }
+
+
   // ,
   // delete: (req, res, next) => {
 

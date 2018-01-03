@@ -26,19 +26,21 @@ const tasksController = require('./controllers/tasks_controller');
 const socket = require('./socketServer');
 
 const app = express();
-app.use( express.static( `${__dirname}/../build` ) );
+app.use(express.static(`${__dirname}/../build`));
 app.use(bodyParser.json()); //Must come before cors
 // app.use(cors());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested With, Content-Type, Accept'
+  );
   res.header('Access-Control-Allow-Credentials', 'true');
   next();
 });
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 ///////////////////////////////////////////////////////////////////////////
 // DATABASE
@@ -87,27 +89,38 @@ passport.use(
       .then(user => {
         if (!user[0]) {
           const hashData = hashPassword.saltHashString(password);
-          db.createLocalUser([username, hashData.stringHash, hashData.salt])
-            .then((user) => {
-              console.log(`Created new user: ${user[0].id} | ${user[0].username}`)
+          db
+            .createLocalUser([username, hashData.stringHash, hashData.salt])
+            .then(user => {
+              console.log(
+                `Created new user: ${user[0].id} | ${user[0].username}`
+              );
               return done(null, user[0]);
             })
             .catch(err => {
-              console.log('Error creating and authenticating local user: ', err);
+              console.log(
+                'Error creating and authenticating local user: ',
+                err
+              );
               if (err) {
                 return done(err);
-              }})
+              }
+            });
           // return done(null, false);
         }
         if (
           user[0] &&
           user[0].password_hash !=
-          hashPassword.hash(password, user[0].salt).stringHash // salt and hashing password to compare
+            hashPassword.hash(password, user[0].salt).stringHash // salt and hashing password to compare
         ) {
-          console.log('Wrong Password!')
-          return done(null, false, {message: 'Incorrect Password'});
+          console.log('Wrong Password!');
+          return done(null, false, { message: 'Incorrect Password' });
         }
-        if (user[0] && user[0].password_hash == hashPassword.hash(password, user[0].salt).stringHash) {
+        if (
+          user[0] &&
+          user[0].password_hash ==
+            hashPassword.hash(password, user[0].salt).stringHash
+        ) {
           let userProfile = user[0];
           delete userProfile.password_hash;
           delete userProfile.salt;
@@ -230,21 +243,27 @@ app.post(
     // successRedirect: 'http://localhost:3000/dashboard',
     // failureRedirect: '/',
     failureFlash: true
-  }), (req, res) => {
-    console.log('LOGIN: ', req.user)
-    if (req.user) res.send(req.user)
-  });
+  }),
+  (req, res) => {
+    console.log('LOGIN: ', req.user);
+    if (req.user) res.send(req.user);
+  }
+);
 // app.post('/login', usersController.login, (req, res) => console.log(req.user));
 // app.post('/register', usersController.createLocalUser);
-app.post('/register', passport.authenticate('local', {
-  // successRedirect: 'http://localhost:3000/dashboard',
-  // failureRedirect: '/',
-  failureFlash: true
-}), (req, res) => {
-  console.log(req)
-  if (req.user) res.send(req.user)
-  // if (req.user) console.log('poop');
-});
+app.post(
+  '/register',
+  passport.authenticate('local', {
+    // successRedirect: 'http://localhost:3000/dashboard',
+    // failureRedirect: '/',
+    failureFlash: true
+  }),
+  (req, res) => {
+    console.log(req);
+    if (req.user) res.send(req.user);
+    // if (req.user) console.log('poop');
+  }
+);
 
 app.get('/logout', usersController.logout);
 
@@ -256,28 +275,55 @@ app.post('/api/addProject', projectsController.addProject);
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints
-app.post('/api/newCard', tasksController.addNewCard)
-app.post('/api/newTask', tasksController.addNewTask)
-app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
-app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
+app.post('/api/newCard', tasksController.addNewCard);
+app.post('/api/newTask', tasksController.addNewTask);
+app.get('/api/getAllCards/:projectID', tasksController.getAllCards);
+app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2);
 
-app.get('/api/getAllTasks/:projectID', tasksController.getTasks)
-app.post('/api/editTask', tasksController.editTask)
-app.post('/api/deleteTask', tasksController.deleteTask)
-app.post('/api/memberSearch', tasksController.memberSearch)
-app.post('/api/addMember', tasksController.addMember)
-app.get('/api/groupMembers/:projectId', tasksController.groupMembers)
-app.post('/api/assignToTask', tasksController.assignToTask)
-app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks)
-app.delete('/api/removeUserTask/:memberID/:taskID', tasksController.removeFromTask)
+app.get('/api/getAllTasks/:projectID', tasksController.getTasks);
+app.post('/api/editTask', tasksController.editTask);
+app.post('/api/deleteTask', tasksController.deleteTask);
+app.post('/api/memberSearch', tasksController.memberSearch);
+app.post('/api/addMember', tasksController.addMember);
+app.get('/api/groupMembers/:projectId', tasksController.groupMembers);
+app.post('/api/assignToTask', tasksController.assignToTask);
+app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks);
+app.delete(
+  '/api/removeUserTask/:memberID/:taskID',
+  tasksController.removeFromTask
+);
 
 ///////////////////////////////////////////////////////////////////////////
-app.post('/api/updateHeader', tasksController.editCardHeader)
-app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
-app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
+app.post('/api/updateHeader', tasksController.editCardHeader);
+app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks);
+app.delete('/api/deleteCard/:cardID', tasksController.deleteCard);
 
+///////////////////////////////////////////////////////////////////////////
+// Settings End Points
+app.post('/api/updateDisplayname',
+  (req, res) => console.log(req.session),
+  usersController.updateDisplayName
+);
 
+app.post('/api/updateUserName',
+  (req, res) => console.log(req.session),
+  usersController.updateUserName
+);
 
+app.post('/api/updateFullName',
+  (req, res) => console.log(req.session),
+  usersController.updateFullName
+);
+
+app.post('/api/updateEmail',
+  (req, res) => console.log(req.session),
+  usersController.updateEmail
+);
+
+app.post('/api/updateBio,
+  (req, res) => console.log(req.session),
+  usersController.updateBio
+);
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
@@ -287,6 +333,6 @@ const server = app.listen(PORT, () => {
 });
 
 const io = socket(server);
-app.get('*', (req, res)=>{
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
-})
+});
