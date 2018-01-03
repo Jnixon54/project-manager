@@ -49,15 +49,19 @@ class LandingPage extends Component {
           <div className="big-landing-text">Group<span>i</span><span>i</span></div>
           <div className="welcome-content">
             <div className="welcome-text">
-              <div className={"welcome-box create " + animationClasses.join(' ')} id="create">
+              <div className={"welcome-banner banner-0 " + animationClasses.join(' ')} id="banner-0">
               </div>
             </div>
             <div className="welcome-text">
-              <div className={"welcome-box collab " + animationClasses.join(' ')} id="collab">
+              <div className={"welcome-banner banner-1 " + animationClasses.join(' ')} id="banner-1">
               </div>
             </div>
             <div className="welcome-text">
-              <div className={"welcome-box complete " + animationClasses.join(' ')} id="complete">
+              <div className={"welcome-banner banner-2 " + animationClasses.join(' ')} id="banner-2">
+              </div>
+            </div>
+            <div className="welcome-text">
+              <div className={"welcome-banner banner-3 " + animationClasses.join(' ')} id="banner-3">
               </div>
             </div>
           </div>

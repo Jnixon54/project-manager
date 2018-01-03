@@ -12,6 +12,7 @@
 }
 
 .logo-text {
+  display: none;
   text-align: center;
   height: auto;
   padding: 5px 0 5px 0;
