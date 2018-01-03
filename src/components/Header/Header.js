@@ -27,6 +27,7 @@ class Header extends Component {
   }
 
   render() {
+    
     const loginModal = this.state.modalOpen ? <LoginModal/> : null;
     return (
       <div>
@@ -35,12 +36,6 @@ class Header extends Component {
           <div className="logo-text">
             Group<span>i</span><span>i</span>
           </div>
-          {/* <img
-            onClick={this.openMenu}
-            className="userImg"
-            src="https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png"
-            alt=""
-          /> */}
           <HeaderMenu toggleModal={this.toggleModal}
                       modalOpen={this.state.modalOpen}/>
           {this.state.menuOpen === true && (

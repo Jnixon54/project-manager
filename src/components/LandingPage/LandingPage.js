@@ -6,9 +6,6 @@ import axios from 'axios';
 import './LandingPage.css';
 import Header from '../Header/Header';
 
-import GooglePlusSquare from 'react-icons/lib/fa/google-plus-square';
-import FacebookSquare from 'react-icons/lib/fa/facebook-square';
-
 class LandingPage extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +22,6 @@ class LandingPage extends Component {
     this.passiveAnimationInterval = setInterval(()=> {
       this.setState({passiveAnimation: !this.state.passiveAnimation})
     }, 2000);
-    
   }
 
   componentWillUnmount() {
@@ -46,14 +42,13 @@ class LandingPage extends Component {
     console.log(this.passiveAnimationInterval)
     let animationClasses = [];
     animationClasses.push(this.state.initialAnimation ? 'after' : null);
-    animationClasses.push(this.state.passiveAnimation ? 'toggle' : null)
-
+    animationClasses.push(this.state.passiveAnimation ? 'toggle' : null);
     return (
       <div className="landing-container">
         <Header id="HeaderBar">
         </Header>
         <div className="container welcome-container">
-          <div className="big-landing-text">Group<span>i</span><span>i</span></div>
+          <div className={"big-landing-text " + animationClasses.join(' ')}>Group<span>i</span><span>i</span></div>
           <div className="welcome-content">
             <div className="welcome-text">
               <div className={"welcome-banner banner-0 " + animationClasses.join(' ')} id="banner-0">
@@ -72,78 +67,9 @@ class LandingPage extends Component {
               </div>
             </div>
           </div>
-          {/* <div className="login-form">
-            <h2 className="login">Get to work.</h2>
-            <input
-              className="input"
-              placeholder="Username"
-              onChange={e => this.props.updateUserInputField(e.target.value)}
-              value={this.props.usernameInput}
-              // type="text"
-            />
-            <input
-              className="input"
-              placeholder="Password"
-              onChange={e =>
-                this.props.updatePasswordInputField(e.target.value)
-              }
-              value={this.props.passwordInput}
-            />
-            <button
-              onClick={e => {
-                e.preventDefault();
-                this.props.onSubmitRegister(
-                  this.props.usernameInput,
-                  this.props.passwordInput
-                ).then(() => {
-                  this.props.history.push('/dashboard')
-                }).catch();
-              }}
-              type="submit"
-            >
-              Register
-            </button>
-            <button
-              className="submit"
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                this.props.onSubmitLogin(
-                  this.props.usernameInput,
-                  this.props.passwordInput
-                ).then(() => {
-                  this.props.history.push('/dashboard')
-                }).catch();}}
-            >
-              Login
-            </button>
-            <button className="login-google">
-              <a href="http://localhost:3001/auth/google">
-                <GooglePlusSquare /> Signin With Google{' '}
-              </a>
-            </button>
-            <button className="login-facebook">
-              <a href="http://localhost:3001/auth/facebook">
-                <FacebookSquare /> Signin With Facebook{' '}
-              </a>
-            </button>
-          </div> */}
         </div>
       </div>
     );
   }
 }
-// function mapStateToProps(state) {
-//   return {
-//     usernameInput: state.user.usernameInput,
-//     passwordInput: state.user.passwordInput
-//   };
-// }
-
-// export default connect(mapStateToProps, {
-//   updateUserInputField,
-//   updatePasswordInputField,
-//   onSubmitRegister,
-//   onSubmitLogin
-// })(LandingPage);
 export default LandingPage;

@@ -8,6 +8,7 @@
   color: rgb(236, 246, 255);
   margin-right: 10px;
   cursor: pointer;
+  z-index: 6;
   /* background-color: salmon; */
 }
 
@@ -22,6 +23,6 @@
 }
 
 .login-button:hover .burger-bar{
-  background-color: rgb(8, 210, 232);
+  background-color: rgb(254, 0, 47);
 }
 

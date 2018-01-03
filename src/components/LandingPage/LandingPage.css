@@ -2,10 +2,8 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  /* text-align: end; */
   width: 80%;
   max-width: 800px;
-  /* padding-top: 5vh; */
   margin: 0 auto;
   transition: height 2s linear;
   height: 20vh;
@@ -22,13 +20,9 @@
 
 .welcome-text {
   color: white;
-  /* letter-spacing: -2px; */
   line-height: 2.3vw;
   font-size: 3vw;
-  /* font-family: 'Quicksand'; */
-  /* font-family: 'Nixie One'; */
   font-family: 'Buenard';
-  /* font-weight: 400; */
   width: 24%;
 }
 
@@ -41,26 +35,32 @@
   margin-top: 11vh;
   border-radius: 5px;
   box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.15);
-  transition: height, height .7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: height .9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .big-landing-text {
   position: absolute;
-  margin-top: 90px;
+  margin-top: 40px;
   width: 90%;
   z-index: 2;
   text-align: center;
-  font-size: 220px;;
+  font-size: 180px;;
   line-height: 14vw;
   /* color: rgb(254, 0, 47); */
   color: rgb(0, 10, 34);
   font-family: 'Pacifico';
   pointer-events: none;
+  transition: font-size .9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .big-landing-text span {
   color: rgb(254, 0, 47);
   /* color: rgb(236, 246, 255); */
+
+}
+
+.big-landing-text.after {
+  font-size: 220px;
 }
 
 .banner-0 {
@@ -117,11 +117,11 @@
 }
 .banner-1.toggle {
   height: 64vh;
-  transition-delay: .5s, .4s;
+  transition-delay: .4s;
 }
 .banner-2.toggle {
   height: 38vh;
-  transition-delay: 0s, .7s;
+  transition-delay: .5s;
 }
 
 .banner-3.toggle {

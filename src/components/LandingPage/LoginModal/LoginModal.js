@@ -15,25 +15,41 @@ class LoginModal extends Component {
     return (
       <div className="login-modal-container">
         <div className="login-modal">
-          <h1>
+          <h1 id="modal-header">
             Get to work.
           </h1>
+          <div className="local-login">
           <input
-              className="input"
+              className="input login-input"
               placeholder="Username"
               onChange={e => this.props.updateUserInputField(e.target.value)}
               value={this.props.usernameInput}
-              // type="text"
           />
           <input
-              className="input"
+              className="input login-input"
               placeholder="Password"
               onChange={e =>
                 this.props.updatePasswordInputField(e.target.value)
               }
               value={this.props.passwordInput}
           />
+          <div className="login-button-container">
+            <button
+              className="login-submit-button"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                this.props.onSubmitLogin(
+                  this.props.usernameInput,
+                  this.props.passwordInput
+                ).then(() => {
+                  this.props.history.push('/dashboard')
+                }).catch();}}
+            >
+              Login
+            </button>
           <button
+              className="login-submit-button"
               onClick={e => {
                 e.preventDefault();
                 this.props.onSubmitRegister(
@@ -47,21 +63,35 @@ class LoginModal extends Component {
             >
               Register
             </button>
-            <button
-              className="submit"
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                
-                this.props.onSubmitLogin(
-                  this.props.usernameInput,
-                  this.props.passwordInput
-                ).then(() => {
-                  this.props.history.push('/dashboard')
-                }).catch();}}
-            >
-              Login
-            </button>
+            </div>
+            </div>
+            <div className="separator">
+              <span className="line">
+              </span>
+              <span>or</span>
+              <span className="line">
+              </span>
+            </div>
+            <div className="social-login">
+              <a href="http://localhost:3001/auth/google" className="social-login-button" id="google-login">
+              <div className="logo-wrapper">
+                <div id="google-logo">
+                </div>
+                <div className="social-text">
+                  Sign in with Google
+                </div>
+              </div>
+              </a>
+              <a href="http://localhost:3001/auth/facebook" className="social-login-button" id="facebook-login">
+                <div className="logo-wrapper">
+                <div id="facebook-logo">
+                </div>
+                <div className="social-text">
+                  Sign in with Facebook
+                </div>
+                </div>
+              </a>
+            </div>
         </div>
       </div>
     )
