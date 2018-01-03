@@ -298,6 +298,8 @@ app.post('/api/updateHeader', tasksController.editCardHeader);
 app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks);
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard);
 
+app.post('/api/dragTask', tasksController.dragTask)
+
 ///////////////////////////////////////////////////////////////////////////
 // Settings End Points
 app.post('/api/updateDisplayname',

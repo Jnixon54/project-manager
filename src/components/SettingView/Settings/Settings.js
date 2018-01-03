@@ -14,8 +14,8 @@ export default class Settings extends Component {
     super(props);
 
     this.state = {
-      avatarImage: [],
-      save: []
+      avatarImage: []
+      // save: []
     };
 
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -49,21 +49,25 @@ export default class Settings extends Component {
   }
 
   render() {
-    const buttonStyles = {
-      border: '5px solid pink',
-      backgroundColor: 'yellow'
-    };
+    // const buttonStyles = {
+    //   border: '5px solid pink',
+    //   backgroundColor: 'yellow'
+    // };
     return (
       <div>
         <br />
         <div className="settings">
           <h3>Account Details:</h3>
-          <li>Change Name, initial, or Bio...</li>
+          <Link to="/SettingView/Settings/Popup">
+            <li>Change Name, Username, Password, email, or Bio...</li>{' '}
+            {this.props.children}
+          </Link>
+          <br />
           <li>
             Change Avatar:
             <ImageUploader
               withIcon={true}
-              buttonStyle={buttonStyles}
+              // buttonStyle={buttonStyles}
               buttonText="Upload an image"
               withPreview={true}
               withLabel={false}
@@ -80,16 +84,6 @@ export default class Settings extends Component {
               save
             </button>
           </li>
-          <li>Change Email</li>
-          <li>Change Password</li>
-          <li>Change Language</li>
-          <h3>Credentials</h3>
-          <label>
-            Primary email:
-            <input type="text" name="email" />
-          </label>
-          <br />
-          <button>Add a new email address</button>
         </div>
         {/* {this.state.showPopup ? (
           <Popup text="Close Me" closePopup={this.togglePopup.bind(this)} />

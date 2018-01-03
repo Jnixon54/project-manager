@@ -19,7 +19,7 @@ class Popup extends Component {
         {/* <h1> Form </h1> */}
         <form>
           <div className="changeForm">
-            <h3>Change Name and Bio</h3>
+            {/* <h3>Change Name and Bio</h3> */}
             <label>
               Full Name:
               <input type="text" name="name" />
@@ -27,8 +27,20 @@ class Popup extends Component {
             <br />
 
             <label>
-              User Name:
+              Username:
               <input type="text" name="username" />
+            </label>
+            <br />
+
+            <label>
+              Password:
+              <input type="text" name="password" />
+            </label>
+            <br />
+
+            <label>
+              Email:
+              <input type="text" name="email" />
             </label>
             <br />
 
@@ -38,7 +50,7 @@ class Popup extends Component {
             </label>
             <br />
 
-            <input type="submit" value="Save" />
+            <input type="submit" value="SAVE" />
           </div>
         </form>
       </div>
