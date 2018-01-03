@@ -20,16 +20,21 @@ import {
   memberSearch,
   addGroupMember,
   groupMembers,
-  getAssignedTasks
+  getAssignedTasks,
+  removeCurrentMember
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {value: "reindeer"}
+
     //BINDING METHODS
     this.addCard = this.addCard.bind(this)
     this.memberSearchWorkAround = this.memberSearchWorkAround.bind(this)
+    this.memberSelect = this.memberSelect.bind(this)
+    this.removeMember = this.removeMember.bind(this)
   }
   
   componentDidMount(){
@@ -58,6 +63,18 @@ class ProjectView extends Component {
     }
   }
 
+  memberSelect(currID){
+    this.props.addGroupMember(currID, this.props.match.params.id).then(response => {
+      this.props.groupMembers(this.props.match.params.id)
+    })
+  }
+
+  removeMember(e){
+      this.props.removeCurrentMember(e.target.value, this.props.match.params.id).then(res => {
+        this.props.groupMembers(this.props.match.params.id)
+      })
+  }
+
 
   render() {
     const cardBox = this.props.cards.map((card, index) => {
@@ -72,7 +89,7 @@ class ProjectView extends Component {
     const getUsers = filteredUsers.map((currUser, ind) => {
         return (
         <h4 key={ind} className="returnedUsers"
-        onClick={() => this.props.addGroupMember(currUser.id, this.props.match.params.id)}>
+        onClick={() => this.memberSelect(currUser.id)}>
         {currUser.username}</h4>)
       })
     return (
@@ -89,7 +106,14 @@ class ProjectView extends Component {
             {getUsers }
           </div>
         }
+        
         </div>
+        <select value={this.state.value} onChange={this.removeMember}>
+          <option value="reindeer">Remove Teammates</option>
+          {this.props.members && this.props.members.map((member, memindex) => {
+              return   <option key={memindex} value={member.id} >{member.username}</option>
+          })}
+        </select>
         </div>
           <div id='cardHolder'>
             {this.props.cards.length > 0 &&
@@ -113,5 +137,5 @@ const mapStateToProps = state => {
 
 ProjectView = DragDropContext(HTML5Backend)(ProjectView)
 export default withRouter(
-  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks })(ProjectView)
+  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks, removeCurrentMember })(ProjectView)
 );

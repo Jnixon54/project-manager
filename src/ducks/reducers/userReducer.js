@@ -35,7 +35,6 @@ function reducer(state = initialState, action) {
     case ON_SUBMIT_LOGIN + '_PENDING':
       return { ...state };
     case ON_SUBMIT_LOGIN + '_FULFILLED':
-    console.log(action.payload)
       return {...state, usernameInput: '',
                         passwordInput: '',
                         username: action.payload.username,
@@ -72,7 +71,7 @@ export function onSubmitRegister(username, password) {
       username: username,
       password: password
     })
-    .then(response => console.log(response))
+    .then(response => response)
   };
 }
 

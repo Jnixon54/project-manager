@@ -21,7 +21,6 @@ const CLEAR_NEW_TASK = 'CLEAR_NEW_TASK'
 
 
 export function editCardHeader(cardID, title){
-    console.log(cardID, title)
     return {
         type: EDIT_HEADER_ID,
         payload: {cardID, title}
@@ -38,7 +37,7 @@ export function handleHeader(value){
 export function updateHeader(newHeader, cardID){
     return {
         type: UPDATE_NEW_HEADER,
-        payload: axios.post('http://localhost:3001/api/updateHeader', {newHeader, cardID}).then(response => console.log(response.data))
+        payload: axios.post('http://localhost:3001/api/updateHeader', {newHeader, cardID}).then(response => response)
     }
 }
 

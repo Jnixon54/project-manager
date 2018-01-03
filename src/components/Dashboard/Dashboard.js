@@ -61,7 +61,6 @@ class Dashboard extends Component {
 
     const taskBox = this.props.tasks.map((task, index) => {
       let currProj = this.props.projects.filter(myProject => myProject.id === task.parent_project_id)
-     console.log(currProj);
       return (
         <div className="dashboardTasks" key={index}><div>
           <Link to={`/ProjectView/${task.parent_project_id}/${currProj[0].title}`}>
