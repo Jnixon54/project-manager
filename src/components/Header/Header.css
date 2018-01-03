@@ -1,38 +1,32 @@
 #HeaderBar {
-  width: 100vw;
-  height: 70px;
-  background: hotpink;
   display: flex;
-  justify-content: flex-end;
-}
-
-.headerComponents {
-  display: flex;
-  width: 53%;
-  height: 100%;
   justify-content: space-between;
   align-items: center;
-  margin-right: 20px;
+  width: 100vw;
+  height: 66px;
+  /* background: rgb(0, 63, 94); */
+  background-color: rgb(242,242,242);
+  /* box-shadow: 0px 5px 20px 1px rgba(0,0,0,0.15); */
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); */
 }
 
-.logo {
-  height: 60px;
-  width: 60px;
-  background: black;
+.logo-text {
+  display: none;
+  text-align: center;
+  height: auto;
+  padding: 5px 0 5px 0;
+  color: rgb(236, 246, 255);
+  font-weight: normal;
+  /* color: rgb(255, 59, 88); */
+  font-family: 'Pacifico', cursive;
+  font-size: 2em;
 }
 
-.userImg {
-  height: 50px;
-  width: 50px;
-  background: white;
-  z-index: 100;
-  border-radius: 50%;
-  cursor: pointer;
+.logo-text span {
+  /* color: rgb(0, 188, 230); */
+  color: rgb(8, 210, 232);
 }
-.userImg:hover {
-  opacity: 0.9;
-  background: blue;
-}
+
 #menuDropdown {
   position: absolute;
   right: 0px;
