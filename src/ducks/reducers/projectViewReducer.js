@@ -169,6 +169,7 @@ export function memberSearch(user){
     }
 }
 export function addGroupMember(userId, projectId){
+  console.log(userId, projectId, "Reducer user your looking for")
   return {
     type: ADD_GROUP_MEMBER,
     payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)})
