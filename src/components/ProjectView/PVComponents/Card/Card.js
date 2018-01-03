@@ -4,6 +4,14 @@ import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Task from '../Task/Task'
 
+
+///////////////////////////////////////////
+import { DropTarget } from 'react-dnd'
+import ItemTypes from '../ItemTypes'
+import PropTypes from 'prop-types'
+
+//dnd stuff
+
 import {
     editCardHeader,
     handleHeader,
@@ -18,6 +26,21 @@ import {
 
 import '../../ProjectView.css'
 
+
+const cardTarget = {
+    drop(props) {
+        return { name: props.card.title, id: props.card.id}
+    }
+}
+function collect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop()
+    }
+}
+
+
 class Card extends Component {
     constructor(props){
         super(props)
@@ -28,7 +51,7 @@ class Card extends Component {
         this.openHeaderEdit = this.openHeaderEdit.bind(this)
         this.openEditOptions = this.openEditOptions.bind(this)
         this.deleteCard = this.deleteCard.bind(this)
-
+        this.closeEditOptions = this.closeEditOptions.bind(this)
     }
 
     openHeaderEdit(cardID, title){
@@ -55,6 +78,9 @@ class Card extends Component {
             this.setState({options: true})
             this.props.editCardHeader(cardID, title)
         }
+    }
+    closeEditOptions(){
+        this.setState({options: false})
     }
     deleteCard(cardID){
         this.props.deleteAllTasks(cardID).then(response => {
@@ -84,10 +110,21 @@ class Card extends Component {
     
   
   render() {
-      console.log(this.props)
+    const { canDrop, isOver, connectDropTarget } = this.props
+    const isActive =  isOver;
+
+    let backgroundColor = '#222'
+    if(isActive){
+        backgroundColor = 'darkgreen'
+    } else if (canDrop) {
+        backgroundColor = 'darkkhaki'
+    }
+
+    const style = {'backgroundColor': backgroundColor}
+
       
-    return (
-      <div id='taskHolder'>
+    return connectDropTarget(
+      <div id='taskHolder' style={style}>
         {this.state.editOpen === false &&
             <div className='titleHolder'>
                 <div className='cardHeader'>
@@ -124,11 +161,11 @@ class Card extends Component {
                 <h3 onClick={this.openHeaderEdit}>Cancle</h3>
             </form>
         }
-
+        
         {this.props.cardTasks &&
             this.props.cardTasks.map((task, index) => <Task key={index + task} task={task}/>)
         }
-
+        
         {
             <div id='cardTest'>
                 <form onSubmit={e => this.handleAddTask(e, this.props.card.id, this.props.match.params.id)}>
@@ -156,8 +193,16 @@ class Card extends Component {
   }
 }
 
+Card.propTypes = {
+    connectDropTarget: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired
+}
+
 const mapStateToProps = state => {
     return state.cardReducer;
   };
+
+  Card = DropTarget(ItemTypes.CARD, cardTarget, collect)(Card)
   
   export default withRouter(connect(mapStateToProps, { editCardHeader, handleHeader, updateHeader, deleteAllTasks, deleteCard, selectedTaskInput, taskInput, addTask, clearNewTask })(Card));

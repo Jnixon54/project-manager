@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 
+import axios from 'axios'
+
 import { withRouter } from 'react-router-dom';
 import '../../ProjectView.css'
 import { connect } from 'react-redux';
+
+
+/////////////////////////////////////////////////
+import { DragSource } from 'react-dnd'
+import ItemTypes from '../ItemTypes'
+import PropTypes from 'prop-types'
+//dnd stuff
+
 import {
   addToList,
   removeFromList,
@@ -17,8 +27,42 @@ import {
   sendEditTask,
   deleteTask,
   getCards2,
-  getTasks
+  getTasks,
+  assignToTask,
+  getAssignedTasks,
+  removeUserFromTask,
+  dragTask
 } from '../../../../ducks/reducers/projectViewReducer';
+
+const cardSource = {
+  beginDrag(props) {
+      return {
+          name: props.task.content,
+          id: props.task.task_id
+      }
+  },
+
+  endDrag(props, monitor) {
+      const item = monitor.getItem();
+      const dropResult = monitor.getDropResult()
+
+      if (dropResult) {
+        props.dragTask(item.id, dropResult.id).then(() => {
+          
+          props.getTasks(props.match.params.id)
+        })
+      }
+  }
+}
+function collect(connect, monitor) {
+  return {
+      connectDragSource: connect.dragSource(),
+      isDragging: monitor.isDragging()
+  }
+}
+
+
+
 
 class Task extends Component {
     constructor(props) {
@@ -32,7 +76,8 @@ class Task extends Component {
           newChore: '',
           coolInput: false,
           deleteTaskTask: 0,
-          editAlert: false
+          editAlert: false,
+          assignModel: false
         };
     
         //BINDING METHODS
@@ -46,6 +91,9 @@ class Task extends Component {
         this.closeEditModal = this.closeEditModal.bind(this)
         this.sendEdit = this.sendEdit.bind(this)
         this.handleDeleteTask = this.handleDeleteTask.bind(this)
+        this.openAssign = this.openAssign.bind(this)
+        this.assigningOfTasks = this.assigningOfTasks.bind(this)
+        this.removeFromTasks = this.removeFromTasks.bind(this)
       }
     
     
@@ -94,11 +142,10 @@ class Task extends Component {
     
       editModel(taskID, task){
         this.setState({editAlert: true})
-        console.log(taskID)
         this.props.openEditTask(taskID, task)
       }
       closeEditModal(){
-        this.setState({editAlert: false})
+        this.setState({editAlert: false, assignModel: false})
       }
       sendEdit(e, taskID, task){
     
@@ -121,12 +168,29 @@ class Task extends Component {
       editHoverID(taskID){
         this.setState({hoverID: taskID})
       }
+
+      openAssign(){
+        this.setState({assignModel: !this.state.assignModel})
+      }
+
+      assigningOfTasks(taskID, userID, projectID){
+        this.props.assignToTask(taskID, userID, projectID).then(() => 
+        this.props.getAssignedTasks(this.props.match.params.id))
+      }
+      removeFromTasks(memberID, taskID){
+        this.props.removeUserFromTask(memberID, taskID).then(() => 
+        this.props.getAssignedTasks(this.props.match.params.id))
+      }
   
   render() {
-      console.log(this.props)
-      
-    return (
-        <div>
+
+    const { isDragging, connectDragSource, name } = this.props
+    const opacity = isDragging ? 0.4 : 1;
+
+    const style = { opacity: opacity};
+    
+    return connectDragSource(
+        <div style={style}>
             {!this.state.editAlert && this.props.task.task_id &&
             <div onMouseEnter={() => this.editHoverID(this.props.task.task_id)} onMouseLeave={() => this.editHoverID(0)} className='task'>
                 <div className='taskContent'>
@@ -154,11 +218,28 @@ class Task extends Component {
                         <input type='text' className='newCard' onChange={e => this.props.changeEditTask(e)} value={this.props.editTaskTask}/>
                     </form>
                     <div className='confirmationButtons'>
-                        <h4>Assign</h4>
+                        <h4 onClick={this.openAssign}>Assign</h4>
                         <h4 onClick={() => this.handleDeleteTask(this.props.task.task_id)}>Delete</h4>
                         <h4 onClick={this.closeEditModal}>Close</h4>
                     </div>
+                    
                 </div>
+                {this.state.assignModel === true &&
+                      <div style={{width: '100%'}}>
+                        {this.props.members && this.props.members.map(member => {
+                          const assignedUser = this.props.assignedTasks.filter(task => task.task_id === this.props.task.task_id)
+                          return (
+                          
+                          <h4 className="teamMembers"
+                          style={assignedUser.find(currentID => currentID.user_id === member.id)  ? {background: 'white'} : {background: 'blue'}}
+                          onClick={
+                            assignedUser.find(currentID => currentID.user_id === member.id) ? 
+                            () => this.removeFromTasks(member.id, this.props.task.task_id): 
+                            () => this.assigningOfTasks(this.props.task.task_id, member.id, this.props.match.params.id)}>
+                          {member.username}</h4>)
+                        })}
+                      </div>
+                    }
             </div>
             }
         </div>
@@ -170,7 +251,15 @@ class Task extends Component {
 const mapStateToProps = state => {
     return state.projectView;
   };
+
+  Task.propType = {
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired
+}
   
+Task = DragSource(ItemTypes.CARD, cardSource, collect)(Task)
+
   export default withRouter(
-    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks })(Task)
+    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask, dragTask })(Task)
   );

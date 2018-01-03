@@ -264,11 +264,23 @@ app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
 app.get('/api/getAllTasks/:projectID', tasksController.getTasks)
 app.post('/api/editTask', tasksController.editTask)
 app.post('/api/deleteTask', tasksController.deleteTask)
+app.post('/api/memberSearch', tasksController.memberSearch)
+app.post('/api/addMember', tasksController.addMember)
+app.get('/api/groupMembers/:projectId', tasksController.groupMembers)
+app.post('/api/assignToTask', tasksController.assignToTask)
+app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks)
+app.delete('/api/removeUserTask/:memberID/:taskID', tasksController.removeFromTask)
+
+app.post('/api/dragTask', tasksController.dragTask)
+app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
 
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)
 app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points

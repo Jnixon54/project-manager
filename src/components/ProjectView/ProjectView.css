@@ -80,12 +80,11 @@
     width: 100%;
   }
   .deleteModel {
-    width: 226px;
+    width: 230px;
     display: flex;
     flex-wrap: wrap;
-    animation: editGrow .4s forwards;
+    /* animation: editGrow .4s forwards; */
     background: rgb(153, 153, 153);
-    height: 30px
   }
   @keyframes editGrow {
     from{
@@ -252,4 +251,34 @@
   }
   h5{
     margin: 0
+  }
+  .projectInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+
+  .searchedUsers {
+    display: flex;
+    flex-direction: column;
+    position: relative
+  }
+  .returnedUsersBox {
+    background: lightgray;
+    z-index: 20;
+    position: absolute;
+    top: 25px;
+    width: 100%;
+  }
+  .returnedUsers:hover {
+    background: rgb(237, 237, 237);
+    cursor: pointer;
+  }
+  .teamMembers{
+    width: 100%;
+    cursor: pointer;
+  }
+  .teamMembers:hover {
+    background: rgb(237, 237, 237);
+    cursor: pointer;
   }

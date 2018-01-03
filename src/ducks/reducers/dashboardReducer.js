@@ -18,7 +18,6 @@ export default function reducer(state = initialState, action) {
     case GET_PROJECTS + '_PENDING':
       return Object.assign({}, state, { loading: true });
     case GET_PROJECTS + '_FULFILLED':
-    console.log(action.payload)
       return Object.assign({}, state, {
         loading: false,
         projects: action.payload
@@ -27,7 +26,6 @@ export default function reducer(state = initialState, action) {
     case GET_TASKS + '_PENDING':
       return Object.assign({}, state, { loading: true });
     case GET_TASKS + '_FULFILLED':
-      console.log(action.payload);
       return Object.assign({}, state, {
         loading: false,
         tasks: action.payload

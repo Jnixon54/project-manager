@@ -7,9 +7,8 @@ import Dashboard from './Dashboard/Dashboard';
 import ProjectView from './ProjectView/ProjectView';
 import SettingView from './SettingView/SettingView';
 
-import Cards from './SettingView/Cards/Cards';
-import Profile from './SettingView/Profile/Profile';
 import Settings from './SettingView/Settings/Settings';
+import Popup from './SettingView/Settings/Popup/Popup';
 
 export default class App extends Component {
   render() {
@@ -17,15 +16,25 @@ export default class App extends Component {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/Dashboard" component={Dashboard} />
-          <Route path="/ProjectView/:id" component={ProjectView} />
+          <Route path="/ProjectView/:id/:title" component={ProjectView} />
           <Route
             path="/SettingView"
             render={() => (
               <SettingView>
                 <Switch>
-                  <Route path="/SettingView/Cards" component={Cards} />
-                  <Route path="/SettingView/Profile" component={Profile} />
-                  <Route path="/SettingView/Settings" component={Settings} />
+                  <Route
+                    path="/SettingView/Settings"
+                    render={() => (
+                      <Settings>
+                        <Switch>
+                          <Route
+                            path="/SettingView/Settings/Popup"
+                            component={Popup}
+                          />
+                        </Switch>
+                      </Settings>
+                    )}
+                  />
                 </Switch>
               </SettingView>
             )}
