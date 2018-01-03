@@ -13,7 +13,8 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      initialAnimation: false
+      initialAnimation: false,
+      passiveAnimation: false
     };
   }
 
@@ -21,6 +22,10 @@ class LandingPage extends Component {
     this.animationTimeout = setTimeout(() => {
       this.setState({initialAnimation: true});
     }, 100); 
+    this.passiveAnimationInterval = setInterval(()=> {
+      this.setState({passiveAnimation: !this.state.passiveAnimation})
+    }, 2000);
+    
   }
 
   componentWillUnmount() {
@@ -38,8 +43,10 @@ class LandingPage extends Component {
   // }
 
   render() {
+    console.log(this.passiveAnimationInterval)
     let animationClasses = [];
     animationClasses.push(this.state.initialAnimation ? 'after' : null);
+    animationClasses.push(this.state.passiveAnimation ? 'toggle' : null)
 
     return (
       <div className="landing-container">
