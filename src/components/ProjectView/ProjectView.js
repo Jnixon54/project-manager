@@ -3,6 +3,11 @@ import Header from '../Header/Header';
 import { withRouter } from 'react-router-dom';
 import Card from './PVComponents/Card/Card'
 
+//////////////////////////////////////
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+// react dnd stuff
+
 import './ProjectView.css'
 
 //connect to redux by importing this:
@@ -55,7 +60,6 @@ class ProjectView extends Component {
 
 
   render() {
-    console.log(this.props.match.params.title , "CHECK OUT YOUR PARAMS HERE!");
     const cardBox = this.props.cards.map((card, index) => {
       let tasks = this.props.tasks.filter(current => current.parent_card_id === card.id)
       return (
@@ -107,6 +111,7 @@ const mapStateToProps = state => {
   return state.projectView;
 };
 
+ProjectView = DragDropContext(HTML5Backend)(ProjectView)
 export default withRouter(
   connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks })(ProjectView)
 );

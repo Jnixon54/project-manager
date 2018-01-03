@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 
+import axios from 'axios'
+
 import { withRouter } from 'react-router-dom';
 import '../../ProjectView.css'
 import { connect } from 'react-redux';
+
+
+/////////////////////////////////////////////////
+import { DragSource } from 'react-dnd'
+import ItemTypes from '../ItemTypes'
+import PropTypes from 'prop-types'
+//dnd stuff
+
 import {
   addToList,
   removeFromList,
@@ -20,8 +30,40 @@ import {
   getTasks,
   assignToTask,
   getAssignedTasks,
-  removeUserFromTask
+  removeUserFromTask,
+  dragTask
 } from '../../../../ducks/reducers/projectViewReducer';
+
+const cardSource = {
+  beginDrag(props) {
+      return {
+          name: props.task.content,
+          id: props.task.task_id
+      }
+  },
+
+  endDrag(props, monitor) {
+      const item = monitor.getItem();
+      const dropResult = monitor.getDropResult()
+      console.log(dropResult, item)
+
+      if (dropResult) {
+        props.dragTask(item.id, dropResult.id).then(() => {
+          
+          props.getTasks(props.match.params.id)
+        })
+      }
+  }
+}
+function collect(connect, monitor) {
+  return {
+      connectDragSource: connect.dragSource(),
+      isDragging: monitor.isDragging()
+  }
+}
+
+
+
 
 class Task extends Component {
     constructor(props) {
@@ -143,9 +185,14 @@ class Task extends Component {
       }
   
   render() {
+
+    const { isDragging, connectDragSource, name } = this.props
+    const opacity = isDragging ? 0.4 : 1;
+
+    const style = { opacity: opacity};
     
-    return (
-        <div>
+    return connectDragSource(
+        <div style={style}>
             {!this.state.editAlert && this.props.task.task_id &&
             <div onMouseEnter={() => this.editHoverID(this.props.task.task_id)} onMouseLeave={() => this.editHoverID(0)} className='task'>
                 <div className='taskContent'>
@@ -207,7 +254,15 @@ class Task extends Component {
 const mapStateToProps = state => {
     return state.projectView;
   };
+
+  Task.propType = {
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired
+}
   
+Task = DragSource(ItemTypes.CARD, cardSource, collect)(Task)
+
   export default withRouter(
-    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask })(Task)
+    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask, dragTask })(Task)
   );

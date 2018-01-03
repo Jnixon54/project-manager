@@ -1,1 +1,1 @@
-SELECT * FROM tasks WHERE parent_project_id = $1
+SELECT * FROM tasks WHERE parent_project_id = $1 ORDER BY task_id

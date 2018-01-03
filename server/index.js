@@ -271,6 +271,8 @@ app.post('/api/assignToTask', tasksController.assignToTask)
 app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks)
 app.delete('/api/removeUserTask/:memberID/:taskID', tasksController.removeFromTask)
 
+app.post('/api/dragTask', tasksController.dragTask)
+
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)
 app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
