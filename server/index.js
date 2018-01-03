@@ -272,6 +272,7 @@ app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks)
 app.delete('/api/removeUserTask/:memberID/:taskID', tasksController.removeFromTask)
 
 app.post('/api/dragTask', tasksController.dragTask)
+app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
 
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)

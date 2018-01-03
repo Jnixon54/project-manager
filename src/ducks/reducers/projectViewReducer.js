@@ -50,6 +50,7 @@ const GET_ASSIGNED_TASKS = 'ASSIGNED_TASKS'
 const REMOVE_USER_FROM_TASK = 'REMOVE_USER_FROM_TASK'
 
 const DRAG_TASK = 'DRAG_TASK'
+const REMOVE_CURRENT_MEMBER = 'REMOVE_CURRENT_MEMBER'
 
 
 
@@ -174,7 +175,7 @@ export function addGroupMember(userId, projectId){
   console.log(userId, projectId, "Reducer user your looking for")
   return {
     type: ADD_GROUP_MEMBER,
-    payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)})
+    payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)}).then(response => response)
   }
 }
 export function groupMembers(projectId){
@@ -209,6 +210,13 @@ export function dragTask(taskID, cardID) {
   return {
     type: DRAG_TASK,
     payload: axios.post('http://localhost:3001/api/dragTask', {cardID, taskID}).then(response => response)
+  }
+}
+
+export function removeCurrentMember(currId, projId) {
+  return {
+    type: REMOVE_CURRENT_MEMBER,
+    payload: axios.post('http://localhost:3001/api/removeCurrentMember', {currId, projId}).then(response => response)
   }
 }
 
