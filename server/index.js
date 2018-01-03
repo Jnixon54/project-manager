@@ -253,6 +253,7 @@ app.get('/logout', usersController.logout);
 app.post('/api/allProjects', projectsController.getAllProjects);
 app.post('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject);
+app.post('/api/allTeamProjects', projectsController.getTeamProjects)
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints
