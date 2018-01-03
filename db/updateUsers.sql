@@ -1,0 +1,1 @@
+UPDATE users SET display_Name = $3, username = $2, email = $5, bio = $11, image_url = $10 WHERE id = $1;

@@ -302,19 +302,11 @@ app.post('/api/dragTask', tasksController.dragTask)
 
 ///////////////////////////////////////////////////////////////////////////
 // Settings End Points
-app.post('/api/updateDisplayname',
-  (req, res) => console.log(req.session),
-  usersController.updateDisplayName
-);
+app.post('/api/updateUserInfo', usersController.updateUserInfo);
 
 app.post('/api/updateUserName',
   (req, res) => console.log(req.session),
   usersController.updateUserName
-);
-
-app.post('/api/updateFullName',
-  (req, res) => console.log(req.session),
-  usersController.updateFullName
 );
 
 app.post('/api/updateEmail',
@@ -326,6 +318,11 @@ app.post('/api/updateBio,
   (req, res) => console.log(req.session),
   usersController.updateBio
 );
+
+app.post('/api/updateAvatarImage',
+  (req, res)=> console.log(req.session),
+  usersController.updateAvatarImage
+  );
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points

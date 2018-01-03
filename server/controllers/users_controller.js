@@ -63,33 +63,48 @@ module.exports = {
     req.session.destroy();
     res.redirect('/');
   },
-  updateDisplayName: (req, res) => {
+  updateUserInfo: (req, res) => {
     const userId = req.session.user.id;
+    const {username, password, displayName, email, bio, imageURL} = req.body 
     const dbInstance = req.app.get('db');
-    db.sqlQuesry([userId, req.body.newdisplayName].then().catch(err => console.log(err))
+    
+    dbInstance.updateUsers([userId, username, password, displayName, email, bio, imageURL]).then().catch(err => console.log(err))
+    );
   },
 
   updateUserName: (req, res) => {
+    console.log(user.id);
     const userId = req.session.user.id;
     const dbInstance = req.app.get('db');
-    db.sqlQuesry([userId, req.body.newUserName].then().catch(err => console.log(err))
+    dbInstance.updateUsers(
+      [userId, req.body.newUserName]
+        .then(id => res.status(200))
+        .catch(err => console.log(err))
+    );
   },
-  updateFullName: (req, res) => {
-    const userId = req.session.user.id;
-    const dbInstance = req.app.get('db');
-    db.sqlQuesry([userId, req.body.newFullName].then().catch(err => console.log(err))
-  },
+
   updateEmail: (req, res) => {
     const userId = req.session.user.id;
     const dbInstance = req.app.get('db');
-    db.sqlQuesry([userId, req.body.newUserEmail].then().catch(err => console.log(err))
+    dbInstance.updateUsers(
+      [userId, req.body.newUserEmail].then().catch(err => console.log(err))
+    );
   },
   updateBio: (req, res) => {
     const userId = req.session.user.id;
     const dbInstance = req.app.get('db');
-    db.sqlQuesry([userId, req.body.newUserBio].then().catch(err => console.log(err))
-  }
+    dbInstance.updateUsers(
+      [userId, req.body.newUserBio].then().catch(err => console.log(err))
+    );
+  },
 
+  updateAvatarImage: (req, res) => {
+    const userId = req.session.user.id;
+    const dbInstance = req.app.get('db');
+    dbInstance.updateUsers(
+      [userId, req.body.newAvatarImage].then().catch(err => console.log(err))
+    );
+  }
 
   // ,
   // delete: (req, res, next) => {
