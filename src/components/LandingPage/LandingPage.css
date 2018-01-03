@@ -1,62 +1,150 @@
-.overall {
-  height: 2800px;
+.welcome-content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+  transition: height 2s linear;
+  height: 20vh;
 }
 
-.logo {
-  height: 60px;
-  width: 60px;
-  background: black;
-  margin-right: 50%;
-  margin-top: 0.3%;
+.before {
+  height: 20%;
+  
 }
 
-.home,
-.about,
-.contact,
-.guide {
-  width: 85%;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px;
-  margin-top: 20px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
+.welcome-content.after {
+  height: 100vh;
+}
+
+.welcome-text {
+  color: white;
+  line-height: 2.3vw;
+  font-size: 3vw;
+  font-family: 'Buenard';
+  width: 24%;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-banner  {
+  margin-top: 11vh;
   border-radius: 5px;
-  height: 25%;
-  position: relative;
-  display: inline-block;
-  margin-left: 5%;
+  box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.15);
+  transition: height .9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.loginForm {
+
+.big-landing-text {
+  position: absolute;
+  margin-top: 40px;
+  width: 90%;
+  z-index: 2;
+  text-align: center;
+  font-size: 180px;;
+  line-height: 14vw;
+  /* color: rgb(254, 0, 47); */
+  color: rgb(0, 10, 34);
+  font-family: 'Pacifico';
+  pointer-events: none;
+  transition: font-size .9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.big-landing-text span {
+  color: rgb(254, 0, 47);
+  /* color: rgb(236, 246, 255); */
+
+}
+
+.big-landing-text.after {
+  font-size: 220px;
+}
+
+.banner-0 {
+  /* background-color: rgb(0, 148, 201); */
+  background-color: rgb(0, 63, 94);
+  height: 8vh;
+}
+.banner-1 {
+  height: 11vh;
+  background-color: rgb(0, 90, 169);
+  
+  
+  /* transition: height .7s cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+}
+
+.banner-2 {
+  height: 9vh;
+  /* background-color: rgb(66, 238, 238); */
+  background-color: rgb(8, 210, 232);
+  /* transition: height .7s cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+
+}
+
+.banner-3 {
+  height: 8vh;
+  /* background-color: rgb(144, 216, 255); */
+  /* background-color: rgb(0, 188, 230); */
+  background-color: rgb(95, 216, 244);
+  /* transition: height .7s cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+  /* background-color: rgb(66, 238, 238); */
+}
+
+.banner-0.after {
+  height: 22vh;
+}
+
+.banner-1.after {
+  height: 60vh;
+  transition-delay: .15s;
+}
+
+.banner-2.after {
+  height: 35vh;
+  transition-delay: .1s;
+}
+
+.banner-3.after {
+  height: 15vh;
+  transition-delay: .05s;
+}
+.banner-0.toggle {
+  height: 26vh;
+  transition-delay: .2s;
+}
+.banner-1.toggle {
+  height: 64vh;
+  transition-delay: .4s;
+}
+.banner-2.toggle {
+  height: 38vh;
+  transition-delay: .5s;
+}
+
+.banner-3.toggle {
+  height: 18vh;
+  transition-delay: .3s;
+}
+
+.login-form {
   background: rgba(214, 223, 235, 0.9);
   height: 500px;
-  width: 400px;
-  padding: 15px;
-  margin-left: 30%;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-  text-align: center;
+  width: 30%;
+ 
 }
 .login {
   padding-top: 45px;
   padding-bottom: 45px;
 }
-.loginGoogle a,
-.loginFacebook a {
+.login-google a,
+.login-facebook a {
   text-decoration: none;
   color: orangered;
   height: 10px;
-  width: 350px;
+  /* width: 350px; */
   padding: 20px;
   display: block;
   bottom: 0px;
@@ -73,12 +161,33 @@
   cursor: pointer;
 }
 .input {
-  width: 370px;
+  /* width: 370px; */
   height: 15px;
   padding: 10px;
 }
 .button {
-  width: 370px;
+  /* width: 370px; */
   height: 15px;
   padding: 10px;
+}
+
+@media screen and (max-width: 414px){
+  .big-landing-text {
+    position: absolute;
+    margin-top: 65px;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+    font-size: 90px;
+    line-height: 14vw;
+    /* color: rgb(254, 0, 47); */
+    color: rgb(0, 10, 34);
+    font-family: 'Pacifico';
+  }
+  .container {
+    width: 100%;
+  }
+  .welcome-banner {
+    margin-top: 18vh;
+  }
 }

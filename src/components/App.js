@@ -13,7 +13,6 @@ import Popup from './SettingView/Settings/Popup/Popup';
 export default class App extends Component {
   render() {
     return (
-      <div>
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/Dashboard" component={Dashboard} />
@@ -41,7 +40,6 @@ export default class App extends Component {
             )}
           />
         </Switch>
-      </div>
     );
   }
 }
