@@ -55,7 +55,7 @@ class ProjectView extends Component {
 
 
   render() {
-    console.log(this.props.assignedTasks, 'taskARR')
+    console.log(this.props.match.params.title , "CHECK OUT YOUR PARAMS HERE!");
     const cardBox = this.props.cards.map((card, index) => {
       let tasks = this.props.tasks.filter(current => current.parent_card_id === card.id)
       return (
