@@ -45,7 +45,6 @@ const cardSource = {
   endDrag(props, monitor) {
       const item = monitor.getItem();
       const dropResult = monitor.getDropResult()
-      console.log(dropResult, item)
 
       if (dropResult) {
         props.dragTask(item.id, dropResult.id).then(() => {
@@ -143,7 +142,6 @@ class Task extends Component {
     
       editModel(taskID, task){
         this.setState({editAlert: true})
-        console.log(taskID)
         this.props.openEditTask(taskID, task)
       }
       closeEditModal(){
@@ -229,7 +227,6 @@ class Task extends Component {
                 {this.state.assignModel === true &&
                       <div style={{width: '100%'}}>
                         {this.props.members && this.props.members.map(member => {
-                          console.log(member,"member!!!!!!!!!!!!!!!!!!")
                           const assignedUser = this.props.assignedTasks.filter(task => task.task_id === this.props.task.task_id)
                           return (
                           

@@ -165,4 +165,13 @@ module.exports = {
            })
            .catch(console.log)
     },
+    removeCurrentMember: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        
+        dbInstance.removeCurrentMember([req.body.currId, req.body.projId])
+            .then(response => {
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }

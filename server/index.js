@@ -299,6 +299,7 @@ app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks);
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard);
 
 app.post('/api/dragTask', tasksController.dragTask)
+app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
 
 ///////////////////////////////////////////////////////////////////////////
 // Settings End Points
