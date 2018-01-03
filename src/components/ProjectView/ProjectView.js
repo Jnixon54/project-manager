@@ -70,7 +70,6 @@ class ProjectView extends Component {
   }
 
   removeMember(e){
-      console.log(e.target.value, "HERES YOUR SELECTED MEMBER");
       this.props.removeCurrentMember(e.target.value, this.props.match.params.id).then(res => {
         this.props.groupMembers(this.props.match.params.id)
       })
@@ -111,8 +110,8 @@ class ProjectView extends Component {
         </div>
         <select value={this.state.value} onChange={this.removeMember}>
           <option value="reindeer">Remove Teammates</option>
-          {this.props.members && this.props.members.map(member => {
-              return   <option value={member.id} >{member.username}</option>
+          {this.props.members && this.props.members.map((member, memindex) => {
+              return   <option key={memindex} value={member.id} >{member.username}</option>
           })}
         </select>
         </div>

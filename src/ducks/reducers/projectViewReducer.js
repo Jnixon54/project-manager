@@ -91,7 +91,6 @@ export function getCards(projectID) {
     type: ALL_CARDS,
     payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
 
-      console.log('data', response.data)
       return response.data
     })
   }
@@ -108,7 +107,6 @@ export function getTasks(projectID){
   return {
     type: GET_TASKS,
     payload: axios.get(`http://localhost:3001/api/getAllTasks/${projectID}`).then(response => {
-      console.log(response, 'tasks response')
       return response.data
     })
   }
@@ -172,7 +170,6 @@ export function memberSearch(user){
     }
 }
 export function addGroupMember(userId, projectId){
-  console.log(userId, projectId, "Reducer user your looking for")
   return {
     type: ADD_GROUP_MEMBER,
     payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)}).then(response => response)
@@ -206,7 +203,6 @@ export function removeUserFromTask(memberID, taskID) {
 }
 
 export function dragTask(taskID, cardID) {
-  console.log(cardID, taskID, 'ids')
   return {
     type: DRAG_TASK,
     payload: axios.post('http://localhost:3001/api/dragTask', {cardID, taskID}).then(response => response)
@@ -332,7 +328,6 @@ export default function reducer(state = initialState, action) {
     case INCREASE_COUNT:
       return { ...state, count: action.payload }
    case MEMBER_SEARCH + '_FULFILLED':
-      console.log('Member Search reducer', action.payload)
       return { ...state, searchedUser: action.payload, loading: false }
    case ADD_GROUP_MEMBER + '_FULFILLED':
       return { ...state, searchedUser:[] }

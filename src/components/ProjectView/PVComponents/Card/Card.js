@@ -29,7 +29,6 @@ import '../../ProjectView.css'
 
 const cardTarget = {
     drop(props) {
-        console.log('title', props.card.title)
         return { name: props.card.title, id: props.card.id}
     }
 }
@@ -113,7 +112,6 @@ class Card extends Component {
   render() {
     const { canDrop, isOver, connectDropTarget } = this.props
     const isActive =  isOver;
-    console.log('isActive', isActive,  isOver, 'card target')
 
     let backgroundColor = '#222'
     if(isActive){
@@ -122,7 +120,7 @@ class Card extends Component {
         backgroundColor = 'darkkhaki'
     }
 
-    const style = {'background-color': backgroundColor}
+    const style = {'backgroundColor': backgroundColor}
 
       
     return connectDropTarget(
