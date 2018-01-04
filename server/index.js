@@ -298,32 +298,36 @@ app.post('/api/updateHeader', tasksController.editCardHeader);
 app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks);
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard);
 
-app.post('/api/dragTask', tasksController.dragTask)
-app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
+app.post('/api/dragTask', tasksController.dragTask);
+app.post('/api/removeCurrentMember', tasksController.removeCurrentMember);
 
 ///////////////////////////////////////////////////////////////////////////
 // Settings End Points
 app.post('/api/updateUserInfo', usersController.updateUserInfo);
 
-app.post('/api/updateUserName',
+app.post(
+  '/api/updateUserName',
   (req, res) => console.log(req.session),
   usersController.updateUserName
 );
 
-app.post('/api/updateEmail',
+app.post(
+  '/api/updateEmail',
   (req, res) => console.log(req.session),
   usersController.updateEmail
 );
 
-app.post('/api/updateBio,
+app.post(
+  '/api/updateBio',
   (req, res) => console.log(req.session),
   usersController.updateBio
 );
 
-app.post('/api/updateAvatarImage',
-  (req, res)=> console.log(req.session),
+app.post(
+  '/api/updateAvatarImage',
+  (req, res) => console.log(req.session),
   usersController.updateAvatarImage
-  );
+);
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points

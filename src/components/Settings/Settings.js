@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../SettingView.css';
+import './Settings.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ import {
   updateEmailField,
   updateBioField,
   updateAvatarImage
-} from '../../../ducks/reducers/settingReducer';
+} from '../../ducks/reducers/settingReducer';
 
 // import { Link } from 'react-router-dom';
 
@@ -82,83 +82,89 @@ class Settings extends Component {
       updateAvatarImage
     } = this.props;
     return (
-      <div>
+      <div className="setting">
+        <h3 className="links">Settings</h3>
         <br />
         <div className="settings">
-          <h3>Account Details:</h3>
-          <Link to="/SettingView/Settings/Popup">
-            <li>Change Name, Username, Password, email, or Bio...</li>
-            <div className="popup">
-              <form>
-                <div className="changeForm">
-                  <label>
-                    {' '}
-                    Full Name:{' '}
-                    <input
-                      onChange={e => updateDisplayNameField(e.target.value)}
-                      type="text"
-                      name="name"
-                    />
-                  </label>
+          <h2>Change Account Details:</h2>
+          <hr />
+          <div className="popup">
+            <form>
+              <div className="changeForm">
+                <label>
+                  {' '}
+                  Full Name:
+                  <input
+                    onChange={e => updateDisplayNameField(e.target.value)}
+                    type="text"
+                    name="name"
+                  />
                   <br />
-                  <label>
-                    {' '}
-                    Username:{' '}
-                    <input
-                      onChange={e => updateUserName(e.target.value)}
-                      type="text"
-                      name="username"
-                    />{' '}
-                  </label>
+                </label>
+                <br />
+                <label>
+                  {' '}
+                  Username:{' '}
+                  <input
+                    onChange={e => updateUserName(e.target.value)}
+                    type="text"
+                    name="username"
+                  />{' '}
                   <br />
-                  <label>
-                    Password:<input
-                      onChange={e => updatePasswordField(e.target.value)}
-                      type="text"
-                      name="password"
-                    />{' '}
-                  </label>
+                </label>
+                <br />
+                <label>
+                  Password:<input
+                    onChange={e => updatePasswordField(e.target.value)}
+                    type="text"
+                    name="password"
+                  />{' '}
                   <br />
-                  <label>
-                    {' '}
-                    Email:<input
-                      onChange={e => updateEmailField(e.target.value)}
-                      type="text"
-                      name="email"
-                    />{' '}
-                  </label>
+                </label>
+                <br />
+                <label>
+                  {' '}
+                  Email:<input
+                    onChange={e => updateEmailField(e.target.value)}
+                    type="text"
+                    name="email"
+                  />{' '}
                   <br />
-                  <label>
-                    {' '}
-                    Bio:{' '}
-                    <input
-                      onChange={e => updateBioField(e.target.value)}
-                      type="text"
-                      name="bio"
-                    />{' '}
-                  </label>
+                </label>
+                <br />
+                <label>
+                  {' '}
+                  Bio:{' '}
+                  <input
+                    onChange={e => updateBioField(e.target.value)}
+                    type="text"
+                    name="bio"
+                  />{' '}
                   <br />
-                  <button
-                    onClick={() =>
-                      this.updateNewUserInfo(
-                        this.props.username,
-                        this.props.password,
-                        this.props.display_name,
-                        this.props.email,
-                        this.props.bio,
-                        this.props.imageUrl
-                      )
-                    }
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
-          </Link>
+                </label>
+                <br />
+                <button
+                  className="btn"
+                  onClick={() =>
+                    this.updateNewUserInfo(
+                      this.props.username,
+                      this.props.password,
+                      this.props.display_name,
+                      this.props.email,
+                      this.props.bio,
+                      this.props.imageUrl
+                    )
+                  }
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+
           <br />
-          <li>
-            Change Avatar:
+          <h3>
+            Change Avatar:{' '}
             <ImageUploader
               withIcon={true}
               // buttonStyle={buttonStyles}
@@ -177,7 +183,7 @@ class Settings extends Component {
             >
               save
             </button>
-          </li>
+          </h3>
         </div>
       </div>
     );

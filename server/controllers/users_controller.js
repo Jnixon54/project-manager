@@ -65,11 +65,21 @@ module.exports = {
   },
   updateUserInfo: (req, res) => {
     const userId = req.session.user.id;
-    const {username, password, displayName, email, bio, imageURL} = req.body 
+    const { username, password, displayName, email, bio, imageURL } = req.body;
     const dbInstance = req.app.get('db');
-    
-    dbInstance.updateUsers([userId, username, password, displayName, email, bio, imageURL]).then().catch(err => console.log(err))
-    );
+
+    dbInstance
+      .updateUsers([
+        userId,
+        username,
+        password,
+        displayName,
+        email,
+        bio,
+        imageURL
+      ])
+      .then()
+      .catch(err => console.log(err));
   },
 
   updateUserName: (req, res) => {
