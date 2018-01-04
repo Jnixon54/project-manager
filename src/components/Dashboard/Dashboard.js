@@ -48,17 +48,16 @@ class Dashboard extends Component {
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
-        <div></div>
-        // <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-        //   <div className="box">
+        <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
+          <div className="box">
 
-        //     <div>{project.title}</div>
-        //     <div>{project.owner_id}</div>
-        //     <div>{project.created_at}</div>
-        //     <div>{project.updated_at}</div>
+            <div>{project.title}</div>
+            <div>{project.owner_id}</div>
+            <div>{project.created_at}</div>
+            <div>{project.updated_at}</div>
 
-        //   </div>
-        // </Link>
+          </div>
+        </Link>
 
       );
     });
@@ -75,20 +74,6 @@ class Dashboard extends Component {
 
           </div>
         </Link>
-
-      );
-    });
-
-
-    const taskBox = this.props.tasks.map((task, index) => {
-      let currProj = this.props.projects.filter(myProject => myProject.id === task.parent_project_id)
-      return (
-        <div className="dashboardTasks" key={index}><div>
-          {/* <Link to={`/ProjectView/${task.parent_project_id}/${currProj[0].title}`}>
-            {task.content}{console.log("it's rendered")}
-          </Link> */}
-        </div>
-        </div>
 
       );
     });
@@ -116,7 +101,6 @@ class Dashboard extends Component {
           <div className="taskContainer">
             <h2>Tasks</h2>
             <hr />
-            {this.props.tasks && taskBox}
           </div>
         </div>
           <h1>Team Projects</h1>
