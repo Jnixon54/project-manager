@@ -23,9 +23,9 @@ class Dashboard extends Component {
     this.sendNewProject = this.sendNewProject.bind(this);
   }
   componentDidMount() {
-    // this.props.getAllProjects(this.props.userID);
-    // this.props.getAllTasks(this.props.userID);
-    // this.props.getTeamProjects(this.props.userID);
+    this.props.getAllProjects(this.props.userID);
+    this.props.getAllTasks(this.props.userID);
+    this.props.getTeamProjects(this.props.userID);
   }
 
   // changes local state to allow tooltip to popup on create new project
@@ -44,19 +44,21 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.props.tasks)
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
-        <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="box">
+        <div></div>
+        // <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
+        //   <div className="box">
 
-            <div>{project.title}</div>
-            <div>{project.owner_id}</div>
-            <div>{project.created_at}</div>
-            <div>{project.updated_at}</div>
+        //     <div>{project.title}</div>
+        //     <div>{project.owner_id}</div>
+        //     <div>{project.created_at}</div>
+        //     <div>{project.updated_at}</div>
 
-          </div>
-        </Link>
+        //   </div>
+        // </Link>
 
       );
     });
@@ -82,9 +84,9 @@ class Dashboard extends Component {
       let currProj = this.props.projects.filter(myProject => myProject.id === task.parent_project_id)
       return (
         <div className="dashboardTasks" key={index}><div>
-          <Link to={`/ProjectView/${task.parent_project_id}/${currProj[0].title}`}>
+          {/* <Link to={`/ProjectView/${task.parent_project_id}/${currProj[0].title}`}>
             {task.content}{console.log("it's rendered")}
-          </Link>
+          </Link> */}
         </div>
         </div>
 
@@ -103,7 +105,6 @@ class Dashboard extends Component {
 
     return (
       <div>
-        <Sidebar />
         <div className="projectsAndTasks">
           <div className="projectContainer">
             <div className="box" onClick={() => this.createProjectToolTip()}>
@@ -123,7 +124,7 @@ class Dashboard extends Component {
           {this.props.teamProjects &&  teamProjects}
 
           </div>
-
+        <Sidebar id={"dashboard-sidebar"} showLogo={true}/>
       </div>
     );
   }
@@ -137,7 +138,6 @@ function mapStateToProps(state) {
     tasks: state.dashboard.tasks,
     newProjectTitle: state.dashboard.newProjectTitle,
     teamProjects: state.dashboard.teamProjects
-
   }
 }
 
