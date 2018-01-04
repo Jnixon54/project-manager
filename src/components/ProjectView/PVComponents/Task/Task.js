@@ -186,7 +186,8 @@ class Task extends Component {
 
     const { isDragging, connectDragSource, name } = this.props
     const opacity = isDragging ? 0.4 : 1;
-
+    const userTasks = this.props.assignedTasks ? this.props.assignedTasks.filter( task => task.task_id === this.props.task.task_id) : []
+    console.log(userTasks, 'userTasks')
     const style = { opacity: opacity};
     
     return connectDragSource(
@@ -226,6 +227,23 @@ class Task extends Component {
                 </div>
                 {this.state.assignModel === true &&
                       <div style={{width: '100%'}}>
+                      {this.props.assignedTasks.length === 0 && 
+                      <h4 style={ userTasks.find(me => me.user_id === this.props.userID) ? {background: 'white'} : {background: 'blue'}}
+                      onClick={
+                        userTasks.find(me => me.user_id === this.props.userID ) ? 
+                        () => this.removeFromTasks(this.props.userID, this.props.task.task_id): 
+                        () => this.assigningOfTasks(this.props.task.task_id, this.props.userID, this.props.match.params.id)}
+                      >Me!</h4>}
+
+                        {this.props.assignedTasks.length > 0 && 
+                      <h4 style={
+                        userTasks.find(currentID =>  currentID.user_id === this.props.userID ) ? {background: 'white'} : {background: 'blue'}
+                      }
+                      onClick={
+                        userTasks.find(me => me.user_id === this.props.userID) ? 
+                        () => this.removeFromTasks(this.props.userID, this.props.task.task_id) : 
+                        () => this.assigningOfTasks(this.props.task.task_id, this.props.userID, this.props.match.params.id)}>Yep im here</h4>
+                       }
                         {this.props.members && this.props.members.map(member => {
                           const assignedUser = this.props.assignedTasks.filter(task => task.task_id === this.props.task.task_id)
                           return (
