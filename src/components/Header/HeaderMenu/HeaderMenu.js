@@ -4,18 +4,21 @@ import LoginModal from '../../LandingPage/LoginModal/LoginModal';
 
 import './HeaderMenu.css';
 
-
 const Login = (props) => (
-  <div className="login-button" onClick={props.toggleModal}>
-    <div className="burger-bar"></div>
-    <div className="burger-bar"></div>
-    <div className="burger-bar"></div>
+  <div className="header-burger" onClick={props.toggleModal}>
+    <div className={"burger-bar ".concat(props.modalOpen ? "is-active" : '')} id="bar-1"></div>
+    <div className={"burger-bar ".concat(props.modalOpen ? "is-active" : '')} id="bar-2"></div>
+    <div className={"burger-bar ".concat(props.modalOpen ? "is-active" : '')} id="bar-3"></div>
   </div>
 )
 
 const Profile = () => {
   return (
-    <div style={{'width': '60px'}}></div>
+    <div style={{'width': '60px'}}>
+      <div>
+        
+      </div>
+    </div>
   )
 }
 

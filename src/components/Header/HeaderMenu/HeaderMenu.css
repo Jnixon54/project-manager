@@ -1,4 +1,4 @@
-.login-button {
+.header-burger {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,17 +12,40 @@
   /* background-color: salmon; */
 }
 
+
 .burger-bar {
   width: 80%;
-  height: 10%;
+  height: 4px;
   /* background-color: rgb(236, 246, 255); */
   /* background-color: rgb(254, 0, 47); */
   background-color: rgb(14, 31, 45);
   margin: 2px;
-  border-radius: 2px;
+  border-radius: 1px;
+  transition: all .15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.burger-bar.is-active{
+  background-color: rgb(0, 10, 34);
+  
+  /* transition-delay: 0.12s; */
+  
 }
 
 .login-button:hover .burger-bar{
   background-color: rgb(254, 0, 47);
 }
+
+#bar-1.is-active {
+  transform: translateY(8px) rotate(45deg);
+  /* transform: rotate(45deg); */
+}
+
+#bar-2.is-active {
+  opacity: 0;
+}
+
+#bar-3.is-active {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 
