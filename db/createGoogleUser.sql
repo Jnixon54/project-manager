@@ -1,2 +1,2 @@
-INSERT INTO users(username)
-VALUES ($1) RETURNING id, username, display_name, email;
+INSERT INTO users(username, display_name)
+VALUES ($1, $2) RETURNING id, username, display_name, email;
