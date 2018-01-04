@@ -80,7 +80,7 @@ export function cardInput(e) {
 export function addCard(card, projectID) {
   return {
     type: NEW_CARD,
-    payload: axios.post('http://localhost:3001/api/newCard', { card, projectID }).then(res => {
+    payload: axios.post('/api/newCard', { card, projectID }).then(res => {
       return res
     })
     // {cardHeader: res.data, tasks: []}
@@ -89,7 +89,7 @@ export function addCard(card, projectID) {
 export function getCards(projectID) {
   return {
     type: ALL_CARDS,
-    payload: axios.get(`http://localhost:3001/api/getAllCards/${projectID}`).then(response => {
+    payload: axios.get(`/api/getAllCards/${projectID}`).then(response => {
 
       return response.data
     })
@@ -98,7 +98,7 @@ export function getCards(projectID) {
 export function getCards2(projectID){
   return {
     type: GET_CARDS,
-    payload: axios.get(`http://localhost:3001/api/getAllCards2/${projectID}`).then(response => {
+    payload: axios.get(`/api/getAllCards2/${projectID}`).then(response => {
       return response.data
     })
   }
@@ -106,7 +106,7 @@ export function getCards2(projectID){
 export function getTasks(projectID){
   return {
     type: GET_TASKS,
-    payload: axios.get(`http://localhost:3001/api/getAllTasks/${projectID}`).then(response => {
+    payload: axios.get(`/api/getAllTasks/${projectID}`).then(response => {
       return response.data
     })
   }
@@ -122,7 +122,7 @@ export function taskInput(e) {
 export function addTask(task, cardID, projectID) {
   return {
     type: NEW_TASK,
-    payload: axios.post('http://localhost:3001/api/newTask', { task, cardID, projectID }).then(res => {
+    payload: axios.post('/api/newTask', { task, cardID, projectID }).then(res => {
       return res
     })
   }
@@ -152,19 +152,19 @@ export function changeEditTask(e){
 export function sendEditTask(taskID, task){
   return {
     type: SEND_EDITTASK,
-    payload: axios.post('http://localhost:3001/api/editTask', {taskID, task})
+    payload: axios.post('/api/editTask', {taskID, task})
   }
 }
 export function deleteTask(taskID){
   return {
     type: DELETE_TASK,
-    payload: axios.post('http://localhost:3001/api/deleteTask', {taskID})
+    payload: axios.post('/api/deleteTask', {taskID})
   }
 }
 export function memberSearch(user){
     return {
       type: MEMBER_SEARCH,
-      payload: axios.post('http://localhost:3001/api/memberSearch', {userName: user + '%'}).then(response => {
+      payload: axios.post('/api/memberSearch', {userName: user + '%'}).then(response => {
                 return response.data;
       })
     }
@@ -172,47 +172,47 @@ export function memberSearch(user){
 export function addGroupMember(userId, projectId){
   return {
     type: ADD_GROUP_MEMBER,
-    payload: axios.post('http://localhost:3001/api/addMember', {userId, projectId: parseInt(projectId)}).then(response => response)
+    payload: axios.post('/api/addMember', {userId, projectId: parseInt(projectId)}).then(response => response)
   }
 }
 export function groupMembers(projectId){
   return {
     type: GROUP_MEMBERS,
-    payload: axios.get(`http://localhost:3001/api/groupMembers/${projectId}`).then(response => response.data)
+    payload: axios.get(`/api/groupMembers/${projectId}`).then(response => response.data)
   }
 }
 
 export function assignToTask(taskID, userID, projectID) {
   return {
     type: ASSIGN_TO_TASK,
-    payload: axios.post('http://localhost:3001/api/assignToTask', {taskID, userID, projectID})
+    payload: axios.post('/api/assignToTask', {taskID, userID, projectID})
   }
 }
 
 export function getAssignedTasks(projectID) {
   return {
     type: GET_ASSIGNED_TASKS,
-    payload: axios.get(`http://localhost:3001/api/assignedTasks/${projectID}`).then(response => response.data)
+    payload: axios.get(`/api/assignedTasks/${projectID}`).then(response => response.data)
   }
 }
 export function removeUserFromTask(memberID, taskID) {
   return {
     type: REMOVE_USER_FROM_TASK,
-    payload: axios.delete(`http://localhost:3001/api/removeUserTask/${memberID}/${taskID}`).then(response => response.data)
+    payload: axios.delete(`/api/removeUserTask/${memberID}/${taskID}`).then(response => response.data)
   }
 }
 
 export function dragTask(taskID, cardID) {
   return {
     type: DRAG_TASK,
-    payload: axios.post('http://localhost:3001/api/dragTask', {cardID, taskID}).then(response => response)
+    payload: axios.post('/api/dragTask', {cardID, taskID}).then(response => response)
   }
 }
 
 export function removeCurrentMember(currId, projId) {
   return {
     type: REMOVE_CURRENT_MEMBER,
-    payload: axios.post('http://localhost:3001/api/removeCurrentMember', {currId, projId}).then(response => response)
+    payload: axios.post('/api/removeCurrentMember', {currId, projId}).then(response => response)
   }
 }
 

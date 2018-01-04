@@ -37,21 +37,21 @@ export function handleHeader(value){
 export function updateHeader(newHeader, cardID){
     return {
         type: UPDATE_NEW_HEADER,
-        payload: axios.post('http://localhost:3001/api/updateHeader', {newHeader, cardID}).then(response => response)
+        payload: axios.post('/api/updateHeader', {newHeader, cardID}).then(response => response)
     }
 }
 
 export function deleteCard(cardID){
     return {
         type: DELETE_CARD,
-        payload: axios.delete(`http://localhost:3001/api/deleteCard/${cardID}`).then(response => response)
+        payload: axios.delete(`/api/deleteCard/${cardID}`).then(response => response)
     }
 }
 
 export function deleteAllTasks(cardID){
     return {
         type: DELETE_ALL_TASKS,
-        payload: axios.delete(`http://localhost:3001/api/deleteAllTasks/${cardID}`)
+        payload: axios.delete(`/api/deleteAllTasks/${cardID}`)
     }
 }
 
@@ -70,7 +70,7 @@ export function taskInput(e) {
   export function addTask(task, cardID, projectID) {
     return {
       type: NEW_TASK,
-      payload: axios.post('http://localhost:3001/api/newTask', { task, cardID, projectID }).then(res => {
+      payload: axios.post('/api/newTask', { task, cardID, projectID }).then(res => {
         return res
       })
     }

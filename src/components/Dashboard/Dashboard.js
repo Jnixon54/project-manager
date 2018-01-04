@@ -8,6 +8,7 @@ import {
   updateNewProjectTitle,
   getTeamProjects
 } from './../../ducks/reducers/dashboardReducer';
+import {getUserInfo} from './../../ducks/reducers/userReducer'
 import Header from '../Header/Header';
 
 import './Dashboard.css';
@@ -23,9 +24,10 @@ class Dashboard extends Component {
     this.sendNewProject = this.sendNewProject.bind(this);
   }
   componentDidMount() {
-    // this.props.getAllProjects(this.props.userID);
-    // this.props.getAllTasks(this.props.userID);
-    // this.props.getTeamProjects(this.props.userID);
+    this.props.getAllProjects();
+    this.props.getAllTasks();
+    this.props.getTeamProjects();
+    this.props.getUserInfo()
   }
 
   // changes local state to allow tooltip to popup on create new project
@@ -38,7 +40,7 @@ class Dashboard extends Component {
   sendNewProject(e) {
     e.preventDefault();
     console.log('USERID: ', this.props.newProjectTitle)
-    axios.post('http://localhost:3001/api/addProject', { projectTitle: this.props.newProjectTitle, id: this.props.userID }).then(response => {
+    axios.post('/api/addProject', { projectTitle: this.props.newProjectTitle}).then(response => {
       this.props.history.push(`/ProjectView/${response.data[0].id}/${this.props.newProjectTitle}`)
     });
   }
@@ -136,8 +138,7 @@ function mapStateToProps(state) {
     projects: state.dashboard.projects,
     tasks: state.dashboard.tasks,
     newProjectTitle: state.dashboard.newProjectTitle,
-    teamProjects: state.dashboard.teamProjects
-
+    teamProjects: state.dashboard.teamProjects,
   }
 }
 
@@ -145,6 +146,7 @@ export default connect(mapStateToProps, {
   getAllProjects,
   getAllTasks,
   updateNewProjectTitle,
-  getTeamProjects
+  getTeamProjects,
+  getUserInfo
 })(Dashboard);
 
