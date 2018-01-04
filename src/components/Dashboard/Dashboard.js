@@ -23,9 +23,9 @@ class Dashboard extends Component {
     this.sendNewProject = this.sendNewProject.bind(this);
   }
   componentDidMount() {
-    this.props.getAllProjects(this.props.userID);
-    this.props.getAllTasks(this.props.userID);
-    this.props.getTeamProjects(this.props.userID);
+    // this.props.getAllProjects(this.props.userID);
+    // this.props.getAllTasks(this.props.userID);
+    // this.props.getTeamProjects(this.props.userID);
   }
 
   // changes local state to allow tooltip to popup on create new project

@@ -42,5 +42,6 @@
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.2"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

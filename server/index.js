@@ -25,21 +25,9 @@ const projectsController = require('./controllers/projects_controller');
 const tasksController = require('./controllers/tasks_controller');
 const socket = require('./socketServer');
 
+
+
 const app = express();
-app.use( express.static( `${__dirname}/../build` ) );
-app.use(bodyParser.json()); //Must come before cors
-// app.use(cors());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-app.use(passport.initialize());
-app.use(passport.session());
-
-
 ///////////////////////////////////////////////////////////////////////////
 // DATABASE
 massive(DB_CONN_STRING)
@@ -47,16 +35,30 @@ massive(DB_CONN_STRING)
     app.set('db', instance);
   })
   .catch(console.log);
-///////////////////////////////////////////////////////////////////////////
+// app.use( express.static( `${__dirname}/../build` ) );
+app.use(bodyParser.json()); //Must come before cors
+app.use(cors());
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested With, Content-Type, Accept');
+//   res.header('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
 app.use(
   session({
     secret: 'placeholder',
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 600000 }
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 600000, httpOnly:true }
   })
 );
-app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+///////////////////////////////////////////////////////////////////////////
+
+
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
@@ -65,16 +67,18 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  db.users
-    .findOne({ where: { id: id } })
-    .then(user => {
-      console.log(`DESERIALIZE USER: ${user[0].id} | ${user[0].username}`);
-      if (user) {
-        return done(null, user);
-      }
-      return done(null, false);
-    })
-    .catch(err => done(err));
+  console.log(`DESERIALIZE USER: ${id}`);
+  // db.users
+  //   .findOne({ where: { id: id } })
+  //   .then(user => {
+  //     console.log(`DESERIALIZE USER: ${user[0].id} | ${user[0].username}`);
+  //     if (user) {
+  //       return done(null, user);
+  //     }
+  //     return done(null, false);
+  //   })
+  //   .catch(err => done(err));
+  return done(null, {user_id: id});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Passport strategies
@@ -281,7 +285,15 @@ app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
 
 
-
+app.get('/api/user', (req, res) => {
+  console.log('USER IN USER: ', req.user);
+  console.log('SESSION ID IN USER: ', req.sessionID);
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.json('failure')
+  }
+ })
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
@@ -291,6 +303,6 @@ const server = app.listen(PORT, () => {
 });
 
 const io = socket(server);
-app.get('*', (req, res)=>{
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-})
+// app.get('*', (req, res)=>{
+//   res.sendFile(path.join(__dirname, '../build/index.html'));
+// })
