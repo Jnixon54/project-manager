@@ -276,9 +276,12 @@ app.get('/api/groupMembers/:projectId', tasksController.groupMembers)
 app.post('/api/assignToTask', tasksController.assignToTask)
 app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks)
 app.delete('/api/removeUserTask/:memberID/:taskID', tasksController.removeFromTask)
+app.delete('/api/deleteProject/:projID', tasksController.deleteProject)
 
 app.post('/api/dragTask', tasksController.dragTask)
 app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
+
+app.put('/api/sendNewTitle/:title/:projectID', tasksController.sendNewTitle)
 
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)

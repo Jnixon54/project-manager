@@ -255,7 +255,7 @@
   .projectInfo {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 80%;
   }
 
   .searchedUsers {
