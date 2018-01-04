@@ -4,13 +4,15 @@ const initialState = {
   projects: [],
   tasks: [],
   loading: false,
-  newProjectTitle: ''
+  newProjectTitle: '',
+  teamProjects: []
 };
 
 // Action Types
 const GET_PROJECTS = 'GET_PROJECTS';
 const GET_TASKS = 'GET_TASKS';
 const UPDATE_NEWPROJECTTITLE = 'UPDATE_NEWPROJECTTITLE';
+const GET_TEAM_PROJECTS = 'GET_TEAM_PROJECTS'
 
 // Reducer
 export default function reducer(state = initialState, action) {
@@ -21,6 +23,13 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         loading: false,
         projects: action.payload
+      });
+      case GET_TEAM_PROJECTS + '_PENDING':
+      return Object.assign({}, state, { loading: true });
+    case GET_TEAM_PROJECTS + '_FULFILLED':
+      return Object.assign({}, state, {
+        loading: false,
+        teamProjects: action.payload
       });
 
     case GET_TASKS + '_PENDING':
@@ -47,6 +56,15 @@ export function getAllProjects(userID) {
     type: GET_PROJECTS,
     payload: axios
       .post('http://localhost:3001/api/allProjects', { id: userID })
+      .then(response => response.data)
+  };
+}
+
+export function getTeamProjects(userID) {
+  return {
+    type: GET_TEAM_PROJECTS,
+    payload: axios
+      .post('http://localhost:3001/api/allTeamProjects', { id: userID })
       .then(response => response.data)
   };
 }

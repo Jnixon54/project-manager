@@ -5,7 +5,8 @@ import axios from 'axios';
 import {
   getAllProjects,
   getAllTasks,
-  updateNewProjectTitle
+  updateNewProjectTitle,
+  getTeamProjects
 } from './../../ducks/reducers/dashboardReducer';
 import Header from '../Header/Header';
 
@@ -22,8 +23,9 @@ class Dashboard extends Component {
     this.sendNewProject = this.sendNewProject.bind(this);
   }
   componentDidMount() {
-    this.props.getAllProjects(this.props.userID);
-    this.props.getAllTasks(this.props.userID);
+    // this.props.getAllProjects(this.props.userID);
+    // this.props.getAllTasks(this.props.userID);
+    // this.props.getTeamProjects(this.props.userID);
   }
 
   // changes local state to allow tooltip to popup on create new project
@@ -35,9 +37,9 @@ class Dashboard extends Component {
   //then routes to the project view with the new projects id
   sendNewProject(e) {
     e.preventDefault();
-    console.log('USERID: ', this.props.userID)
+    console.log('USERID: ', this.props.newProjectTitle)
     axios.post('http://localhost:3001/api/addProject', { projectTitle: this.props.newProjectTitle, id: this.props.userID }).then(response => {
-      this.props.history.push(`/ProjectView/${response.data[0].id}`)
+      this.props.history.push(`/ProjectView/${response.data[0].id}/${this.props.newProjectTitle}`)
     });
   }
 
@@ -58,6 +60,23 @@ class Dashboard extends Component {
 
       );
     });
+
+    const teamProjects = this.props.teamProjects.map((project, index) => {
+      return (
+        <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
+          <div className="box">
+
+            <div>{project.title}</div>
+            <div>{project.owner_id}</div>
+            <div>{project.created_at}</div>
+            <div>{project.updated_at}</div>
+
+          </div>
+        </Link>
+
+      );
+    });
+
 
     const taskBox = this.props.tasks.map((task, index) => {
       let currProj = this.props.projects.filter(myProject => myProject.id === task.parent_project_id)
@@ -99,6 +118,12 @@ class Dashboard extends Component {
             {this.props.tasks && taskBox}
           </div>
         </div>
+          <h1>Team Projects</h1>
+          <div className="projectContainer">
+          {this.props.teamProjects &&  teamProjects}
+
+          </div>
+
       </div>
     );
   }
@@ -109,13 +134,17 @@ function mapStateToProps(state) {
   return {
     userID: state.user.userID,
     projects: state.dashboard.projects,
-    tasks: state.dashboard.tasks
+    tasks: state.dashboard.tasks,
+    newProjectTitle: state.dashboard.newProjectTitle,
+    teamProjects: state.dashboard.teamProjects
+
   }
 }
 
 export default connect(mapStateToProps, {
   getAllProjects,
   getAllTasks,
-  updateNewProjectTitle
+  updateNewProjectTitle,
+  getTeamProjects
 })(Dashboard);
 
