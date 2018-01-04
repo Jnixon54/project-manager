@@ -264,7 +264,6 @@ app.get('/api/allTeamProjects', projectsController.getTeamProjects)
 // Project View Endpoints
 app.post('/api/newCard', tasksController.addNewCard)
 app.post('/api/newTask', tasksController.addNewTask)
-app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
 app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
 
 app.get('/api/getAllTasks/:projectID', tasksController.getTasks)
