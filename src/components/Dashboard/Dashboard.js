@@ -8,7 +8,7 @@ import {
   updateNewProjectTitle,
   getTeamProjects
 } from './../../ducks/reducers/dashboardReducer';
-import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
 
 import './Dashboard.css';
 
@@ -103,7 +103,7 @@ class Dashboard extends Component {
 
     return (
       <div>
-        <Header />
+        <Sidebar />
         <div className="projectsAndTasks">
           <div className="projectContainer">
             <div className="box" onClick={() => this.createProjectToolTip()}>

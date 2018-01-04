@@ -2,10 +2,10 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import LoginModal from '../../LandingPage/LoginModal/LoginModal';
 
-import './HeaderMenu.css';
+import './SidebarMenu.css';
 
 const Login = (props) => (
-  <div className="header-burger" onClick={props.toggleModal}>
+  <div className="sidebar-burger" onClick={props.toggleModal}>
     <div className={"burger-bar ".concat(props.modalOpen ? "is-active" : '')} id="bar-1"></div>
     <div className={"burger-bar ".concat(props.modalOpen ? "is-active" : '')} id="bar-2"></div>
     <div className={"burger-bar ".concat(props.modalOpen ? "is-active" : '')} id="bar-3"></div>
@@ -22,7 +22,7 @@ const Profile = () => {
   )
 }
 
-const HeaderMenu = (props) => {
+const SidebarMenu = (props) => {
   return (
     <Switch>
       <Route exact path="/" render={() => (<Login toggleModal={props.toggleModal}
@@ -32,4 +32,4 @@ const HeaderMenu = (props) => {
   )
 }
 
-export default HeaderMenu
+export default SidebarMenu

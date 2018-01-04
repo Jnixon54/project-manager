@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import './LandingPage.css';
-import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
 
 class LandingPage extends Component {
   constructor(props) {
@@ -49,8 +49,6 @@ class LandingPage extends Component {
     animationClasses.push(this.state.passiveAnimation ? 'toggle' : null);
     return (
       <div className="landing-container">
-        <Header id="HeaderBar">
-        </Header>
         <div className="container welcome-container">
           <div className={"big-landing-text " + animationClasses.join(' ')}>Group<span>i</span><span>i</span></div>
           <div className="welcome-content">
@@ -72,6 +70,7 @@ class LandingPage extends Component {
             </div>
           </div>
         </div>
+        <Sidebar id={"landing-sidebar"} />
       </div>
     );
   }

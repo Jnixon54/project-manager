@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import LoginModal from '../LandingPage/LoginModal/LoginModal';
 
-import HeaderMenu from './HeaderMenu/HeaderMenu';
+import SidebarMenu from './SidebarMenu/SidebarMenu';
 
-import './Header.css';
+import './Sidebar.css';
 
-class Header extends Component {
+class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,16 +27,14 @@ class Header extends Component {
   }
 
   render() {
-    
     const loginModal = this.state.modalOpen ? <LoginModal/> : null;
     return (
-      <div>
-        <header className="container" id="HeaderBar">
+      <div className="sidebar" id={this.props.id}>
           <div style={{'width': '60px'}}></div>
           <div className="logo-text">
             Group<span>i</span><span>i</span>
           </div>
-          <HeaderMenu toggleModal={this.toggleModal}
+          <SidebarMenu toggleModal={this.toggleModal}
                       modalOpen={this.state.modalOpen}/>
           {this.state.menuOpen === true && (
             <menu id="menuDropdown">
@@ -49,13 +47,12 @@ class Header extends Component {
               <h3>Logout</h3>
             </menu>
           )}
-        </header>
         {loginModal}
       </div>
     );
   }
 }
 
-export default Header;
+export default Sidebar;
 
-//early Header, No functionality or hamburger yet. Not to be used on the landing Page
+//early Sidebar, No functionality or hamburger yet. Not to be used on the landing Page
