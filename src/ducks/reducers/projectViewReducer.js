@@ -51,6 +51,8 @@ const REMOVE_USER_FROM_TASK = 'REMOVE_USER_FROM_TASK'
 
 const DRAG_TASK = 'DRAG_TASK'
 const REMOVE_CURRENT_MEMBER = 'REMOVE_CURRENT_MEMBER'
+const DELETE_PROJECT = 'DELETE_PROJECT' 
+const SEND_NEW_TITLE = 'SEND_NEW_TITLE'
 
 
 
@@ -216,6 +218,19 @@ export function removeCurrentMember(currId, projId) {
   }
 }
 
+export function deleteProject(projID) {
+  return {
+    type: DELETE_PROJECT,
+    payload: axios.delete(`/api/deleteProject/${projID}`).then(response => response)
+  }
+}
+
+export function sendNewTitle(title, projectID) {
+  return {
+    type: SEND_NEW_TITLE,
+    payload: axios.put(`/api/sendNewTitle/${title}/${projectID}`)
+  }
+}
 
 // export function increaseCount() {
 //   return {

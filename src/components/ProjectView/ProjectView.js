@@ -21,20 +21,30 @@ import {
   addGroupMember,
   groupMembers,
   getAssignedTasks,
-  removeCurrentMember
+  removeCurrentMember,
+  deleteProject,
+  sendNewTitle
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {value: "reindeer"}
+    this.state = {
+      value: "reindeer",
+      title: this.props.match.params.title,
+      titleEditor: false
+    }
 
     //BINDING METHODS
     this.addCard = this.addCard.bind(this)
     this.memberSearchWorkAround = this.memberSearchWorkAround.bind(this)
     this.memberSelect = this.memberSelect.bind(this)
     this.removeMember = this.removeMember.bind(this)
+    this.deleteProject = this.deleteProject.bind(this)
+    this.editTitle = this.editTitle.bind(this)
+    this.openEditTitle = this.openEditTitle.bind(this)
+    this.sendNewTitle = this.sendNewTitle.bind(this)
   }
   
   componentDidMount(){
@@ -75,6 +85,25 @@ class ProjectView extends Component {
       })
   }
 
+  deleteProject(){
+    this.props.deleteProject(this.props.match.params.id).then(response => {
+      this.props.history.push('/dashboard')
+    })
+  }
+  editTitle(e){
+    this.setState({title: e.target.value})
+    console.log(e.target.value);
+  }
+  openEditTitle(){
+    this.setState({titleEditor: !this.state.titleEditor})
+  }
+  sendNewTitle(e){
+    e.preventDefault()
+    this.setState({titleEditor: !this.state.titleEditor})
+    this.props.sendNewTitle(this.state.title, this.props.match.params.id)
+  }
+  
+
 
   render() {
     const cardBox = this.props.cards.map((card, index) => {
@@ -97,7 +126,17 @@ class ProjectView extends Component {
         <Header />
         <div id='projectBody'>
         <div className="projectInfo">
-        <h2>{this.props.match.params.title}</h2>
+        {!this.state.titleEditor &&
+          <h2>{this.state.title}</h2>
+        }
+        {this.state.titleEditor &&
+          <form onSubmit={this.sendNewTitle}>
+            <input type='text' value={this.state.title} onChange={this.editTitle}/>
+            <h3 onClick={this.deleteProject}>Delete project</h3>
+          </form>
+        }
+        
+        <button onClick={this.openEditTitle}>Edit</button>
         <div className="searchedUsers">
         <input type="text" onChange={this.memberSearchWorkAround} />
 
@@ -114,6 +153,9 @@ class ProjectView extends Component {
               return   <option key={memindex} value={member.id} >{member.username}</option>
           })}
         </select>
+        
+        
+
         </div>
           <div id='cardHolder'>
             {this.props.cards.length > 0 &&
@@ -137,5 +179,5 @@ const mapStateToProps = state => {
 
 ProjectView = DragDropContext(HTML5Backend)(ProjectView)
 export default withRouter(
-  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks, removeCurrentMember })(ProjectView)
+  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks, removeCurrentMember, deleteProject, sendNewTitle })(ProjectView)
 );
