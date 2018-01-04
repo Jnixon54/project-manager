@@ -135,6 +135,7 @@ passport.use(
       callbackURL: GOOGLE_REDIRECT_URI
     },
     function(accessToken, refreshToken, profile, done) {
+      console.log(profile, "PROFILE IS HERE")
       const db = app.get('db');
       const googleID = 'google|' + profile.id;
       db
@@ -142,7 +143,7 @@ passport.use(
         .then(user => {
           if (!user[0]) {
             db
-              .createGoogleUser([googleID])
+              .createGoogleUser([googleID, profile.name.givenName])
               .then(user => {
                 console.log(
                   `Created Google user: ${user[0].id} ${user[0].username}`
@@ -289,8 +290,6 @@ app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
 
 
 app.get('/api/user', (req, res) => {
-  console.log('USER IN USER: ', req.user);
-  console.log('SESSION ID IN USER: ', req.sessionID);
   if (req.user) {
     res.json(req.user);
   } else {
