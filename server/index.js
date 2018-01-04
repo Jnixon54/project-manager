@@ -49,16 +49,29 @@ massive(DB_CONN_STRING)
     app.set('db', instance);
   })
   .catch(console.log);
-///////////////////////////////////////////////////////////////////////////
+// app.use( express.static( `${__dirname}/../build` ) );
+app.use(bodyParser.json()); //Must come before cors
+app.use(cors());
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested With, Content-Type, Accept');
+//   res.header('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
 app.use(
   session({
     secret: 'placeholder',
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 600000 }
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 600000, httpOnly: true }
   })
 );
-app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+///////////////////////////////////////////////////////////////////////////
+
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
@@ -67,16 +80,18 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  db.users
-    .findOne({ where: { id: id } })
-    .then(user => {
-      console.log(`DESERIALIZE USER: ${user[0].id} | ${user[0].username}`);
-      if (user) {
-        return done(null, user);
-      }
-      return done(null, false);
-    })
-    .catch(err => done(err));
+  console.log(`DESERIALIZE USER: ${id}`);
+  // db.users
+  //   .findOne({ where: { id: id } })
+  //   .then(user => {
+  //     console.log(`DESERIALIZE USER: ${user[0].id} | ${user[0].username}`);
+  //     if (user) {
+  //       return done(null, user);
+  //     }
+  //     return done(null, false);
+  //   })
+  //   .catch(err => done(err));
+  return done(null, { user_id: id });
 });
 ///////////////////////////////////////////////////////////////////////////
 // Passport strategies
@@ -272,6 +287,7 @@ app.get('/logout', usersController.logout);
 app.post('/api/allProjects', projectsController.getAllProjects);
 app.post('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject);
+app.post('/api/allTeamProjects', projectsController.getTeamProjects);
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints
@@ -303,7 +319,11 @@ app.post('/api/removeCurrentMember', tasksController.removeCurrentMember);
 
 ///////////////////////////////////////////////////////////////////////////
 // Settings End Points
-app.post('/api/updateUserInfo', usersController.updateUserInfo);
+app.post(
+  '/api/updateDisplayname',
+  (req, res) => console.log(req.session),
+  usersController.updateDisplayName
+);
 
 app.post(
   '/api/updateUserName',
@@ -312,19 +332,19 @@ app.post(
 );
 
 app.post(
-  '/api/updateEmail',
+  '/api/updateFullName',
   (req, res) => console.log(req.session),
   usersController.updateEmail
 );
 
 app.post(
-  '/api/updateBio',
+  '/api/updateEmail',
   (req, res) => console.log(req.session),
   usersController.updateBio
 );
 
 app.post(
-  '/api/updateAvatarImage',
+  '/api/updateBio',
   (req, res) => console.log(req.session),
   usersController.updateAvatarImage
 );
