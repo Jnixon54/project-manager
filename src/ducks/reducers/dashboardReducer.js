@@ -55,7 +55,7 @@ export function getAllProjects(userID) {
   return {
     type: GET_PROJECTS,
     payload: axios
-      .post('http://localhost:3001/api/allProjects', { id: userID })
+      .get('/api/allProjects')
       .then(response => response.data)
   };
 }
@@ -64,7 +64,7 @@ export function getTeamProjects(userID) {
   return {
     type: GET_TEAM_PROJECTS,
     payload: axios
-      .post('http://localhost:3001/api/allTeamProjects', { id: userID })
+      .get('/api/allTeamProjects')
       .then(response => response.data)
   };
 }
@@ -73,7 +73,7 @@ export function getAllTasks(userID) {
   return {
     type: GET_TASKS,
     payload: axios
-      .post('http://localhost:3001/api/allTasks', { id: userID })
+      .get('/api/allTasks')
       .then(response => response.data)
   };
 }

@@ -174,4 +174,22 @@ module.exports = {
            })
            .catch(console.log)
     },
+    deleteProject: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+        console.log("Hit the controller", req.params.projID);
+        dbInstance.deleteProject([req.params.projID])
+            .then(response => {
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
+    sendNewTitle: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+
+        dbInstance.sendNewTitle([req.params.title, req.params.projectID])
+            .then(response => {
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }

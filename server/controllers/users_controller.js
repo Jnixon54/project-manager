@@ -30,6 +30,15 @@ module.exports = {
         }
       });
   },
+  getUserInfo: (req, res) => {
+    const dbInstance = req.app.get('db');
+    console.log("hit")
+    dbInstance
+      .getUserInfo([req.user.id])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+    
+  },
   // login: (req, res, next) => {
   //   const db = req.app.get('db');
   //   req.session.user = {};

@@ -78,7 +78,7 @@ passport.deserializeUser(function(id, done) {
   //     return done(null, false);
   //   })
   //   .catch(err => done(err));
-  return done(null, {user_id: id});
+  return done(null, {id});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Passport strategies
@@ -252,12 +252,13 @@ app.post('/register', passport.authenticate('local', {
 
 app.get('/logout', usersController.logout);
 
+
 ///////////////////////////////////////////////////////////////////////////
 // Dashboard Endpoints
-app.post('/api/allProjects', projectsController.getAllProjects);
-app.post('/api/allTasks', projectsController.getAllTasks);
+app.get('/api/allProjects',projectsController.getAllProjects);
+app.get('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject);
-app.post('/api/allTeamProjects', projectsController.getTeamProjects)
+app.get('/api/allTeamProjects', projectsController.getTeamProjects)
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints
@@ -275,9 +276,12 @@ app.get('/api/groupMembers/:projectId', tasksController.groupMembers)
 app.post('/api/assignToTask', tasksController.assignToTask)
 app.get('/api/assignedTasks/:projectID', tasksController.assignedTasks)
 app.delete('/api/removeUserTask/:memberID/:taskID', tasksController.removeFromTask)
+app.delete('/api/deleteProject/:projID', tasksController.deleteProject)
 
 app.post('/api/dragTask', tasksController.dragTask)
 app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
+
+app.put('/api/sendNewTitle/:title/:projectID', tasksController.sendNewTitle)
 
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)
@@ -294,6 +298,8 @@ app.get('/api/user', (req, res) => {
     res.json('failure')
   }
  })
+
+ app.get('/api/getUserInfo', usersController.getUserInfo)
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
