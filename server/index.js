@@ -319,11 +319,11 @@ app.post('/api/removeCurrentMember', tasksController.removeCurrentMember);
 
 ///////////////////////////////////////////////////////////////////////////
 // Settings End Points
-app.post(
-  '/api/updateDisplayname',
-  (req, res) => console.log(req.session),
-  usersController.updateDisplayName
-);
+// app.post(
+//   '/api/updateDisplayname',
+//   (req, res) => console.log(req.session),
+//   usersController.updateDisplayName
+// );
 
 app.post(
   '/api/updateUserName',

@@ -17,8 +17,6 @@ import {
   updateAvatarImage
 } from '../../ducks/reducers/settingReducer';
 
-// import { Link } from 'react-router-dom';
-
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -167,7 +165,6 @@ class Settings extends Component {
             Change Avatar:{' '}
             <ImageUploader
               withIcon={true}
-              // buttonStyle={buttonStyles}
               buttonText="Upload an image"
               withPreview={true}
               withLabel={false}
