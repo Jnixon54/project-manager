@@ -1,19 +1,41 @@
-#HeaderBar {
+.sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
   display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
-  height: 66px;
-  /* background: rgb(0, 63, 94); */
+  /* width: 100vw;
+  height: 66px; */
   background-color: rgb(242,242,242);
+  height: 100vh;
+  width: 66px;
+  /* background-color: rgb(0, 63, 94); */
+  
   /* box-shadow: 0px 5px 20px 1px rgba(0,0,0,0.15); */
   /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); */
 }
 
+#landing-sidebar {
+  /* background-color: red; */
+  flex-direction: column;
+}
+
+#dashboard-sidebar {
+  background-color: rgb(18, 40, 58);
+  /* border-left: 1px solid rgba(81, 113, 140, 0.228); */
+}
+
+.logo-container {
+  width: 66px;
+  height: 115px;
+}
+
 .logo-text {
-  display: none;
-  text-align: center;
-  height: auto;
+  transform: rotate(90deg);
+  margin-left: 15px;
+  height: 50px;
   padding: 5px 0 5px 0;
   color: rgb(236, 246, 255);
   font-weight: normal;
