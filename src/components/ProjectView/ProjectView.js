@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
 import { withRouter } from 'react-router-dom';
 import Card from './PVComponents/Card/Card'
 
@@ -123,7 +123,7 @@ class ProjectView extends Component {
       })
     return (
       <div>
-        <Header />
+        <Sidebar />
         <div id='projectBody'>
         <div className="projectInfo">
         {!this.state.titleEditor &&

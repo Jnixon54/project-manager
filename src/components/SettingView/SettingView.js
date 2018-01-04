@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './SettingView.css';
 import { Link } from 'react-router-dom';
 
-import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
 
 // import Cards from './Cards/Cards';
 // import Profile from './Profile/Profile';
@@ -12,7 +12,7 @@ export default class SettingView extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <Sidebar />
         <br />
         <br />
         <div>

@@ -1,0 +1,7 @@
+.task-menu {
+  position: absolute;
+  right: 66px;
+  height: 100vh;
+  width: 400px;
+  background-color: rgb(198, 237, 237);
+}

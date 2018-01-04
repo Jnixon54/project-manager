@@ -8,8 +8,8 @@ import {
   updateNewProjectTitle,
   getTeamProjects
 } from './../../ducks/reducers/dashboardReducer';
+import Sidebar from '../Sidebar/Sidebar';
 import {getUserInfo} from './../../ducks/reducers/userReducer'
-import Header from '../Header/Header';
 
 import './Dashboard.css';
 
@@ -46,6 +46,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.props.tasks)
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
@@ -80,20 +81,6 @@ class Dashboard extends Component {
       );
     });
 
-
-    const taskBox = this.props.tasks.map((task, index) => {
-      let currProj = this.props.projects.filter(myProject => myProject.id === task.parent_project_id)
-      return (
-        <div className="dashboardTasks" key={index}><div>
-          <Link to={`/ProjectView/${task.parent_project_id}/${currProj[0].title}`}>
-            {task.content}{console.log("it's rendered")}
-          </Link>
-        </div>
-        </div>
-
-      );
-    });
-
     //creates a tooltip to allow the entry of a project title, form allows for enter to add to database and route to project view
     const projectToolTip = (
       <div className="projectToolTip">
@@ -106,7 +93,6 @@ class Dashboard extends Component {
 
     return (
       <div>
-        <Header />
         <div className="projectsAndTasks">
           <div className="projectContainer">
             <div className="box" onClick={() => this.createProjectToolTip()}>
@@ -118,7 +104,6 @@ class Dashboard extends Component {
           <div className="taskContainer">
             <h2>Tasks</h2>
             <hr />
-            {this.props.tasks && taskBox}
           </div>
         </div>
           <h1>Team Projects</h1>
@@ -126,7 +111,7 @@ class Dashboard extends Component {
           {this.props.teamProjects &&  teamProjects}
 
           </div>
-
+        <Sidebar id={"dashboard-sidebar"} showLogo={true}/>
       </div>
     );
   }
@@ -139,7 +124,7 @@ function mapStateToProps(state) {
     projects: state.dashboard.projects,
     tasks: state.dashboard.tasks,
     newProjectTitle: state.dashboard.newProjectTitle,
-    teamProjects: state.dashboard.teamProjects,
+    teamProjects: state.dashboard.teamProjects
   }
 }
 
