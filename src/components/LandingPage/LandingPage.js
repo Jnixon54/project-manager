@@ -22,12 +22,16 @@ class LandingPage extends Component {
     this.passiveAnimationInterval = setInterval(()=> {
       this.setState({passiveAnimation: !this.state.passiveAnimation})
     }, 2000);
+    
+    this.timeouts = [this.animationTimeout, this.passiveAnimationInterval];
   }
 
   componentWillUnmount() {
-    if (this.animationTimeout) {
-      clearTimeout(this.animationTimeout);
-    }
+    this.timeouts.forEach((timeout) => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    })
   }
   // onSubmitRegister(username, password){
   //   axios
