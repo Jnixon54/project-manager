@@ -81,21 +81,25 @@ class Dashboard extends Component {
     return (
       <div className="dashboard-container">
         <div className="container">
-          <Header />
+          <Header path={"Dashboard"} currentPath={"Boards"}/>
           <div className="projects-container">
-          <h1>Personal Boards</h1>
-            <div className="projects-container-inner">
-                <div className="project-card create-item" onClick={() => this.createProjectToolTip()}>
-                  <div className="add-circle">
-                    +
-                  </div>
+            <div className="personal-board-container">
+              <h1>Personal Boards</h1>
+                <div className="projects-container-inner">
+                    <div className="project-card create-item" onClick={() => this.createProjectToolTip()}>
+                      <div className="add-circle">
+                        <span>+</span>
+                      </div>
+                    </div>
+                    {this.state.toolTip && projectToolTip}
+                    {this.props.projects && projectBox}
                 </div>
-                {this.state.toolTip && projectToolTip}
-                {this.props.projects && projectBox}
             </div>
-            <h1>Collaborative Boards</h1>
-            <div className="projects-container-inner">
-              {this.props.teamProjects &&  teamProjects}
+            <div className="collab-board-container">
+              <h1>Collaborative Boards</h1>
+              <div className="projects-container-inner">
+                {this.props.teamProjects &&  teamProjects}
+              </div>
             </div>
           </div>
         </div>
