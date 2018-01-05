@@ -36,7 +36,8 @@ module.exports = {
         
                 dbInstance.getAllCards2([req.params.projectID])
                     .then(response => {
-                        res.status(200).send(response)})
+                        const newRes = {response, user: req.user}
+                        res.status(200).send(newRes)})
                     .catch(console.log)
     },
 

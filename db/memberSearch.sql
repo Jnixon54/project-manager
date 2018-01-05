@@ -1,1 +1,1 @@
-SELECT * from users WHERE username LIKE $1
+SELECT * from users WHERE display_name LIKE $1

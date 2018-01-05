@@ -142,7 +142,7 @@ passport.use(
         .then(user => {
           if (!user[0]) {
             db
-              .createGoogleUser([googleID])
+              .createGoogleUser([googleID, profile.name.givenName])
               .then(user => {
                 console.log(
                   `Created Google user: ${user[0].id} ${user[0].username}`
@@ -171,14 +171,16 @@ passport.use(
       callbackURL: FACEBOOK_REDIRECT_URI
     },
     function(accessToken, refreshToken, profile, done) {
+      
       const db = app.get('db');
       const facebookID = 'facebook|' + profile.id;
+      const displayName = profile.displayName.split(" ")[0];
       db
         .getUser([facebookID])
         .then(user => {
           if (!user[0]) {
             db
-              .createFacebookUser([facebookID])
+              .createFacebookUser([facebookID, displayName])
               .then(user => {
                 console.log(
                   `Created Facebook user: ${user[0].id} ${user[0].username}`
@@ -264,7 +266,6 @@ app.get('/api/allTeamProjects', projectsController.getTeamProjects)
 // Project View Endpoints
 app.post('/api/newCard', tasksController.addNewCard)
 app.post('/api/newTask', tasksController.addNewTask)
-app.get('/api/getAllCards/:projectID', tasksController.getAllCards)
 app.get('/api/getAllCards2/:projectID', tasksController.getAllCards2)
 
 app.get('/api/getAllTasks/:projectID', tasksController.getTasks)
@@ -290,8 +291,6 @@ app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
 
 
 app.get('/api/user', (req, res) => {
-  console.log('USER IN USER: ', req.user);
-  console.log('SESSION ID IN USER: ', req.sessionID);
   if (req.user) {
     res.json(req.user);
   } else {
