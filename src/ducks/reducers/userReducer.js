@@ -7,7 +7,7 @@ const initialState = {
   userIsLoggedIn: false,
   username: '',
   userID: '',
-  display_name: '',
+  displayName: '',
   email: '',
   profilePicture: '',
   bio: ''
@@ -33,11 +33,12 @@ function reducer(state = initialState, action) {
                         passwordInput: '',
                         username: action.payload.username,
                         userID: action.payload.id,
-                        display_name: action.payload.display_name,
+                        displayName: action.payload.display_name,
                         email: action.payload.email };
     case GET_USER_INFO + '_PENDING':
       return { ...state, loading: true };
     case GET_USER_INFO + '_FULFILLED':
+    // console.log(action.payload.display_name)
       return {...state, username: action.payload.username, displayName: action.payload.display_name, userID: action.payload.id, profilePicture: action.payload.image_url, email: action.payload.email, bio: action.payload.bio, loading: false};
      case ON_SUBMIT_LOGIN + '_PENDING':
        return { ...state };
@@ -97,7 +98,7 @@ export function getUserInfo() {
       .get('/api/getUserInfo')
       .then(response => {
         return response.data[0];
-      console.log(response.data[0]);})
+      ;})
   };
 }
 

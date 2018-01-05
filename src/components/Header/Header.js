@@ -1,12 +1,22 @@
 import React from 'react';
 import './Header.css';
+import {withRouter} from 'react-router';
+import {connect} from 'react-redux';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div className="header-container">
-      <div>Path</div>
-      <div>display name</div>
+      <div>
+        <span className="header-light">{props.path}</span> - <span className="header-bold">{props.currentPath}</span>
+      </div>
+      <div className="header-bold">{props.displayName}</div>
     </div>
 )}
 
-export default Header
+function mapStateToProps(state) {
+  return {
+    displayName: state.user.displayName
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(Header));

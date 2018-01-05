@@ -1,7 +1,7 @@
 import React from 'react';
 import './ColorPicker.css'
 
-const colorsList = [["red", "yellow", "blue"], ["green", "gold", "purple"], ["chartreuse", "lightskyblue", "turquoise"]]
+const colorsList = [["red", "yellow", "blue"], ["green", "gold", "purple"], ["rgb(144, 148, 159)", "lightskyblue", "turquoise"]]
 
 
     const ColorPicker = (props) => (
