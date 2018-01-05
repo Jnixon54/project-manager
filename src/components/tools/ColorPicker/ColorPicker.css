@@ -1,0 +1,64 @@
+.color-picker{
+    position: absolute;
+    top: 3px;
+    right: 30px;
+    background: black;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.color-box{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 30px;
+    right: 30px;
+    background: white;
+}
+.colors-to-pick{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: blue;
+    margin: 7px
+}
+.color-holder{
+    display: flex;
+}
+
+.color-1{
+    background-color: red;
+
+}
+.color-2{
+    background-color: yellow;
+    
+}
+.color-3{
+    background-color: blue;
+    
+}
+.color-4{
+    background-color: green;
+    
+}
+.color-5{
+    background-color: gold;
+    
+}
+.color-6{
+    background-color: purple;
+    
+}
+.color-7{
+    background-color: chartreuse;
+    
+}
+.color-8{
+    background-color: lightskyblue;
+    
+}
+.color-9{
+    background-color: turquoise
+    
+}

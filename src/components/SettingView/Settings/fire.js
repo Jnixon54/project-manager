@@ -1,5 +1,5 @@
-import firebase from 'firebase';
+// import firebase from 'firebase';
 
-const fire = firebase.initializeApp(config);
+// const fire = firebase.initializeApp(config);
 
-export { fire };
+// export { fire };
