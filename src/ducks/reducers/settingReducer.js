@@ -7,7 +7,8 @@ const initialState = {
   password: '',
   display_name: '',
   email: '',
-  bio: ''
+  bio: '',
+  imageUrl: ''
 };
 // Action type
 const UPDATE_USERNAME_FIELD = 'UPDATE_USERNAME_FIELD';
@@ -15,6 +16,7 @@ const UPDATE_PASSWORD_FIELD = 'UPDATE_PASSWORD_FIELD';
 const UPDATE_DISPLAY_NAME_FIELD = 'UPDATE_DISPLAY_NAME_FIELD';
 const UPDATE_EMAIL_FIELD = 'UPDATE_EMAIL_FIELD';
 const UPDATE_BIO_FIELD = 'UPDATE_BIO_FIELD';
+const UPDATE_IMAGE_URL = 'UPDATE_IMAGE_URL';
 
 // Reducer
 function reducer(state = initialState, action) {
@@ -29,6 +31,9 @@ function reducer(state = initialState, action) {
       return { ...state, email: action.payload };
     case UPDATE_BIO_FIELD:
       return { ...state, bio: action.payload };
+
+    case UPDATE_IMAGE_URL:
+      return { ...state, imageUrl: action.payload };
 
     default:
       return state;
@@ -67,6 +72,13 @@ export function updateBioField(bio) {
   return {
     type: 'UPDATE_BIO_FIELD',
     payload: bio
+  };
+}
+
+export function updateAvatarImage(imageUrl) {
+  return {
+    type: 'UPDATE_IMAGE_URL',
+    payload: imageUrl
   };
 }
 export default reducer;

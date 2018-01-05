@@ -49,10 +49,7 @@ export default class Settings extends Component {
   }
 
   render() {
-    // const buttonStyles = {
-    //   border: '5px solid pink',
-    //   backgroundColor: 'yellow'
-    // };
+  
     return (
       <div>
         <br />
@@ -67,7 +64,6 @@ export default class Settings extends Component {
             Change Avatar:
             <ImageUploader
               withIcon={true}
-              // buttonStyle={buttonStyles}
               buttonText="Upload an image"
               withPreview={true}
               withLabel={false}
