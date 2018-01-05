@@ -68,9 +68,9 @@ class Dashboard extends Component {
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
-        <div className="outer-project-box">
+        <div key={index} className="outer-project-box">
         <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="box" style={ project.color && {'background-color': `${project.color}`}}>
+          <div className="box" style={ project.color && {'backgroundColor': `${project.color}`}}>
           
 
             <div>{project.title}</div>
