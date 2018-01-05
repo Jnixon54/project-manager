@@ -200,7 +200,7 @@ class Card extends Component {
                 {/* These two divs are allowing us to position the box absoloutely. Do inline style to override component styling */}
                  <div style={{"position": "relative"}} >
                     <div style={{'position': "absolute", 'top': '-60px', 'right': '20px'}}>
-                        <ColorPicker projID={this.props.card.id} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentProject={this.props.card} pickColor={this.pickColor} />
+                        <ColorPicker currentID={this.props.card.id} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentItem={this.props.card} pickColor={this.pickColor} />
                     </div>
                 </div>
             </div>

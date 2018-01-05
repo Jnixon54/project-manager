@@ -78,7 +78,7 @@ class Dashboard extends Component {
             </div>
           </Link>
           
-         <ColorPicker projID={this.state.projID} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentProject={project} pickColor={this.pickColor}/>
+         <ColorPicker currentID={this.state.projID} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentItem={project} pickColor={this.pickColor}/>
         </div>
       )
     });
