@@ -11,6 +11,7 @@ import {
 import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
 import {getUserInfo} from './../../ducks/reducers/userReducer'
+import ColorPicker from './../tools/ColorPicker/ColorPicker'
 
 import './Dashboard.css';
 
@@ -19,10 +20,15 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      toolTip: false
+      toolTip: false,
+      currColor: '',
+      colorsOpen: false,
+      projID: 0
     };
     this.createProjectToolTip = this.createProjectToolTip.bind(this);
     this.sendNewProject = this.sendNewProject.bind(this);
+    this.pickColor = this.pickColor.bind(this)
+    this.showColors = this.showColors.bind(this)
   }
   componentDidMount() {
     this.props.getAllProjects();
@@ -46,22 +52,39 @@ class Dashboard extends Component {
     });
   }
 
+  pickColor(color, projectID){
+    console.log(color, projectID);
+    axios.post('/api/changeColor', {color, projectID}).then(response => {
+      this.props.getAllProjects();
+      this.setState({colorsOpen: !this.state.colorsOpen, projectID})
+    })
+  }
+  showColors(projID){
+    this.setState({colorsOpen: !this.state.colorsOpen, projID})
+    console.log("Hit!");
+  }
+
   render() {
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
-        <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="project-card">
-            <div className="card-header">{project.title}</div>
-          </div>
-        </Link>
-      );
+        <div key={index} className="outer-project-box">
+          <Link to={`/ProjectView/${project.id}/${project.title}`} key={index}>
+            <div className="project-card" style={ project.color && {'backgroundColor': `${project.color}`}}>
+              <div className="card-header">
+              {project.title}
+              </div>
+            </div>
+          </Link>
+         <ColorPicker currentID={this.state.projID} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentItem={project} pickColor={this.pickColor}/>
+        </div>
+      )
     });
 
     const teamProjects = this.props.teamProjects.map((project, index) => {
       return (
-        <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="project-card">
+        <Link to={`/ProjectView/${project.id}/${project.title}`} key={index}>
+          <div className="project-card" style={ project.color && {'backgroundColor': `${project.color}`}} >
             <div className="card-header">{project.title}</div>
           </div>
         </Link>
@@ -81,21 +104,25 @@ class Dashboard extends Component {
     return (
       <div className="dashboard-container">
         <div className="container">
-          <Header />
+          <Header path={"Dashboard"} currentPath={"Boards"}/>
           <div className="projects-container">
-          <h1>Personal Boards</h1>
-            <div className="projects-container-inner">
-                <div className="project-card create-item" onClick={() => this.createProjectToolTip()}>
-                  <div className="add-circle">
-                    +
-                  </div>
+            <div className="personal-board-container">
+              <h1>Personal Boards</h1>
+                <div className="projects-container-inner">
+                    <div className="project-card create-item" onClick={() => this.createProjectToolTip()}>
+                      <div className="add-circle">
+                        <span>+</span>
+                      </div>
+                    </div>
+                    {this.state.toolTip && projectToolTip}
+                    {this.props.projects && projectBox}
                 </div>
-                {this.state.toolTip && projectToolTip}
-                {this.props.projects && projectBox}
             </div>
-            <h1>Collaborative Boards</h1>
-            <div className="projects-container-inner">
-              {this.props.teamProjects &&  teamProjects}
+            <div className="collab-board-container">
+              <h1>Collaborative Boards</h1>
+              <div className="projects-container-inner">
+                {this.props.teamProjects &&  teamProjects}
+              </div>
             </div>
           </div>
         </div>

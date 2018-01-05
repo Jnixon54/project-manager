@@ -34,14 +34,14 @@ class KellySetting extends Component {
   }
 
   handleImageChange(image) {
-    console.log(image);
+    console.log(image, 'image');
     this.setState({
       avatarImage: this.state.avatarImage.concat(image)
     });
   }
 
   uploadImage(event) {
-    console.log(event);
+    console.log(event, 'event');
     // event.preventDefault();
     let file = event[0][0];
     const storageRef = firebase.storage().ref();
@@ -104,7 +104,6 @@ class KellySetting extends Component {
                       value={this.props.user.newDisplayName}
                     />
                   </form>
-                  <br />
                 </label>
                 <br />
                 <label className="changeForm">
@@ -118,7 +117,6 @@ class KellySetting extends Component {
                     value={this.props.user.newEmail}
                   />
                   </form>
-                  <br />
                 </label>
                 <br />
                 <label className="changeForm">

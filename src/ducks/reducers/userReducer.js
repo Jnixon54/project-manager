@@ -46,7 +46,7 @@ function reducer(state = initialState, action) {
                         passwordInput: '',
                         username: action.payload.username,
                         userID: action.payload.id,
-                        display_name: action.payload.display_name,
+                        displayName: action.payload.display_name,
                         email: action.payload.email };
     case GET_USER_INFO + '_PENDING':
       return { ...state, loading: true };
@@ -132,7 +132,7 @@ export function getUserInfo() {
       .get('/api/getUserInfo')
       .then(response => {
         return response.data[0];
-      console.log(response.data[0]);})
+      ;})
   };
 }
 
