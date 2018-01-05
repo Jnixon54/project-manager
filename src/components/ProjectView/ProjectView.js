@@ -116,11 +116,12 @@ class ProjectView extends Component {
     this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.username === curr.username));
 
     const getUsers = filteredUsers.map((currUser, ind) => {
-        return (
-        <h4 key={ind} className="returnedUsers"
-        onClick={() => this.memberSelect(currUser.id)}>
-        {currUser.username}</h4>)
-      })
+                    return (
+                    <h4 key={ind} className="returnedUsers"
+                        onClick={() => this.memberSelect(currUser.id)}> {currUser.display_name} </h4>
+                        )})
+
+
     return (
       <div>
         <Sidebar />

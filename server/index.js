@@ -135,7 +135,6 @@ passport.use(
       callbackURL: GOOGLE_REDIRECT_URI
     },
     function(accessToken, refreshToken, profile, done) {
-      console.log(profile, "PROFILE IS HERE")
       const db = app.get('db');
       const googleID = 'google|' + profile.id;
       db
@@ -172,14 +171,16 @@ passport.use(
       callbackURL: FACEBOOK_REDIRECT_URI
     },
     function(accessToken, refreshToken, profile, done) {
+      
       const db = app.get('db');
       const facebookID = 'facebook|' + profile.id;
+      const displayName = profile.displayName.split(" ")[0];
       db
         .getUser([facebookID])
         .then(user => {
           if (!user[0]) {
             db
-              .createFacebookUser([facebookID])
+              .createFacebookUser([facebookID, displayName])
               .then(user => {
                 console.log(
                   `Created Facebook user: ${user[0].id} ${user[0].username}`

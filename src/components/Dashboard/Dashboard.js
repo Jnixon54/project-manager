@@ -39,7 +39,7 @@ class Dashboard extends Component {
   //then routes to the project view with the new projects id
   sendNewProject(e) {
     e.preventDefault();
-    console.log('USERID: ', this.props.newProjectTitle)
+    console.log('USERID: ', this.props.userID)
     axios.post('/api/addProject', { projectTitle: this.props.newProjectTitle}).then(response => {
       this.props.history.push(`/ProjectView/${response.data[0].id}/${this.props.newProjectTitle}`)
     });
