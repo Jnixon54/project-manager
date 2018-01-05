@@ -284,6 +284,7 @@ app.post('/api/dragTask', tasksController.dragTask)
 app.post('/api/removeCurrentMember', tasksController.removeCurrentMember)
 
 app.put('/api/sendNewTitle/:title/:projectID', tasksController.sendNewTitle)
+app.post('/api/changeCardColor', tasksController.changeCardColor)
 
 ///////////////////////////////////////////////////////////////////////////
 app.post('/api/updateHeader', tasksController.editCardHeader)

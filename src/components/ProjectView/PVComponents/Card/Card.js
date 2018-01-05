@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Task from '../Task/Task'
 
+import axios from 'axios'
+
 
 ///////////////////////////////////////////
 import { DropTarget } from 'react-dnd'
@@ -26,6 +28,8 @@ import {
 
 import '../../ProjectView.css'
 
+import ColorPicker from './../../../tools/ColorPicker/ColorPicker'
+
 
 const cardTarget = {
     drop(props) {
@@ -46,12 +50,17 @@ class Card extends Component {
         super(props)
         this.state = {
             editOpen: false,
-            options: false
+            options: false,
+            colorsOpen: false,
+            cardID: 0
+
         }
         this.openHeaderEdit = this.openHeaderEdit.bind(this)
         this.openEditOptions = this.openEditOptions.bind(this)
         this.deleteCard = this.deleteCard.bind(this)
         this.closeEditOptions = this.closeEditOptions.bind(this)
+        this.showColors = this.showColors.bind(this)
+        this.pickColor = this.pickColor.bind(this)
     }
 
     openHeaderEdit(cardID, title){
@@ -106,6 +115,18 @@ class Card extends Component {
         
     }//done
 
+    showColors(cardID){
+        this.setState({colorsOpen: !this.state.colorsOpen, cardID})
+        console.log("Hit!");
+      }
+
+      pickColor(color, cardID){
+        console.log(color, cardID);
+        axios.post('/api/changeCardColor', {color, cardID}).then(response => {
+          this.props.getNewCards(this.props.match.params.id);
+          this.setState({colorsOpen: !this.state.colorsOpen, cardID})
+        })
+      }
 
     
   
@@ -121,7 +142,6 @@ class Card extends Component {
     }
 
     const style = {'backgroundColor': backgroundColor}
-
       
     return connectDropTarget(
       <div id='taskHolder' style={style}>
@@ -167,7 +187,8 @@ class Card extends Component {
         }
         
         {
-            <div id='cardTest'>
+            // Currently The background color is being changed on this div
+            <div id='cardTest' style={{'backgroundColor': this.props.card.color}}>
                 <form onSubmit={e => this.handleAddTask(e, this.props.card.id, this.props.match.params.id)}>
                     <input  type='text' 
                             className='newCard' 
@@ -175,6 +196,13 @@ class Card extends Component {
                             onChange={this.props.taskInput} 
                             value={this.props.taskInputID === this.props.card.id ? this.props.newTask : ''}/>
                 </form>
+
+                {/* These two divs are allowing us to position the box absoloutely. Do inline style to override component styling */}
+                 <div style={{"position": "relative"}} >
+                    <div style={{'position': "absolute", 'top': '-60px', 'right': '20px'}}>
+                        <ColorPicker projID={this.props.card.id} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentProject={this.props.card} pickColor={this.pickColor} />
+                    </div>
+                </div>
             </div>
         }
         {/* <div id={this.props.inputOpen && this.state.taskCardID === card.cardID ? 'openEditer' : 'cardTest'} onClick={this.addText}>
@@ -188,6 +216,7 @@ class Card extends Component {
                         type="text"/>
             </form>     
         </div> */}
+        
       </div>
     );
   }

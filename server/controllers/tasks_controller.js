@@ -193,4 +193,13 @@ module.exports = {
            })
            .catch(console.log)
     },
+    changeCardColor: (req, res, next) => {
+        const dbInstance = req.app.get('db')
+
+        dbInstance.changeCardColor([req.body.color, req.body.cardID])
+            .then(response => {
+                res.status(200).send(response)
+           })
+           .catch(console.log)
+    },
 }
