@@ -9,6 +9,7 @@ import {
   getTeamProjects
 } from './../../ducks/reducers/dashboardReducer';
 import Sidebar from '../Sidebar/Sidebar';
+import Header from '../Header/Header';
 import {getUserInfo} from './../../ducks/reducers/userReducer'
 
 import './Dashboard.css';
@@ -39,45 +40,31 @@ class Dashboard extends Component {
   //then routes to the project view with the new projects id
   sendNewProject(e) {
     e.preventDefault();
-    console.log('USERID: ', this.props.userID)
+    // console.log('USERID: ', this.props.newProjectTitle)
     axios.post('/api/addProject', { projectTitle: this.props.newProjectTitle}).then(response => {
       this.props.history.push(`/ProjectView/${response.data[0].id}/${this.props.newProjectTitle}`)
     });
   }
 
   render() {
-    console.log(this.props.tasks)
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
         <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="box">
-
-            <div>{project.title}</div>
-            <div>{project.owner_id}</div>
-            <div>{project.id}</div>
-            <div>{project.created_at}</div>
-            <div>{project.updated_at}</div>
-
+          <div className="project-card">
+            <div className="card-header">{project.title}</div>
           </div>
         </Link>
-
       );
     });
 
     const teamProjects = this.props.teamProjects.map((project, index) => {
       return (
         <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="box">
-
-            <div>{project.title}</div>
-            <div>{project.owner_id}</div>
-            <div>{project.created_at}</div>
-            <div>{project.updated_at}</div>
-
+          <div className="project-card">
+            <div className="card-header">{project.title}</div>
           </div>
         </Link>
-
       );
     });
 
@@ -92,25 +79,26 @@ class Dashboard extends Component {
     );
 
     return (
-      <div>
-        <div className="projectsAndTasks">
-          <div className="projectContainer">
-            <div className="box" onClick={() => this.createProjectToolTip()}>
-              <div>Create a project!</div>
+      <div className="dashboard-container">
+        <div className="container">
+          <Header />
+          <div className="projects-container">
+          <h1>Personal Boards</h1>
+            <div className="projects-container-inner">
+                <div className="project-card create-item" onClick={() => this.createProjectToolTip()}>
+                  <div className="add-circle">
+                    +
+                  </div>
+                </div>
+                {this.state.toolTip && projectToolTip}
+                {this.props.projects && projectBox}
             </div>
-            {this.state.toolTip && projectToolTip}
-            {this.props.projects && projectBox}
-          </div>
-          <div className="taskContainer">
-            <h2>Tasks</h2>
-            <hr />
+            <h1>Collaborative Boards</h1>
+            <div className="projects-container-inner">
+              {this.props.teamProjects &&  teamProjects}
+            </div>
           </div>
         </div>
-          <h1>Team Projects</h1>
-          <div className="projectContainer">
-          {this.props.teamProjects &&  teamProjects}
-
-          </div>
         <Sidebar id={"dashboard-sidebar"} showLogo={true}/>
       </div>
     );
