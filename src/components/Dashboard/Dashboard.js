@@ -86,7 +86,7 @@ class Dashboard extends Component {
     const teamProjects = this.props.teamProjects.map((project, index) => {
       return (
         <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="project-card">
+          <div className="project-card" style={ project.color && {'backgroundColor': `${project.color}`}} >
             <div className="card-header">{project.title}</div>
           </div>
         </Link>
