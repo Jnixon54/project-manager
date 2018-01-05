@@ -1,31 +1,58 @@
-.box {
-  height: 150px;
-  width: 250px;
-  background: lightgray;
-  border-radius: 10px;
-  border: 1px solid black;
-  cursor: pointer;
-  position: relative;
-  color: black;
-  padding: 10px
+.dashboard-container {
+  width: calc(100vw - 66px);
+  position: absolute;
+  left: 66px;
 }
 
-.box a {
-  text-decoration: none;
-  color: black
+.projects-container {
+  justify-content: center;
 }
 
-
-.projectContainer {
-  /* height: calc(100vh - 170px); */
-  width: 75%;
+.projects-container-inner {
+  width: 100%;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, 280px);
   grid-row-gap: 10px;
   grid-column-gap: 10px;
-  padding: 50px;
-  /* overflow: scroll */
+  height: auto;
 }
+
+.create-item {
+  background-color: rgba(220, 220, 220, 0.516) !important;
+  box-shadow: none !important;
+}
+
+.add-circle {
+  height: 90px;
+  width: 90px;
+  background-color: rgb(220, 220, 220);
+  border-radius: 50px;
+}
+
+.project-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 110px;
+  width: 280px;
+  background-color: rgb(144, 148, 159);
+  border-radius: 5px;
+  box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+}
+
+.card-header {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  height: 30px;
+  width: 90%;
+  margin: 0 auto;
+}
+
 .projectToolTip {
   position: absolute;
   left: 200px;
@@ -36,15 +63,4 @@
   padding: 10px;
   border-radius: 10px;
   z-index: 100;
-}
-.projectsAndTasks {
-  display: flex;
-}
-.dashboardTasks a{
-color: black;
-text-decoration: none;
-}
-a{
-  text-decoration: none;
-  color: black
 }
