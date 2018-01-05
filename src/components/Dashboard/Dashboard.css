@@ -104,3 +104,6 @@ h1 {
 .collab-board-container {
   margin-top: 50px;
 }
+.outer-project-box{
+  position: relative;
+}
