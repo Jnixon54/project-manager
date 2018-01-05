@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import KellySetting from './KellySetting'
+import KellySetting from './Settings/KellySetting'
 import './SettingsMenu.css';
 
 const SettingsMenu = () => {

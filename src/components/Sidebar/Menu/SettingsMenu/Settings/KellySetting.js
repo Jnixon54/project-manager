@@ -3,19 +3,20 @@ import './KellySetting.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import { fire as firebase } from './fire';
+import { fire as firebase } from '../fire';
 
 import ImageUploader from 'react-images-upload';
 
 import { connect } from 'react-redux';
 import {
-  updateUserName,
-  updatePasswordField,
   updateDisplayNameField,
   updateEmailField,
   updateBioField,
-  updateAvatarImage
-} from '../../../../ducks/reducers/settingReducer';
+  updateAvatarImage,
+  sendNewDisplayName,
+  sendNewEmailName,
+  sendNewBio
+} from '../../../../../ducks/reducers/userReducer';
 
 class KellySetting extends Component {
   constructor(props) {
@@ -27,6 +28,9 @@ class KellySetting extends Component {
     };
 
     this.handleImageChange = this.handleImageChange.bind(this);
+    this.sendDisplayName = this.sendDisplayName.bind(this);
+    this.sendNewEmailName = this.sendNewEmailName.bind(this);
+    this.sendNewBio = this.sendNewBio.bind(this);
   }
 
   handleImageChange(image) {
@@ -56,21 +60,24 @@ class KellySetting extends Component {
     );
   }
 
-  updateNewUserInfo(username, password, displayName, email, bio, imageURL) {
-    axios
-      .post('/api/updateUserInfo', {
-        username,
-        password,
-        displayName,
-        email,
-        bio,
-        imageURL
-      })
-      .then(response => this.setState({ newdisplayName: response.data }))
-      .catch(console.log);
+  //New user info functions
+  sendDisplayName(e){
+    e.preventDefault()
+    this.props.sendNewDisplayName(this.props.user.newDisplayName)
+  }
+
+  sendNewEmailName(e){
+    e.preventDefault()
+    this.props.sendNewEmailName(this.props.user.newEmail)
+  }
+
+  sendNewBio(e){
+    e.preventDefault()
+    this.props.sendNewBio(this.props.user.newBio)
   }
 
   render() {
+    console.log(this.props, 'kelly props')
     const {
       updateUserName,
       updatePasswordField,
@@ -81,91 +88,69 @@ class KellySetting extends Component {
     } = this.props;
     return (
       <div className="setting">
-        <h3 className="links">Settings</h3>
-        <br />
         <div className="settings">
-          <h2>Change Account Details:</h2>
+          <h3>Change Account Details:</h3>
           <hr />
           <div className="popup">
             <form>
-              <div className="changeForm">
-                <label>
-                  {' '}
-                  Full Name:
+              <div>
+                <label className="changeForm">
+                  Display Name:
+                  <form onSubmit={this.sendDisplayName}>
+                    <input
+                      onChange={e => updateDisplayNameField(e.target.value)}
+                      type="text"
+                      name="name"
+                      value={this.props.user.newDisplayName}
+                    />
+                  </form>
+                  <br />
+                </label>
+                <br />
+                <label className="changeForm">
+                  
+                  Email:
+                  <form onSubmit={this.sendNewEmailName}>
                   <input
-                    onChange={e => updateDisplayNameField(e.target.value)}
-                    type="text"
-                    name="name"
-                  />
-                  <br />
-                </label>
-                <br />
-                <label>
-                  {' '}
-                  Username:{' '}
-                  <input
-                    onChange={e => updateUserName(e.target.value)}
-                    type="text"
-                    name="username"
-                  />{' '}
-                  <br />
-                </label>
-                <br />
-                <label>
-                  Password:<input
-                    onChange={e => updatePasswordField(e.target.value)}
-                    type="text"
-                    name="password"
-                  />{' '}
-                  <br />
-                </label>
-                <br />
-                <label>
-                  {' '}
-                  Email:<input
                     onChange={e => updateEmailField(e.target.value)}
                     type="text"
                     name="email"
-                  />{' '}
+                    value={this.props.user.newEmail}
+                  />
+                  </form>
                   <br />
                 </label>
                 <br />
-                <label>
+                <label className="changeForm">
                   {' '}
-                  Bio:{' '}
+                  Bio:
+                  <form onSubmit={this.sendNewBio}>
                   <input
                     onChange={e => updateBioField(e.target.value)}
-                    type="text"
+                    type="field"
                     name="bio"
+                    value={this.props.user.newBio}
                   />{' '}
                   <br />
+                  </form>
                 </label>
                 <br />
-                <button
-                  className="btn"
-                  onClick={() =>
-                    this.updateNewUserInfo(
-                      this.props.username,
-                      this.props.password,
-                      this.props.display_name,
-                      this.props.email,
-                      this.props.bio,
-                      this.props.imageUrl
-                    )
-                  }
-                >
-                  Save
-                </button>
+                <label className="changeForm">
+                 Current Profile Pic:
+                  <img
+                    className='uploadButtonImg'
+                    src={this.props.user.profilePicture}
+                  />{' '}
+                </label>
               </div>
             </form>
           </div>
-
-          <br />
-          <h3>
-            Change Avatar:{' '}
+          <div style={{position: 'relative'}}>
+            
             <ImageUploader
-              withIcon={true}
-              buttonText="Upload an image"
+              withIcon={false}
+              buttonText="Upload New Avatar"
+              buttonStyles={{width: '100px', height: '100px', 'border-radius': '50%', margin: '0'}}
               withPreview={true}
               withLabel={false}
               onChange={this.handleImageChange}
@@ -176,34 +161,26 @@ class KellySetting extends Component {
             <button
               onClick={() => {
                 this.uploadImage(this.state.avatarImage);
-              }}
-            >
+              }}>
               save
             </button>
-          </h3>
+          </div>
         </div>
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  const settings = state.settingReducer;
-  return {
-    userIsLoggedIn: settings.userIsLoggedIn,
-    username: settings.username,
-    password: settings.password,
-    display_name: settings.display_name,
-    email: settings.email,
-    bio: settings.bio,
-    imageUrl: settings.imageUrl
-  };
+
+  return state;
 }
 
 export default connect(mapStateToProps, {
-  updateUserName,
-  updatePasswordField,
   updateDisplayNameField,
   updateEmailField,
   updateBioField,
-  updateAvatarImage
+  updateAvatarImage,
+  sendNewDisplayName,
+  sendNewEmailName,
+  sendNewBio
 })(KellySetting);

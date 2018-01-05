@@ -5,12 +5,16 @@ const initialState = {
   usernameInput: 'asd',
   passwordInput: 'asd',
   userIsLoggedIn: false,
-  username: '',
   userID: '',
-  display_name: '',
+  displayName: '',
   email: '',
   profilePicture: '',
-  bio: ''
+  bio: '',
+  //new settings changes
+  newDisplayName: '',
+  newEmail: '',
+  newProfilePicture: '',
+  newBio: ''
 };
 
 // Action type
@@ -19,6 +23,15 @@ const UPDATE_PASSWORD_INPUT_FIELD = 'UPDATE_PASSWORD_INPUT_FIELD';
 const ON_SUBMIT_REGISTER = 'ON_SUBMIT_REGISTER';
 const ON_SUBMIT_LOGIN = 'ON_SUBMIT_LOGIN';
 const GET_USER_INFO = 'GET_USER_INFO';
+// Settings action types
+const UPDATE_DISPLAY_NAME_FIELD = 'UPDATE_DISPLAY_NAME_FIELD';
+const UPDATE_EMAIL_FIELD = 'UPDATE_EMAIL_FIELD';
+const UPDATE_BIO_FIELD = 'UPDATE_BIO_FIELD';
+const UPDATE_IMAGE_URL = 'UPDATE_IMAGE_URL';
+const SEND_NEW_DISPLAY_NAME = 'SEND_NEW_DISPLAY_NAME';
+const SEND_NEW_EMAIL_NAME = 'SEND_NEW_EMAIL_NAME';
+const SEND_NEW_BIO_NAME = 'SEND_NEW_BIO_NAME';
+
 // Reducer
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -38,13 +51,35 @@ function reducer(state = initialState, action) {
     case GET_USER_INFO + '_PENDING':
       return { ...state, loading: true };
     case GET_USER_INFO + '_FULFILLED':
-      return {...state, username: action.payload.username, displayName: action.payload.display_name, userID: action.payload.id, profilePicture: action.payload.image_url, email: action.payload.email, bio: action.payload.bio, loading: false};
+      return {...state, displayName: action.payload.display_name, 
+                        userID: action.payload.id, 
+                        profilePicture: action.payload.image_url, 
+                        email: action.payload.email, 
+                        bio: action.payload.bio, 
+                        //settings state
+                        newDisplayName: action.payload.display_name,
+                        newEmail: action.payload.email,
+                        newProfilePicture: action.payload.image_url,
+                        newBio: action.payload.bio,
+                        loading: false};
      case ON_SUBMIT_LOGIN + '_PENDING':
        return { ...state };
      case ON_SUBMIT_LOGIN + '_FULFILLED':
       return {...state, usernameInput: '',};
     // case ON_SUBMIT_LOGIN:
     //   return { ...state, userIsLoggedIn: true };
+
+    // Settings cases
+      case UPDATE_DISPLAY_NAME_FIELD:
+        return { ...state, newDisplayName: action.payload };
+      case UPDATE_EMAIL_FIELD:
+        return { ...state, newEmail: action.payload };
+      case UPDATE_BIO_FIELD:
+        return { ...state, newBio: action.payload };
+
+      case UPDATE_IMAGE_URL:
+        return { ...state, newProfilePicture: action.payload };
+
     default:
       return state;
   }
@@ -102,3 +137,55 @@ export function getUserInfo() {
 }
 
 export default reducer;
+
+//////////////////////////////////////////////
+//settings component functions
+
+export function updateDisplayNameField(displayName) {
+  return {
+    type: 'UPDATE_DISPLAY_NAME_FIELD',
+    payload: displayName
+  };
+}
+
+export function updateEmailField(email) {
+  return {
+    type: 'UPDATE_EMAIL_FIELD',
+    payload: email
+  };
+}
+
+export function updateBioField(bio) {
+  return {
+    type: 'UPDATE_BIO_FIELD',
+    payload: bio
+  };
+}
+
+export function updateAvatarImage(imageUrl) {
+  return {
+    type: 'UPDATE_IMAGE_URL',
+    payload: imageUrl
+  };
+}
+
+export function sendNewDisplayName(displayName){
+  return {
+    type: SEND_NEW_DISPLAY_NAME,
+    payload: axios.put(`/api/sendNewDisplayName/${displayName}`)
+  }
+}
+
+export function sendNewEmailName(email){
+  return {
+    type: SEND_NEW_EMAIL_NAME,
+    payload: axios.put(`/api/sendNewEmailName/${email}`)
+  }
+}
+
+export function sendNewBio(bio){
+  return {
+    type: SEND_NEW_BIO_NAME,
+    payload: axios.put(`/api/sendNewBio/${bio}`)
+  }
+}
