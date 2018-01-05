@@ -18,6 +18,12 @@ const TaskMenu = (props) => {
   
   return (
     <div className="task-menu">
+    <div className="container">
+      <div className="header-container" >
+        To-do
+      </div>
+      
+    </div>
       {taskList}
     </div>
   );
