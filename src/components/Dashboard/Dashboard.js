@@ -10,6 +10,7 @@ import {
 } from './../../ducks/reducers/dashboardReducer';
 import Sidebar from '../Sidebar/Sidebar';
 import {getUserInfo} from './../../ducks/reducers/userReducer'
+import ColorPicker from './../tools/ColorPicker/ColorPicker'
 
 import './Dashboard.css';
 
@@ -18,10 +19,15 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      toolTip: false
+      toolTip: false,
+      currColor: '',
+      colorsOpen: false,
+      projID: 0
     };
     this.createProjectToolTip = this.createProjectToolTip.bind(this);
     this.sendNewProject = this.sendNewProject.bind(this);
+    this.pickColor = this.pickColor.bind(this)
+    this.showColors = this.showColors.bind(this)
   }
   componentDidMount() {
     this.props.getAllProjects();
@@ -45,13 +51,27 @@ class Dashboard extends Component {
     });
   }
 
+  pickColor(color, projectID){
+    console.log(color, projectID);
+    axios.post('/api/changeColor', {color, projectID}).then(response => {
+      this.props.getAllProjects();
+      this.setState({colorsOpen: !this.state.colorsOpen, projectID})
+    })
+  }
+  showColors(projID){
+    this.setState({colorsOpen: !this.state.colorsOpen, projID})
+    console.log("Hit!");
+  }
+
   render() {
     console.log(this.props.tasks)
     //On page load a box is created and displays information for each project
     const projectBox = this.props.projects.map((project, index) => {
       return (
+        <div className="outer-project-box">
         <Link to={`/ProjectView/${project.id}/${project.title}`} className="dashboardCards" key={index}>
-          <div className="box">
+          <div className="box" style={ project.color && {'background-color': `${project.color}`}}>
+          
 
             <div>{project.title}</div>
             <div>{project.owner_id}</div>
@@ -61,6 +81,8 @@ class Dashboard extends Component {
 
           </div>
         </Link>
+        <ColorPicker projID={this.state.projID} colorsOpen={this.state.colorsOpen} showColors={this.showColors} currentProject={project} pickColor={this.pickColor}/>
+        </div>
 
       );
     });
@@ -74,7 +96,6 @@ class Dashboard extends Component {
             <div>{project.owner_id}</div>
             <div>{project.created_at}</div>
             <div>{project.updated_at}</div>
-
           </div>
         </Link>
 
@@ -108,6 +129,9 @@ class Dashboard extends Component {
         </div>
           <h1>Team Projects</h1>
           <div className="projectContainer">
+          <div>
+            
+          </div>
           {this.props.teamProjects &&  teamProjects}
 
           </div>

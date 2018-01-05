@@ -261,6 +261,7 @@ app.get('/api/allProjects',projectsController.getAllProjects);
 app.get('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject);
 app.get('/api/allTeamProjects', projectsController.getTeamProjects)
+app.post('/api/changeColor', projectsController.changeColor)
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints

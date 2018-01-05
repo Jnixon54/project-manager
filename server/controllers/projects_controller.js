@@ -27,5 +27,13 @@ module.exports = {
       .getTeamProjects([req.user.id])
       .then(response => res.status(200).send(response))
       .catch(err => console.log(err));
-  }
+  },
+  changeColor: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance
+      .changeColor([req.body.color, req.body.projectID])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+  },
+
 };

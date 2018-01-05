@@ -48,3 +48,7 @@ a{
   text-decoration: none;
   color: black
 }
+
+.outer-project-box{
+  position: relative;
+}
