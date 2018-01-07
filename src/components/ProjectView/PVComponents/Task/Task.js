@@ -31,7 +31,8 @@ import {
   assignToTask,
   getAssignedTasks,
   removeUserFromTask,
-  dragTask
+  dragTask,
+  movedTask
 } from '../../../../ducks/reducers/projectViewReducer';
 
 const cardSource = {
@@ -47,10 +48,24 @@ const cardSource = {
       const dropResult = monitor.getDropResult()
 
       if (dropResult) {
-        props.dragTask(item.id, dropResult.id).then(() => {
+
+        let selectedTask = props.tasks.filter(task => item.id === task.task_id)
+        if(selectedTask[0].parent_card_id !== dropResult.id){
+
+          let updatedTask = Object.assign({}, selectedTask[0], {parent_card_id: dropResult.id})
           
-          props.getTasks(props.match.params.id)
-        })
+          let taskProps = props.tasks
+          let updatedTaskIndex = taskProps.findIndex(task => task.task_id === selectedTask[0].task_id)
+          console.log(props.tasks, taskProps)
+          taskProps.splice(updatedTaskIndex, 1, updatedTask)
+          props.movedTask(taskProps)
+          
+                  props.dragTask(item.id, dropResult.id).then(() => {
+                    
+                    // props.getTasks(props.match.params.id)
+                  })
+        }
+        
       }
   }
 }
@@ -282,5 +297,5 @@ const mapStateToProps = state => {
 Task = DragSource(ItemTypes.CARD, cardSource, collect)(Task)
 
   export default withRouter(
-    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask, dragTask })(Task)
+    connect(mapStateToProps, { addToList, removeFromList, addCard, cardInput, addTask, taskInput, openInput, getCards, openEditTask, changeEditTask, sendEditTask, deleteTask, getCards2, getTasks, assignToTask, getAssignedTasks, removeUserFromTask, dragTask, movedTask })(Task)
   );

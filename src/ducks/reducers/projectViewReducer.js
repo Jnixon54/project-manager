@@ -12,7 +12,8 @@ const initialState = {
   tasks: [],
   searchedUser: [],
   members: [],
-  userID: 0
+  userID: 0,
+  changed: 0
 };
 
 
@@ -54,6 +55,7 @@ const DRAG_TASK = 'DRAG_TASK'
 const REMOVE_CURRENT_MEMBER = 'REMOVE_CURRENT_MEMBER'
 const DELETE_PROJECT = 'DELETE_PROJECT' 
 const SEND_NEW_TITLE = 'SEND_NEW_TITLE'
+const MOVED_TASK = 'MOVED_TASK'
 
 
 
@@ -233,6 +235,13 @@ export function sendNewTitle(title, projectID) {
   }
 }
 
+export function movedTask(newTaskArray) {
+  return {
+    type: MOVED_TASK,
+    payload: newTaskArray
+  }
+}
+
 // export function increaseCount() {
 //   return {
 //     type: INCREASE_COUNT
@@ -354,6 +363,8 @@ export default function reducer(state = initialState, action) {
         return { ...state, isLoading: true}
     case GET_ASSIGNED_TASKS + '_FULFILLED':
         return { ...state, isLoading: false, assignedTasks: action.payload}
+    case MOVED_TASK:
+        return { ...state, tasks: action.payload, changed: state.changed++}
     default:
       return state;
     //in case none of the action types match, it can return the state to make sure it don't break anything.
