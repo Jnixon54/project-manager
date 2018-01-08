@@ -257,7 +257,7 @@ class Task extends Component {
                             assignedUser.find(currentID => currentID.user_id === member.id) ? 
                             () => this.removeFromTasks(member.id, this.props.task.task_id): 
                             () => this.assigningOfTasks(this.props.task.task_id, member.id, this.props.match.params.id)}>
-                          {member.username}</h4>)
+                          {member.display_name}</h4>)
                         
                         })}
                       </div>

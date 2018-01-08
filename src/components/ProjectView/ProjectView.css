@@ -5,12 +5,14 @@ h4 {
 #projectBody {
   margin-top: 10px;
   width: 100%;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: visible;
 }
  
  
  #cardHolder{
     height: 100%;
+    min-height: 100px;
     width: auto;
     display: flex;
   }

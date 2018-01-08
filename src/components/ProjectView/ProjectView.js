@@ -112,7 +112,7 @@ class ProjectView extends Component {
       );
     });
     const filteredUsers = 
-    this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.username === curr.username));
+    this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.id === curr.id));
 
     const getUsers = filteredUsers.map((currUser, ind) => {
                     return (
@@ -153,7 +153,7 @@ class ProjectView extends Component {
         <select value={this.state.value} onChange={this.removeMember}>
           <option value="reindeer">Remove Teammates</option>
           {this.props.members && this.props.members.map((member, memindex) => {
-              return   <option key={memindex} value={member.id} >{member.username}</option>
+              return <option key={memindex} value={member.id} >{member.display_name}</option>
           })}
         </select>
         
