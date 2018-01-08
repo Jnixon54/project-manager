@@ -1,14 +1,22 @@
+h4 {
+  font-family: 'Open Sans Condensed';
+}
+
 #projectBody {
+  margin-top: 10px;
   width: 100%;
+  overflow-x: scroll;
+  overflow-y: visible;
 }
  
  
  #cardHolder{
     height: 100%;
-    width: 100%;
-    display: flex
+    min-height: 100px;
+    width: auto;
+    display: flex;
   }
-  #taskHolder{
+  /* #taskHolder{
     min-width: 250px;
     height: inherit;
     display: flex;
@@ -18,7 +26,7 @@
     background: darkgray;
     border-radius: 10px;
     margin-right: 10px;
-  }
+  } */
   .cardHeader{
     width: 210px;
     height: 50px;
@@ -30,28 +38,9 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
-  .editHeader{
-    height: 50px;
-    width: 210px;
-    padding: 0 10px;
-    position: relative;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    outline: none;
-    border: none;
-    border-bottom: 2px solid lightgray;
-    background-color: gray;
-    font-size: 25px;
-  }
+  
 
-  .editOptionsBox{
-    width: 150px;
-    background: blue;
-    position: absolute;
-    z-index: 20;
-    right: -120px;
-    bottom: -25px
-  }
+
   #card{
     width: 230px;
     height: 40px;
@@ -59,26 +48,8 @@
     color: white
   }
   
-  .task {
-    width: 230px;
-    height: 30px;
-    background: grey;
-    display: flex;
-  }
-  .taskContent {
-    width: 100%;
-    display: flex;
-    margin: 0 10px;
-    justify-content: space-between;
-    align-items: center
-  }
-  .deleteTaskContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-  }
+
+
   .deleteModel {
     width: 230px;
     display: flex;
@@ -163,7 +134,7 @@
     height: 20px;
   }
   
-  .newtab {
+  /* .newtab {
     width: 200px;
     height: 20px;
     color: papayawhip;
@@ -171,7 +142,7 @@
     -moz-border-radius: 50px;
     border-radius: 50px;
   
-  }
+  } */
   
   #inputLine {
     height: 2px;
@@ -202,23 +173,48 @@
     align-self: flex-start
   }
   
-  input[type=text] {
-      padding: 0 10px;
-      height: 25px;
-      position: relative;
-      left: 0;
-      outline: none;
-      border: none;
-      border-bottom: 2px solid lightgray;
-      background-color: gray;
-      font-size: 16px;
-  }
-  
-  .cardInput {
-    width: 200px
+  .text-input {
+    padding: 0 10px;
+    height: 25px;
+    left: 0;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid lightgray;
+    background-color: none;
+    font-size: 16px;
   }
 
+  .header-input {
+    width: 219px;
+    padding: none;
+    margin: none;
+    border: none;
+    outline: none;
+    height: 30px;
+    background-color: grey;
+    color: white;
+    border-radius: 3px;
+    padding-left: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Open Sans Condensed';
+  }
+  .header-input::placeholder {
+    color: white;
+  }
+
+  /* .cardInput {
+    width: 200px;
+    background: none;
+  } */
+
+  /* .newTab {
+    background-color: none;
+  } */
+
   .editPic {
+    margin-top: 4px;
     width: 30px;
     height: 30px;
   }
@@ -254,24 +250,38 @@
   }
   .projectInfo {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     width: 80%;
+    margin-bottom: 20px;
+
   }
 
   .searchedUsers {
     display: flex;
     flex-direction: column;
-    position: relative
+    position: relative;
   }
   .returnedUsersBox {
-    background: lightgray;
-    z-index: 20;
+    z-index: 50;
+    background: rgb(70, 70, 70);
+    color: white;
+    /* z-index: 20; */
     position: absolute;
+    margin-top: 5px;
+    left: 0;
     top: 25px;
-    width: 100%;
+    width: 230px;
+    
+    box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.15);
+  }
+  .returnedUsers {
+    padding-left: 10px;
+    width: 220px;
+    height: 25px;
   }
   .returnedUsers:hover {
     background: rgb(237, 237, 237);
+    color: rgb(70, 70, 70);
     cursor: pointer;
   }
   .teamMembers{

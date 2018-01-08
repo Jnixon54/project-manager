@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import { withRouter } from 'react-router-dom';
 import Card from './PVComponents/Card/Card'
+import Header from '../../components/Header/Header';
 
 //////////////////////////////////////
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 // react dnd stuff
 
-import './ProjectView.css'
+// import './ProjectView.css'
 
 //connect to redux by importing this:
 import { connect } from 'react-redux';
@@ -103,8 +104,6 @@ class ProjectView extends Component {
     this.props.sendNewTitle(this.state.title, this.props.match.params.id)
   }
   
-
-
   render() {
     const cardBox = this.props.cards.map((card, index) => {
       let tasks = this.props.tasks.filter(current => current.parent_card_id === card.id)
@@ -113,7 +112,7 @@ class ProjectView extends Component {
       );
     });
     const filteredUsers = 
-    this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.username === curr.username));
+    this.props.searchedUser.filter((curr, ind, arr) =>  !this.props.members.find(member => member.id === curr.id));
 
     const getUsers = filteredUsers.map((currUser, ind) => {
                     return (
@@ -121,51 +120,51 @@ class ProjectView extends Component {
                         onClick={() => this.memberSelect(currUser.id)}> {currUser.display_name} </h4>
                         )})
 
-
     return (
-      <div>
-        <Sidebar />
-        <div id='projectBody'>
-        <div className="projectInfo">
-        {!this.state.titleEditor &&
-          <h2>{this.state.title}</h2>
-        }
-        {this.state.titleEditor &&
+      <div className="dashboard-container">
+        <div className="container">
+          <Header path={"Board"} currentPath={this.state.title}/>
+          <Sidebar id={"project-sidebar"} showLogo={true}/>
+          
+          <div id='projectBody'>
+          <div className="projectInfo">
+            {this.state.titleEditor &&
           <form onSubmit={this.sendNewTitle}>
             <input type='text' value={this.state.title} onChange={this.editTitle}/>
             <h3 onClick={this.deleteProject}>Delete project</h3>
           </form>
         }
-        
-        <button onClick={this.openEditTitle}>Edit</button>
-        <div className="searchedUsers">
-        <input type="text" onChange={this.memberSearchWorkAround} />
 
+        <form className='cardInput' action="" onSubmit={this.addCard}>
+          <input className='header-input' style={{ 'paddingLeft': '10pg' }} value={this.props.newCard ? this.props.newCard : ''} placeholder='Add New List' onChange={this.props.cardInput} type="text" />
+        </form>
+
+        <div className="searchedUsers">
+          <input className="header-input" placeholder="Add Collaborator" type="text" onChange={this.memberSearchWorkAround} />
         {this.props.searchedUser && 
           <div className='returnedUsersBox'>
             {getUsers }
           </div>
         }
-        
         </div>
+
+        {/* <button onClick={this.openEditTitle}>Edit</button> */}
+
         <select value={this.state.value} onChange={this.removeMember}>
           <option value="reindeer">Remove Teammates</option>
           {this.props.members && this.props.members.map((member, memindex) => {
-              return   <option key={memindex} value={member.id} >{member.username}</option>
+              return <option key={memindex} value={member.id} >{member.display_name}</option>
           })}
         </select>
         
-        
-
         </div>
           <div id='cardHolder'>
             {this.props.cards.length > 0 &&
               cardBox
             }
-            <form className='cardInput' action="" onSubmit={this.addCard}>
-              <input className='newtab' style={{ 'paddingLeft': '10pg' }} value={this.props.newCard ? this.props.newCard : ''} placeholder='Input new card!' onChange={this.props.cardInput} type="text" />
-            </form>
+            
           </div>
+        </div>
         </div>
       </div>
     )

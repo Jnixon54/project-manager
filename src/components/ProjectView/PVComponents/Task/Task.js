@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import '../../ProjectView.css'
 import { connect } from 'react-redux';
 
+import './Task.css';
 
 /////////////////////////////////////////////////
 import { DragSource } from 'react-dnd'
@@ -187,7 +188,7 @@ class Task extends Component {
     const { isDragging, connectDragSource, name } = this.props
     const opacity = isDragging ? 0.4 : 1;
     const userTasks = this.props.assignedTasks ? this.props.assignedTasks.filter( task => task.task_id === this.props.task.task_id) : []
-    console.log(userTasks, 'userTasks')
+
     const style = { opacity: opacity};
     const userFreeMembers = this.props.members ? this.props.members.filter(member => member.id !== this.props.userID) : []
     
@@ -256,7 +257,7 @@ class Task extends Component {
                             assignedUser.find(currentID => currentID.user_id === member.id) ? 
                             () => this.removeFromTasks(member.id, this.props.task.task_id): 
                             () => this.assigningOfTasks(this.props.task.task_id, member.id, this.props.match.params.id)}>
-                          {member.username}</h4>)
+                          {member.display_name}</h4>)
                         
                         })}
                       </div>

@@ -1,5 +1,6 @@
 .sidebar {
   position: fixed;
+  z-index: 100;
   left: 0;
   top: 0;
   display: flex;
@@ -25,6 +26,10 @@
 #dashboard-sidebar {
   background-color: rgb(18, 40, 58);
   /* border-left: 1px solid rgba(81, 113, 140, 0.228); */
+}
+
+#project-sidebar {
+  background-color: rgb(18, 40, 58);
 }
 
 .logo-container {

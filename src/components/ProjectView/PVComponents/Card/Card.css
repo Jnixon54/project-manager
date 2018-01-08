@@ -1,0 +1,108 @@
+.task-card {
+  position: relative;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 230px;
+  height: inherit;
+  background-color: rgba(144, 148, 159, 0.516);
+  border-radius: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+
+  /* color: rgb(255, 255, 255); */
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-right: auto;
+  margin-left: 12px;
+  margin-top: 2px;
+  height: 30px;
+  width: calc(100% - 12px);
+  font-family: 'Open Sans Condensed';
+  font-weight: 700;
+  font-size: 20px;
+  color: white;
+  /* letter-spacing: 1px; */
+}
+
+.tasks-in-card-container {
+  width: 92%;
+  height: 100%;
+}
+
+.new-task-input input{
+  width: 100%;
+  background-color: grey;
+  
+}
+
+.new-task-input form {
+  width: 100%;
+}
+
+.new-task-input form input {
+  height: 30px;
+  border-radius: 3px;
+  width: calc(100% - 20px);
+  padding-left: 10px;
+  margin-bottom: 6px;
+}
+
+.dot-menu-container {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 3px;
+}
+
+.editOptionsBox{
+  text-align: center;
+  position: relative;
+  width: 100px;
+  height: 50px;
+  font-family: 'Open Sans Condensed';
+  font-style: bold;
+  background-color: rgb(128, 128, 128);
+  position: absolute;
+  top: 32px;
+  right: 0px;
+  border-radius: 3px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.editOptionsBox h3:hover {
+  background-color: rgb(144, 148, 159);
+  border-radius: 3px;
+}
+.editHeader{
+  height: 50px;
+  width: 210px;
+  padding: 0 10px;
+  position: relative;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid lightgray;
+  background-color: gray;
+  font-size: 25px;
+}
+
+.deleteTaskContent form{
+  height: 30px;
+  width: 100%;
+}
+
+/* .card-header {
+  width: 100%;
+  height: 25px;
+} */
