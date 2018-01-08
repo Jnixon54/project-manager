@@ -70,7 +70,34 @@ module.exports = {
     console.log('User logged out: ', req.session.passport.user);
     req.session.destroy();
     res.redirect('/');
+  },
+
+  sendNewDisplayName: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    console.log("hit")
+    dbInstance
+      .sendNewDisplayName([req.params.displayName, req.session.passport.user])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+  },
+
+  sendNewEmailName: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance
+      .sendNewEmailName([req.params.email, req.session.passport.user])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+  },
+  sendNewBio: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance
+      .sendNewBio([req.params.bio, req.session.passport.user])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
   }
+
+  
+  
   // ,
   // delete: (req, res, next) => {
 

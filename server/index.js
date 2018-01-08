@@ -291,6 +291,13 @@ app.post('/api/updateHeader', tasksController.editCardHeader)
 app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
 
+///////////////////////////////////////////////////////////////////////////
+//settings endpoints
+app.put('/api/sendNewDisplayName/:displayName', usersController.sendNewDisplayName)
+
+app.put('/api/sendNewEmailName/:email', usersController.sendNewEmailName )
+
+app.put('/api/sendNewBio/:bio',usersController.sendNewBio )
 
 app.get('/api/user', (req, res) => {
   if (req.user) {
