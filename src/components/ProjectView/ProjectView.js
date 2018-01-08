@@ -125,6 +125,7 @@ class ProjectView extends Component {
         <div className="container">
           <Header path={"Board"} currentPath={this.state.title}/>
           <Sidebar id={"project-sidebar"} showLogo={true}/>
+          
           <div id='projectBody'>
           <div className="projectInfo">
             {this.state.titleEditor &&
@@ -133,18 +134,22 @@ class ProjectView extends Component {
             <h3 onClick={this.deleteProject}>Delete project</h3>
           </form>
         }
-        
-        <button onClick={this.openEditTitle}>Edit</button>
-        <div className="searchedUsers">
-        <input type="text" onChange={this.memberSearchWorkAround} />
 
+        <form className='cardInput' action="" onSubmit={this.addCard}>
+          <input className='header-input' style={{ 'paddingLeft': '10pg' }} value={this.props.newCard ? this.props.newCard : ''} placeholder='Add New List' onChange={this.props.cardInput} type="text" />
+        </form>
+
+        <div className="searchedUsers">
+          <input className="header-input" placeholder="Add Collaborator" type="text" onChange={this.memberSearchWorkAround} />
         {this.props.searchedUser && 
           <div className='returnedUsersBox'>
             {getUsers }
           </div>
         }
-        
         </div>
+
+        {/* <button onClick={this.openEditTitle}>Edit</button> */}
+
         <select value={this.state.value} onChange={this.removeMember}>
           <option value="reindeer">Remove Teammates</option>
           {this.props.members && this.props.members.map((member, memindex) => {
@@ -157,9 +162,7 @@ class ProjectView extends Component {
             {this.props.cards.length > 0 &&
               cardBox
             }
-            <form className='cardInput' action="" onSubmit={this.addCard}>
-              <input className='newtab' style={{ 'paddingLeft': '10pg' }} value={this.props.newCard ? this.props.newCard : ''} placeholder='Input new card!' onChange={this.props.cardInput} type="text" />
-            </form>
+            
           </div>
         </div>
         </div>

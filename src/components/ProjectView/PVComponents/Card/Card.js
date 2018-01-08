@@ -125,51 +125,50 @@ class Card extends Component {
     const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = isOver;
 
-    let backgroundColor = '#222';
-    if (isActive) {
-      backgroundColor = 'darkgreen';
-    } else if (canDrop) {
-      backgroundColor = 'darkkhaki';
-    }
+    // let backgroundColor = '#222';
+    // if (isActive) {
+    //   backgroundColor = 'darkgreen';
+    // } else if (canDrop) {
+    //   backgroundColor = 'darkkhaki';
+    // }
 
-    const style = { backgroundColor: backgroundColor };
+    // const style = { backgroundColor: backgroundColor };
     const tasks = this.props.cardTasks &&
       this.props.cardTasks.map((task, index) => (
         <Task key={index + task} task={task} />
     ));
 
     return connectDropTarget(
-      <div className="task-card">
-        <div className="task-card-header">{this.props.card.title}</div>
-        <div className="tasks-in-card-container">{tasks}</div>
-        <div className="new-task-input">
-          <form onSubmit={e => this.handleAddTask(e, this.props.card.id, this.props.match.params.id)}>
-            <input type="text" // className="newCard"
-              onClick={() => this.selectCard(this.props.card.id)} onChange={this.props.taskInput} value={this.props.taskInputID === this.props.card.id ? this.props.newTask : ''} />
-          </form>
-        </div>
-        {this.state.editOpen === false && <div className="card-header">
-            {/* <img
-                id="downArrow"
-                src="http://freevector.co/wp-content/uploads/2010/10/61041-downwards-arrow-key.png"
-                onClick={() =>
-                  this.openEditOptions(
-                    this.props.card.id,
-                    this.props.card.title
-                  )
-                }
-              /> */}
+    <div className="task-card">
+        <div className="task-card-header">
+        
+        {this.props.card.title}
+          <div className="dot-menu-container" onClick={() => this.openEditOptions(this.props.card.id, this.props.card.title)}>
+            <div class="menu-dot" />
+            <div class="menu-dot" />
+            <div class="menu-dot" />
           </div>
-          /* {this.state.options === true &&
-              this.props.card.id === this.props.editHeaderID && (
-            <div className="editOptionsBox">
+        
+        </div>
+        <div className="tasks-in-card-container">
+          {tasks}
+          <div className="new-task-input">
+            <form onSubmit={e => this.handleAddTask(e, this.props.card.id, this.props.match.params.id)}>
+              <input className="text-input" type="text" onClick={() => this.selectCard(this.props.card.id) // className="newCard"
+                } onChange={this.props.taskInput} value={this.props.taskInputID === this.props.card.id ? this.props.newTask : ''} />
+            </form>
+          </div>
+        </div>
+
+        {this.state.editOpen === false && <div className="card-header">
+            
+          </div>}
+        {this.state.options === true && this.props.card.id === this.props.editHeaderID && <div className="editOptionsBox">
               <h3 onClick={this.openHeaderEdit}>Edit</h3>
               <h3 onClick={() => this.deleteCard(this.props.card.id)}>
-              Delete
+                Delete
               </h3>
-            </div>
-              )} */
-        }
+            </div>}
         {this.state.editOpen === true && this.props.editHeaderID !== this.props.card.id && <div className="card-header">
               {/* {this.props.card.title} */}
               {/* <img
@@ -183,7 +182,7 @@ class Card extends Component {
                   }
                 /> */}
 
-              {/* {this.state.options === true &&
+              {this.state.options === true &&
                 this.props.card.id === this.props.editHeaderID && (
                   <div className="editOptionsBox">
                     <h3 onClick={this.openHeaderEdit}>Edit</h3>
@@ -191,7 +190,7 @@ class Card extends Component {
                       Delete
                     </h3>
                   </div>
-                )} */}
+                )}
             </div>}
         {this.state.editOpen === true && this.props.editHeaderID === this.props.card.id && <form onSubmit={e => this.submitHeaderEdit(e, this.props.header, this.props.card.id)}>
               <input className="editHeader" value={this.props.header} onChange={e => this.handleHeaderEdit(e)} />
