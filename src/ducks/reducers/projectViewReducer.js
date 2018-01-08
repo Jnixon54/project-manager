@@ -268,7 +268,7 @@ export default function reducer(state = initialState, action) {
     case GET_CARDS + '_PENDING':
       return Object.assign({}, state, { isLoading: true })
     case GET_CARDS + '_FULFILLED':
-      return Object.assign({}, state, { cards: action.payload.data.response, userID: action.payload.data.user.id, newCard: '', isLoading: false })
+      return Object.assign({}, state, { cards: action.payload.data.response, userID: 9, newCard: '', isLoading: false })
 
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
       return Object.assign({}, state, { isLoading: true })

@@ -6,3 +6,21 @@
   background-color: rgb(220, 220, 220);
   /* background-color: rgb(144, 153, 159); */
 }
+
+.task-list-header {
+  font-family: 'Open sans condensed';
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sidebar-list {
+  margin: none;
+}
+
+.sidebar-task {
+  cursor: pointer;
+}
+
+.sidebar-task .complete{
+  text-decoration: line-through;
+}
