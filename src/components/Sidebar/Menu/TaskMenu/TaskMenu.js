@@ -7,6 +7,9 @@ import {
 } from './../../../../ducks/reducers/dashboardReducer';
 import './TaskMenu.css';
 
+import { getTasks } from './../../../../ducks/reducers/projectViewReducer'
+import { withRouter } from 'react-router'
+
 
 
 class TaskMenu extends Component{
@@ -24,11 +27,13 @@ class TaskMenu extends Component{
   completedTask(taskID){
     this.props.completedTask(taskID).then(response => {
       this.props.getAllTasks();
+      this.props.getTasks(this.props.match.params.id)
     })
   }
   undoCompletedTask(taskID){
     this.props.undoCompletedTask(taskID).then(response => {
       this.props.getAllTasks();
+      this.props.getTasks(this.props.match.params.id)
     })
   }
   render(){
@@ -64,4 +69,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getAllTasks, completedTask, undoCompletedTask })(TaskMenu);
+export default withRouter(connect(mapStateToProps, { getAllTasks, completedTask, undoCompletedTask, getTasks })(TaskMenu));
