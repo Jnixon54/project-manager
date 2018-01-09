@@ -1,1 +1,1 @@
-SELECT tasks.task_id, content, parent_project_id FROM tasks JOIN task_users on tasks.task_id = task_users.task_id WHERE user_id = $1
+SELECT tasks.task_id, content, parent_project_id, completed FROM tasks JOIN task_users on tasks.task_id = task_users.task_id WHERE user_id = $1 Order By tasks.task_id

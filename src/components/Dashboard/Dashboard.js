@@ -66,6 +66,7 @@ class Dashboard extends Component {
 
   render() {
     //On page load a box is created and displays information for each project
+    console.log(this.props.assignedTasks)
     const projectBox = this.props.projects.map((project, index) => {
       return (
         <div key={index} className="outer-project-box">
