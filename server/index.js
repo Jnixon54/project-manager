@@ -262,6 +262,9 @@ app.get('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject);
 app.get('/api/allTeamProjects', projectsController.getTeamProjects)
 app.post('/api/changeColor', projectsController.changeColor)
+app.put("/api/completedTask/:taskID", projectsController.completedTask)
+app.put("/api/undoCompletedTask/:taskID", projectsController.undoCompletedTask)
+app.get('/api/getLocalUser', projectsController.getLocalUser)
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints

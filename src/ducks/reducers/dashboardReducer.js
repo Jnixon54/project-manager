@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const initialState = {
   projects: [],
-  tasks: [],
+  assignedTasks: [],
   loading: false,
   newProjectTitle: '',
   teamProjects: []
@@ -10,9 +10,11 @@ const initialState = {
 
 // Action Types
 const GET_PROJECTS = 'GET_PROJECTS';
-const GET_TASKS = 'GET_TASKS';
+const GET_USER_ASSIGNED_TASKS = 'GET_USER_ASSIGNED_TASKS';
 const UPDATE_NEWPROJECTTITLE = 'UPDATE_NEWPROJECTTITLE';
 const GET_TEAM_PROJECTS = 'GET_TEAM_PROJECTS'
+const COMPLETED_TASK = 'COMPLETED_TASK'
+const UNDO_COMPLETED_TASK = 'UNDO_COMPLETED_TASK'
 
 // Reducer
 export default function reducer(state = initialState, action) {
@@ -32,12 +34,13 @@ export default function reducer(state = initialState, action) {
         teamProjects: action.payload
       });
 
-    case GET_TASKS + '_PENDING':
+    case GET_USER_ASSIGNED_TASKS + '_PENDING':
       return Object.assign({}, state, { loading: true });
-    case GET_TASKS + '_FULFILLED':
+    case GET_USER_ASSIGNED_TASKS + '_FULFILLED':
+    console.log(action.payload, "Here are your returned tasks");
       return Object.assign({}, state, {
         loading: false,
-        tasks: action.payload
+        assignedTasks: action.payload
       });
     //Adds project title to database from create new project
     case UPDATE_NEWPROJECTTITLE:
@@ -71,7 +74,7 @@ export function getTeamProjects(userID) {
 
 export function getAllTasks(userID) {
   return {
-    type: GET_TASKS,
+    type: GET_USER_ASSIGNED_TASKS,
     payload: axios
       .get('/api/allTasks')
       .then(response => response.data)
@@ -83,4 +86,19 @@ export function updateNewProjectTitle(e) {
     type: UPDATE_NEWPROJECTTITLE,
     payload: e.target.value
   };
+}
+
+export function completedTask(taskID) {
+  console.log(taskID, "In reducer");
+  return {
+    type: COMPLETED_TASK,
+    payload: axios.put(`/api/completedTask/${taskID}`).then(resp => resp)
+  }
+}
+export function undoCompletedTask(taskID) {
+  console.log(taskID, "In reducer");
+  return {
+    type: UNDO_COMPLETED_TASK,
+    payload: axios.put(`/api/undoCompletedTask/${taskID}`).then(resp => resp)
+  }
 }

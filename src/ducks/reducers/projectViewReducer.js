@@ -12,7 +12,7 @@ const initialState = {
   tasks: [],
   searchedUser: [],
   members: [],
-  userID: 0
+  localUserID: 0
 };
 
 
@@ -54,6 +54,7 @@ const DRAG_TASK = 'DRAG_TASK'
 const REMOVE_CURRENT_MEMBER = 'REMOVE_CURRENT_MEMBER'
 const DELETE_PROJECT = 'DELETE_PROJECT' 
 const SEND_NEW_TITLE = 'SEND_NEW_TITLE'
+const GET_LOCAL_USER = 'GET_LOCAL_USER'
 
 
 
@@ -233,6 +234,13 @@ export function sendNewTitle(title, projectID) {
   }
 }
 
+export function getLocalUser(){
+  return {
+    type: GET_LOCAL_USER,
+    payload: axios.get('/api/getLocalUser').then(response => response.data)
+  }
+}
+
 // export function increaseCount() {
 //   return {
 //     type: INCREASE_COUNT
@@ -268,7 +276,7 @@ export default function reducer(state = initialState, action) {
     case GET_CARDS + '_PENDING':
       return Object.assign({}, state, { isLoading: true })
     case GET_CARDS + '_FULFILLED':
-      return Object.assign({}, state, { cards: action.payload.data.response, userID: 9, newCard: '', isLoading: false })
+      return Object.assign({}, state, { cards: action.payload.data.response, newCard: '', isLoading: false })
 
     case ALL_CARDS + '_PENDING'://grabbing all cards from database
       return Object.assign({}, state, { isLoading: true })
@@ -354,6 +362,11 @@ export default function reducer(state = initialState, action) {
         return { ...state, isLoading: true}
     case GET_ASSIGNED_TASKS + '_FULFILLED':
         return { ...state, isLoading: false, assignedTasks: action.payload}
+    case GET_LOCAL_USER + '_PENDING':
+        return { ...state, isLoading: true}
+    case GET_LOCAL_USER + '_FULFILLED':
+    console.log(action.payload)
+        return { ...state, isLoading: false, localUserID: action.payload}
     default:
       return state;
     //in case none of the action types match, it can return the state to make sure it don't break anything.
