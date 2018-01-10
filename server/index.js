@@ -29,6 +29,8 @@ const socket = require('./socketServer');
 
 const app = express();
 ///////////////////////////////////////////////////////////////////////////
+
+app.use( express.static( `${__dirname}/../build` ) );
 // DATABASE
 massive(DB_CONN_STRING)
   .then(instance => {
@@ -216,7 +218,7 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:3000/dashboard', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 ); // Might need to return the user here
@@ -226,7 +228,7 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: 'http://localhost:3000/dashboard', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 );
@@ -314,6 +316,10 @@ app.get('/api/user', (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
 
 const server = app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

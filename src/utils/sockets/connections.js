@@ -4,7 +4,7 @@ import * as projectViewActions from '../../ducks/reducers/projectViewReducer';
 import io from 'socket.io-client';
 import store from '../../store';
 
-const PORT = 3001;
+const PORT = 3002;
 
 const socket = io.connect(`${location.protocol}//${location.hostname}:${PORT}`);
 
