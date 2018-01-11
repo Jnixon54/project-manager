@@ -57,7 +57,7 @@ class TaskMenu extends Component{
             return <div key={ind} className={ 'sidebar-task '.concat(currTask.completed ? 'complete' : null)} 
             onClick={currTask.completed === true ? () => this.undoCompletedTask(currTask.id) : 
             () =>this.completedTask(currTask.id)} >
-            <li>{currTask.content}</li>
+            <li >{currTask.content}</li>
             </div>
           })}
         </div>

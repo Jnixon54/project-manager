@@ -16,6 +16,7 @@ const UPDATE_NEWPROJECTTITLE = 'UPDATE_NEWPROJECTTITLE';
 const GET_TEAM_PROJECTS = 'GET_TEAM_PROJECTS'
 const COMPLETED_TASK = 'COMPLETED_TASK'
 const UNDO_COMPLETED_TASK = 'UNDO_COMPLETED_TASK'
+const RESET_PROJECT_VALUE = 'RESET_PROJECT_VALUE'
 
 // Reducer
 export default function reducer(state = initialState, action) {
@@ -83,6 +84,10 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         newProjectTitle: action.payload
       });
+    case RESET_PROJECT_VALUE:
+      return Object.assign({}, state, {
+        newProjectTitle: ""
+      });
     default:
       return state;
   }
@@ -136,5 +141,10 @@ export function undoCompletedTask(taskID) {
   return {
     type: UNDO_COMPLETED_TASK,
     payload: axios.put(`/api/undoCompletedTask/${taskID}`).then(resp => resp)
+  }
+}
+export function resetProjectValue() {
+  return {
+    type: RESET_PROJECT_VALUE
   }
 }
