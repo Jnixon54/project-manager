@@ -36,7 +36,7 @@ module.exports = {
   },
   completedTask: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    console.log(req.params.taskID);
+    console.log(req.params.taskID, "Here is your param");
     dbInstance
       .completedTask([req.params.taskID])
       .then(response => res.status(200).send(response))
@@ -47,7 +47,7 @@ module.exports = {
   },
   undoCompletedTask: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    console.log(req.params.taskID);
+    console.log(req.params.taskID, "here is your other param");
     dbInstance
       .undoCompletedTask([req.params.taskID])
       .then(response => res.status(200).send(response))

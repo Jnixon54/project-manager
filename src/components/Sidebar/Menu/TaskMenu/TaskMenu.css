@@ -9,8 +9,9 @@
 
 .task-list-header {
   font-family: 'Open sans condensed';
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
+  margin-bottom: 0;
 }
 
 .sidebar-list {
@@ -19,8 +20,12 @@
 
 .sidebar-task {
   cursor: pointer;
+  font-family: 'Open sans condensed';
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 0;
 }
 
-.sidebar-task .complete{
+.complete{
   text-decoration: line-through;
 }

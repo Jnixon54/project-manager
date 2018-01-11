@@ -108,6 +108,7 @@ export function getCards2(projectID){
   }
 }
 export function getTasks(projectID){
+  console.log(projectID,":  Project id");
   return {
     type: GET_TASKS,
     payload: axios.get(`/api/getAllTasks/${projectID}`).then(response => {

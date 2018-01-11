@@ -23,36 +23,57 @@ class TaskMenu extends Component{
     this.props.getAllTasks();
   }
 
+''
+
 
   completedTask(taskID){
+    console.log(taskID);
     this.props.completedTask(taskID).then(response => {
       this.props.getAllTasks();
+      if (this.props.match.params.id){
       this.props.getTasks(this.props.match.params.id)
+      }
     })
   }
   undoCompletedTask(taskID){
     this.props.undoCompletedTask(taskID).then(response => {
       this.props.getAllTasks();
-      this.props.getTasks(this.props.match.params.id)
+      if (this.props.match.params.id){
+        this.props.getTasks(this.props.match.params.id)
+        }
     })
   }
   render(){
-    const taskList = this.props.assignedTasks.map((task, index) => {
-      console.log(task);
+
+    const taskList = this.props.assignedTasks.map((task, index, arr) => {
+          
       return (
-        <li key={index} className="sidebar-task" >
-          <div className={ 'sidebar-task '.concat(task.completed ? 'complete' : null)} onClick={task.completed === true ? () => this.undoCompletedTask(task.task_id) : () =>this.completedTask(task.task_id)}>
-          {task.content}
-          </div>
-        </li>
+        <div key={index}>
+           <div  className=" task-section" >
+          <div>
+        <p className="task-list-header" >{task.title}</p>
+          {  task.tasks.map((currTask, ind) => {
+            {console.log(currTask);}
+            return <div key={ind} className={ 'sidebar-task '.concat(currTask.completed ? 'complete' : null)} 
+            onClick={currTask.completed === true ? () => this.undoCompletedTask(currTask.id) : 
+            () =>this.completedTask(currTask.id)} >
+            <li>{currTask.content}</li>
+            </div>
+          })}
+        </div>
+      </div>
+        </div>
       )
     })
+
+
   return (
     <div className="task-menu">
     <div className="container">
       <div className="header-container task-list-header" >
         To-do
       </div>
+      <hr />
       <ul className="sidebar-list">
         { taskList }
       </ul>

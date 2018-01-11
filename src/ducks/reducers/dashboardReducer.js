@@ -5,7 +5,8 @@ const initialState = {
   assignedTasks: [],
   loading: false,
   newProjectTitle: '',
-  teamProjects: []
+  teamProjects: [],
+  changed: 0
 };
 
 // Action Types
@@ -37,10 +38,45 @@ export default function reducer(state = initialState, action) {
     case GET_USER_ASSIGNED_TASKS + '_PENDING':
       return Object.assign({}, state, { loading: true });
     case GET_USER_ASSIGNED_TASKS + '_FULFILLED':
-    console.log(action.payload, "Here are your returned tasks");
+  
+    let sortedTasksArray = []
+      let sortedAssignedTasks = { title: "", tasks: [] }
+      let tasksObject = {id: 0, content: "", completed: false}
+      console.log(action.payload, "Here is your payload");
+   
+  function sortArray(){
+    for (let item = 0; item < action.payload.length; item++){
+      if (sortedTasksArray.length === 0){
+      
+        sortedAssignedTasks.title = action.payload[item].title
+        tasksObject.id=action.payload[item].task_id
+        tasksObject.content=action.payload[item].content
+        tasksObject.completed=action.payload[item].completed
+        sortedAssignedTasks.tasks.push(tasksObject)
+        sortedTasksArray.push(sortedAssignedTasks)
+        
+      } else if(sortedTasksArray.findIndex(currItem => currItem.title === action.payload[item].title) >= 0){
+        tasksObject.id=action.payload[item].task_id
+        tasksObject.content=action.payload[item].content
+        tasksObject.completed=action.payload[item].completed
+        sortedTasksArray[sortedTasksArray.findIndex(currItem => currItem.title === action.payload[item].title)].tasks.push(tasksObject)
+      } else{
+        sortedAssignedTasks.title = action.payload[item].title
+        tasksObject.id=action.payload[item].task_id
+        tasksObject.content=action.payload[item].content
+        tasksObject.completed=action.payload[item].completed
+        sortedAssignedTasks.tasks.push(tasksObject)
+        sortedTasksArray.push(sortedAssignedTasks)
+      }
+      sortedAssignedTasks = { title: "", tasks: []}
+      tasksObject = {id: "", content: "", completed: false}
+    }
+    return sortedTasksArray
+  }
+    sortArray()
       return Object.assign({}, state, {
         loading: false,
-        assignedTasks: action.payload
+        assignedTasks: sortedTasksArray
       });
     //Adds project title to database from create new project
     case UPDATE_NEWPROJECTTITLE:
