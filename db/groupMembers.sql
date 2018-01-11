@@ -1,1 +1,1 @@
-SELECT * FROM project_users JOIN users ON users.id = project_users.user_id WHERE project_id = $1 
+SELECT u.id, display_name FROM project_users pu JOIN users u ON u.id = pu.user_id WHERE project_id = $1 

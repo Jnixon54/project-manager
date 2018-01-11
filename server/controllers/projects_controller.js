@@ -1,6 +1,5 @@
 module.exports = {
   getAllProjects: (req, res, next) => {
-    console.log(req.user.id);
     const dbInstance = req.app.get('db');
     dbInstance
       .getProjectById([req.user.id])
@@ -11,7 +10,7 @@ module.exports = {
     const dbInstance = req.app.get('db');
     dbInstance
       .getAllTasksById([req.user.id])
-      .then(response => res.status(200).send(response))
+      .then(resp => res.send(resp))
       .catch(err => console.log(err));
   },
   addProject: (req, res, next) => {
@@ -35,5 +34,23 @@ module.exports = {
       .then(response => res.status(200).send(response))
       .catch(err => console.log(err));
   },
-
+  completedTask: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    console.log(req.params.taskID);
+    dbInstance
+      .completedTask([req.params.taskID])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+  },
+  getLocalUser: (req, res, next) => {
+    res.status(200).json(req.user.id)
+  },
+  undoCompletedTask: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    console.log(req.params.taskID);
+    dbInstance
+      .undoCompletedTask([req.params.taskID])
+      .then(response => res.status(200).send(response))
+      .catch(err => console.log(err));
+  },
 };

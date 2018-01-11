@@ -1,4 +1,5 @@
 .sidebar-burger {
+  z-index: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,7 +9,7 @@
   /* color: rgb(236, 246, 255); */
   margin-top: 10px;
   cursor: pointer;
-  z-index: 6;
+  /* z-index: 6; */
   /* background-color: salmon; */
 }
 

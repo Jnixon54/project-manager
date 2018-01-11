@@ -262,6 +262,9 @@ app.get('/api/allTasks', projectsController.getAllTasks);
 app.post('/api/addProject', projectsController.addProject);
 app.get('/api/allTeamProjects', projectsController.getTeamProjects)
 app.post('/api/changeColor', projectsController.changeColor)
+app.put("/api/completedTask/:taskID", projectsController.completedTask)
+app.put("/api/undoCompletedTask/:taskID", projectsController.undoCompletedTask)
+app.get('/api/getLocalUser', projectsController.getLocalUser)
 
 ///////////////////////////////////////////////////////////////////////////
 // Project View Endpoints
@@ -291,6 +294,13 @@ app.post('/api/updateHeader', tasksController.editCardHeader)
 app.delete('/api/deleteAllTasks/:cardID', tasksController.deleteAllTasks)
 app.delete('/api/deleteCard/:cardID', tasksController.deleteCard)
 
+///////////////////////////////////////////////////////////////////////////
+//settings endpoints
+app.put('/api/sendNewDisplayName/:displayName', usersController.sendNewDisplayName)
+
+app.put('/api/sendNewEmailName/:email', usersController.sendNewEmailName )
+
+app.put('/api/sendNewBio/:bio',usersController.sendNewBio )
 
 app.get('/api/user', (req, res) => {
   if (req.user) {

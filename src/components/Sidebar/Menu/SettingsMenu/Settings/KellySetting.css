@@ -1,0 +1,113 @@
+.links {
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline;
+    text-align: center;
+    background: rgba(184, 182, 182, 0.9);
+    padding: 15px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popup {
+    margin-top: 20px;
+  }
+
+  .links:hover {
+    background-color: lightgrey;
+    color: white;
+  }
+  
+  .setting {
+    background-color: whitergb(220, 220, 220);
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-family: 'Open Sans Condensed';
+  }
+  .btn {
+    background-color: green;
+    border-radius: 5px 5px 5px 5px;
+    height: 50%;
+    width: 25%;
+  }
+
+  .changeForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+
+  }
+
+  .uploadButtonImg {
+    width: 100px;
+    height: 100px;
+    z-index: 20;
+    top: 60px;
+    left: 125px;
+    border-radius: 50%;
+  }
+
+
+  @keyframes disappear {
+    from {
+      opacity: 1;
+    }
+    to {
+      pointer-events: all;
+      opacity: 0;
+    }
+  }
+
+  #display-input {
+    width: 250px;
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  #email-input {
+    width: 250px;
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  #bio-input {
+    width: 250px;
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  .logout-button {
+    font-weight: 700;
+  }
+
+  .settings-input-title {
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+
+  #settings-header {
+    margin-top: 15px;
+    font-size: 1.6em;
+  }

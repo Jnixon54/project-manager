@@ -130,7 +130,7 @@ module.exports = {
 
     assignToTask: (req, res, next) => {
         const dbInstance = req.app.get('db')
-        
+        console.log(req.user.id, req.body.userID, "CHECK RIGHT HERE YOURS IS FIRST")
         dbInstance.assignToTask([req.body.taskID, req.body.userID, req.body.projectID])
             .then(response => {
                 res.status(200).send(response)
