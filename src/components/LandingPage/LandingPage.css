@@ -95,38 +95,38 @@
 }
 
 .banner-0.after {
-  height: 22vh;
+  height: 26vh;
 }
 
 .banner-1.after {
-  height: 60vh;
+  height: 64vh;
   transition-delay: .15s;
 }
 
 .banner-2.after {
-  height: 35vh;
+  height: 38vh;
   transition-delay: .1s;
 }
 
 .banner-3.after {
-  height: 15vh;
+  height: 18vh;
   transition-delay: .05s;
 }
 .banner-0.toggle {
-  height: 26vh;
+  height: 22vh;
   transition-delay: .2s;
 }
 .banner-1.toggle {
-  height: 64vh;
+  height: 60vh;
   transition-delay: .4s;
 }
 .banner-2.toggle {
-  height: 38vh;
+  height: 35vh;
   transition-delay: .5s;
 }
 
 .banner-3.toggle {
-  height: 18vh;
+  height: 15vh;
   transition-delay: .3s;
 }
 

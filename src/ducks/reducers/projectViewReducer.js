@@ -36,6 +36,7 @@ const INCREASE_COUNT = 'INCREASE_COUNT';
 // const INCREASE_COUNT_CLIENT = 'INCREASE_COUNT_CLIENT';
 const ALL_CARDS = 'ALL_CARDS'
 const GET_CARDS = 'GET_CARDS'
+const RESET_CARDS = 'RESET_CARDS'
 //edit and delete tasks
 const OPEN_TASKEDIT = 'OPEN_TASKEDIT'
 const CHANGE_EDITTASK = 'CHANGE_EDITTASK'
@@ -110,6 +111,7 @@ export function getCards2(projectID){
   }
 }
 export function getTasks(projectID){
+  console.log(projectID,":  Project id");
   return {
     type: GET_TASKS,
     payload: axios.get(`/api/getAllTasks/${projectID}`).then(response => {
@@ -269,6 +271,12 @@ export function increaseCount(data) {
   }
 }
 
+export function resetCards() {
+  return {
+    type: RESET_CARDS,
+  }
+}
+
 
 // Reducer: state & action
 export default function reducer(state = initialState, action) {
@@ -378,6 +386,8 @@ export default function reducer(state = initialState, action) {
     case GET_LOCAL_USER + '_FULFILLED':
     console.log(action.payload)
         return { ...state, isLoading: false, localUserID: action.payload}
+    case RESET_CARDS:
+        return { ...state, cards: []};
     default:
       return state;
     //in case none of the action types match, it can return the state to make sure it don't break anything.

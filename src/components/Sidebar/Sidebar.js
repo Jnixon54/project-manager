@@ -21,18 +21,18 @@ class Sidebar extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleTaskList = this.toggleTaskList.bind(this);
   }
-
-  toggleMenu() {
-    this.setState({ settingsOpen: !this.state.settingsOpen });
-    console.log(this.state.settingsOpen)
-  }
-
+  
   toggleModal() {
     this.setState({ modalOpen: !this.state.modalOpen });
   }
 
+  toggleMenu() {
+    this.setState({ settingsOpen: !this.state.settingsOpen, taskListOpen: false });
+    console.log(this.state.settingsOpen)
+  }
+
   toggleTaskList() {
-    this.setState({ taskListOpen: !this.state.taskListOpen });
+    this.setState({ taskListOpen: !this.state.taskListOpen, settingsOpen: false });
   }
 
   render() {

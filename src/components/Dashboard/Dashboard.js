@@ -6,7 +6,8 @@ import {
   getAllProjects,
   getAllTasks,
   updateNewProjectTitle,
-  getTeamProjects
+  getTeamProjects,
+  resetProjectValue
 } from './../../ducks/reducers/dashboardReducer';
 import Sidebar from '../Sidebar/Sidebar';
 import Header from '../Header/Header';
@@ -36,7 +37,9 @@ class Dashboard extends Component {
     this.props.getTeamProjects();
     this.props.getUserInfo()
   }
-
+componentWillUnmount(){
+  this.props.resetProjectValue()
+}
   // changes local state to allow tooltip to popup on create new project
   createProjectToolTip() {
     this.setState({ toolTip: !this.state.toolTip });
@@ -46,10 +49,12 @@ class Dashboard extends Component {
   //then routes to the project view with the new projects id
   sendNewProject(e) {
     e.preventDefault();
+    if(this.props.newProjectTitle.length > 0){
     // console.log('USERID: ', this.props.newProjectTitle)
     axios.post('/api/addProject', { projectTitle: this.props.newProjectTitle}).then(response => {
       this.props.history.push(`/ProjectView/${response.data[0].id}/${this.props.newProjectTitle}`)
     });
+  } 
   }
 
   pickColor(color, projectID){
@@ -146,6 +151,7 @@ export default connect(mapStateToProps, {
   getAllTasks,
   updateNewProjectTitle,
   getTeamProjects,
-  getUserInfo
+  getUserInfo,
+  resetProjectValue
 })(Dashboard);
 
