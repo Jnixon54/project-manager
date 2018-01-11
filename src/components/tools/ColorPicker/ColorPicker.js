@@ -7,9 +7,9 @@ const colorsList = [["red", "yellow", "blue"], ["green", "gold", "purple"], ["rg
     const ColorPicker = (props) => (
         <div>
           <div className="color-picker" onClick={() => props.showColors(props.currentItem.id)} >
-            <div class="menu-dot"></div>
-            <div class="menu-dot"></div>
-            <div class="menu-dot"></div>
+            <div className="menu-dot"></div>
+            <div className="menu-dot"></div>
+            <div className="menu-dot"></div>
           </div>
           {props.colorsOpen && props.currentID === props.currentItem.id && 
             <div className="color-box"> 

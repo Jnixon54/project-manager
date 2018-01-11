@@ -24,7 +24,8 @@ import {
   getAssignedTasks,
   removeCurrentMember,
   deleteProject,
-  sendNewTitle
+  sendNewTitle,
+  getLocalUser
 } from '../../ducks/reducers/projectViewReducer';
 
 class ProjectView extends Component {
@@ -53,6 +54,7 @@ class ProjectView extends Component {
     this.props.getTasks(this.props.match.params.id)
     this.props.groupMembers(this.props.match.params.id)
     this.props.getAssignedTasks(this.props.match.params.id)
+    this.props.getLocalUser()
   }
 
   addCard(e) {
@@ -179,5 +181,5 @@ const mapStateToProps = state => {
 
 ProjectView = DragDropContext(HTML5Backend)(ProjectView)
 export default withRouter(
-  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks, removeCurrentMember, deleteProject, sendNewTitle })(ProjectView)
+  connect(mapStateToProps, { addCard, getCards2, getTasks, cardInput, memberSearch, addGroupMember, groupMembers, getAssignedTasks, removeCurrentMember, deleteProject, sendNewTitle, getLocalUser })(ProjectView)
 );

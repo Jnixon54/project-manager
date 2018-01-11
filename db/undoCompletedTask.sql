@@ -1,0 +1,1 @@
+UPDATE tasks Set completed = false WHERE task_id = $1
