@@ -4,7 +4,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {Provider} from 'react-redux';
 import store from './store';
-import {socketMiddleware} from './utils/sockets/connections'; // Custom middleware for socket commands
+// import {socketMiddleware} from './utils/sockets/connections'; // Custom middleware for socket commands
 
 // redux Middleware for handling socket traffic
 // const createStoreWithMiddleware = applyMiddleware(socketMiddleware)(createStore);
@@ -15,6 +15,6 @@ import {socketMiddleware} from './utils/sockets/connections'; // Custom middlewa
 
 const createStoreWithMiddleware = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(socketMiddleware, promiseMiddleware()))
+  composeWithDevTools(applyMiddleware(promiseMiddleware()))
 );
 export default createStoreWithMiddleware;
