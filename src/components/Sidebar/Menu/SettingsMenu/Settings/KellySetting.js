@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './KellySetting.css';
 import { Link } from 'react-router-dom';
+import {withRouter } from 'react-router';
 import axios from 'axios';
 
 import { fire as firebase } from '../fire';
@@ -15,7 +16,8 @@ import {
   updateAvatarImage,
   sendNewDisplayName,
   sendNewEmailName,
-  sendNewBio
+  sendNewBio,
+  logOut
 } from '../../../../../ducks/reducers/userReducer';
 
 class KellySetting extends Component {
@@ -92,7 +94,6 @@ class KellySetting extends Component {
           <h3>Change Account Details:</h3>
           <hr />
           <div className="popup">
-            <form>
               <div>
                 <label className="changeForm">
                   Display Name:
@@ -101,7 +102,7 @@ class KellySetting extends Component {
                       onChange={e => updateDisplayNameField(e.target.value)}
                       type="text"
                       name="name"
-                      value={this.props.user.newDisplayName}
+                      value={this.props.user.newDisplayName ? this.props.user.newDisplayName : ''}
                     />
                   </form>
                 </label>
@@ -133,17 +134,23 @@ class KellySetting extends Component {
                   </form>
                 </label>
                 <br />
-                <label className="changeForm">
+                
+
+                {/* <label className="changeForm">
                  Current Profile Pic:
                   <img
                     className='uploadButtonImg'
                     src={this.props.user.profilePicture}
                   />{' '}
-                </label>
+                </label> */}
               </div>
-            </form>
+            <div >
+              <button className="logout-button" onClick={() => {logOut(); this.props.history.push('/');}}>
+                Logout
+              </button>
+            </div>
           </div>
-          <div style={{position: 'relative'}}>
+          {/* <div className="image-uploader" style={{position: 'relative'}}>
             
             <ImageUploader
               withIcon={false}
@@ -162,7 +169,7 @@ class KellySetting extends Component {
               }}>
               save
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -173,12 +180,13 @@ function mapStateToProps(state) {
   return state;
 }
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   updateDisplayNameField,
   updateEmailField,
   updateBioField,
   updateAvatarImage,
   sendNewDisplayName,
   sendNewEmailName,
-  sendNewBio
-})(KellySetting);
+  sendNewBio,
+  logOut
+})(KellySetting));

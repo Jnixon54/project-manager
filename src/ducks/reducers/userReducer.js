@@ -23,6 +23,7 @@ const UPDATE_PASSWORD_INPUT_FIELD = 'UPDATE_PASSWORD_INPUT_FIELD';
 const ON_SUBMIT_REGISTER = 'ON_SUBMIT_REGISTER';
 const ON_SUBMIT_LOGIN = 'ON_SUBMIT_LOGIN';
 const GET_USER_INFO = 'GET_USER_INFO';
+const LOGOUT_USER = 'LOGOUT_USER';
 // Settings action types
 const UPDATE_DISPLAY_NAME_FIELD = 'UPDATE_DISPLAY_NAME_FIELD';
 const UPDATE_EMAIL_FIELD = 'UPDATE_EMAIL_FIELD';
@@ -66,6 +67,10 @@ function reducer(state = initialState, action) {
        return { ...state };
      case ON_SUBMIT_LOGIN + '_FULFILLED':
       return {...state, usernameInput: '',};
+    case LOGOUT_USER + '_PENDING':
+        return {...state};
+    case LOGOUT_USER + '_FULFILLED':
+        return initialState;
     // case ON_SUBMIT_LOGIN:
     //   return { ...state, userIsLoggedIn: true };
 
@@ -136,7 +141,16 @@ export function getUserInfo() {
   };
 }
 
-export default reducer;
+export function logOut() {
+  return {
+    type: 'LOGOUT_USER',
+    payload: axios
+      .get('/logout')
+      .then(response => {
+      }).catch()
+  }
+}
+
 
 //////////////////////////////////////////////
 //settings component functions
@@ -189,3 +203,5 @@ export function sendNewBio(bio){
     payload: axios.put(`/api/sendNewBio/${bio}`)
   }
 }
+
+export default reducer;
