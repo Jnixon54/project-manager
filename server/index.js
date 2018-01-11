@@ -29,6 +29,8 @@ const socket = require('./socketServer');
 
 const app = express();
 ///////////////////////////////////////////////////////////////////////////
+
+app.use( express.static( `${__dirname}/../build` ) );
 // DATABASE
 massive(DB_CONN_STRING)
   .then(instance => {
@@ -62,12 +64,10 @@ app.use(passport.session());
 ///////////////////////////////////////////////////////////////////////////
 //PERSISTENCE
 passport.serializeUser(function(user, done) {
-  console.log(`SERIALIZE USER: ${user.id} | ${user.username}`);
   done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log(`DESERIALIZE USER: ${id}`);
   // db.users
   //   .findOne({ where: { id: id } })
   //   .then(user => {
@@ -93,11 +93,9 @@ passport.use(
           const hashData = hashPassword.saltHashString(password);
           db.createLocalUser([username, hashData.stringHash, hashData.salt])
             .then((user) => {
-              console.log(`Created new user: ${user[0].id} | ${user[0].username}`)
               return done(null, user[0]);
             })
             .catch(err => {
-              console.log('Error creating and authenticating local user: ', err);
               if (err) {
                 return done(err);
               }})
@@ -108,7 +106,6 @@ passport.use(
           user[0].password_hash !=
           hashPassword.hash(password, user[0].salt).stringHash // salt and hashing password to compare
         ) {
-          console.log('Wrong Password!')
           return done(null, false, {message: 'Incorrect Password'});
         }
         if (user[0] && user[0].password_hash == hashPassword.hash(password, user[0].salt).stringHash) {
@@ -119,7 +116,6 @@ passport.use(
         }
       })
       .catch(err => {
-        console.log('Error authenticating local user: ', err);
         if (err) {
           return done(err);
         }
@@ -144,13 +140,10 @@ passport.use(
             db
               .createGoogleUser([googleID, profile.name.givenName])
               .then(user => {
-                console.log(
-                  `Created Google user: ${user[0].id} ${user[0].username}`
-                );
                 return done(null, user[0]);
               })
               .catch(err => {
-                console.log('Failed to create Google user: ', err);
+            
                 return done(err);
               });
           } else {
@@ -182,13 +175,11 @@ passport.use(
             db
               .createFacebookUser([facebookID, displayName])
               .then(user => {
-                console.log(
-                  `Created Facebook user: ${user[0].id} ${user[0].username}`
-                );
+                
                 return done(null, user[0]);
               })
               .catch(err => {
-                console.log('Failed to create Facebook user: ', err);
+             
                 return done(err);
               });
           } else {
@@ -237,7 +228,7 @@ app.post(
     // failureRedirect: '/',
     failureFlash: true
   }), (req, res) => {
-    console.log('LOGIN: ', req.user)
+   
     if (req.user) res.send(req.user)
   });
 // app.post('/login', usersController.login, (req, res) => console.log(req.user));
@@ -247,7 +238,6 @@ app.post('/register', passport.authenticate('local', {
   // failureRedirect: '/',
   failureFlash: true
 }), (req, res) => {
-  console.log(req)
   if (req.user) res.send(req.user)
   // if (req.user) console.log('poop');
 });
@@ -314,6 +304,10 @@ app.get('/api/user', (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////
 // More End Points
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
 
 const server = app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
