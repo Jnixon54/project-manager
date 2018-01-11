@@ -107,3 +107,17 @@ h1 {
 .outer-project-box{
   position: relative;
 }
+
+.create-new-project {
+  /* background-color: rgb(118, 123, 136);
+  border */
+}
+
+#new-project-input {
+  width: 250px;
+  position: relative;
+  top: -30px;
+  margin: 0;
+  background-color: rgb(242, 242, 242);
+  color: black;
+}
