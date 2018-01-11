@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './KellySetting.css';
 import { Link } from 'react-router-dom';
+import {withRouter } from 'react-router';
 import axios from 'axios';
 
 import { fire as firebase } from '../fire';
@@ -15,7 +16,8 @@ import {
   updateAvatarImage,
   sendNewDisplayName,
   sendNewEmailName,
-  sendNewBio
+  sendNewBio,
+  logOut
 } from '../../../../../ducks/reducers/userReducer';
 
 class KellySetting extends Component {
@@ -89,28 +91,26 @@ class KellySetting extends Component {
     return (
       <div className="setting">
         <div className="settings">
-          <h3>Change Account Details:</h3>
-          <hr />
+          <h3 id="settings-header">Change Account Details:</h3>
           <div className="popup">
-            <form>
               <div>
                 <label className="changeForm">
-                  Display Name:
+                  <span className="settings-input-title ">Display Name:</span>
                   <form onSubmit={this.sendDisplayName}>
-                    <input
+                    <input className="header-input" id="display-input"
                       onChange={e => updateDisplayNameField(e.target.value)}
                       type="text"
                       name="name"
-                      value={this.props.user.newDisplayName}
+                      value={this.props.user.newDisplayName ? this.props.user.newDisplayName : ''}
                     />
                   </form>
                 </label>
                 <br />
                 <label className="changeForm">
                   
-                  Email:
+                  <span className="settings-input-title ">Email:</span>
                   <form onSubmit={this.sendNewEmailName}>
-                  <input
+                  <input className="header-input" id="email-input"
                     onChange={e => updateEmailField(e.target.value)}
                     type="text"
                     name="email"
@@ -121,9 +121,9 @@ class KellySetting extends Component {
                 <br />
                 <label className="changeForm">
                   {' '}
-                  Bio:
+                  <span className="settings-input-title ">Bio:</span>
                   <form onSubmit={this.sendNewBio}>
-                  <input
+                  <input className="header-input" id="bio-input"
                     onChange={e => updateBioField(e.target.value)}
                     type="field"
                     name="bio"
@@ -133,17 +133,23 @@ class KellySetting extends Component {
                   </form>
                 </label>
                 <br />
-                <label className="changeForm">
+                
+
+                {/* <label className="changeForm">
                  Current Profile Pic:
                   <img
                     className='uploadButtonImg'
                     src={this.props.user.profilePicture}
                   />{' '}
-                </label>
+                </label> */}
               </div>
-            </form>
+            <div >
+              <button className="logout-button" onClick={() => {logOut(); this.props.history.push('/');}}>
+                Logout
+              </button>
+            </div>
           </div>
-          <div style={{position: 'relative'}}>
+          {/* <div className="image-uploader" style={{position: 'relative'}}>
             
             <ImageUploader
               withIcon={false}
@@ -162,7 +168,7 @@ class KellySetting extends Component {
               }}>
               save
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -173,12 +179,13 @@ function mapStateToProps(state) {
   return state;
 }
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   updateDisplayNameField,
   updateEmailField,
   updateBioField,
   updateAvatarImage,
   sendNewDisplayName,
   sendNewEmailName,
-  sendNewBio
-})(KellySetting);
+  sendNewBio,
+  logOut
+})(KellySetting));

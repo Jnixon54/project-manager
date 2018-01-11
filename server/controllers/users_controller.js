@@ -69,7 +69,7 @@ module.exports = {
   logout: (req, res) => {
     console.log('User logged out: ', req.session.passport.user);
     req.session.destroy();
-    res.redirect('/');
+    res.status(200).send();
   },
 
   sendNewDisplayName: (req, res, next) => {

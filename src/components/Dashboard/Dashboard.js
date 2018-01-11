@@ -61,12 +61,10 @@ class Dashboard extends Component {
   }
   showColors(projID){
     this.setState({colorsOpen: !this.state.colorsOpen, projID})
-    console.log("Hit!");
   }
 
   render() {
     //On page load a box is created and displays information for each project
-    console.log(this.props.assignedTasks)
     const projectBox = this.props.projects.map((project, index) => {
       return (
         <div key={index} className="outer-project-box">
@@ -94,10 +92,9 @@ class Dashboard extends Component {
 
     //creates a tooltip to allow the entry of a project title, form allows for enter to add to database and route to project view
     const projectToolTip = (
-      <div className="projectToolTip">
-        <h3>Project Title</h3>
+      <div className="create-new-project project-card">
         <form onSubmit={e => this.sendNewProject(e)}>
-          <input onChange={e => this.props.updateNewProjectTitle(e)} />
+          <input className="header-input" id="new-project-input"onChange={e => this.props.updateNewProjectTitle(e)} />
         </form>
       </div>
     );

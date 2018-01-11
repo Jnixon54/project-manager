@@ -18,16 +18,21 @@
     cursor: pointer;
   }
   
+  .popup {
+    margin-top: 20px;
+  }
+
   .links:hover {
     background-color: lightgrey;
     color: white;
   }
   
   .setting {
-    background-color: white;
+    background-color: whitergb(220, 220, 220);
     height: 100%;
     width: 100%;
     text-align: center;
+    font-family: 'Open Sans Condensed';
   }
   .btn {
     background-color: green;
@@ -61,4 +66,48 @@
       pointer-events: all;
       opacity: 0;
     }
+  }
+
+  #display-input {
+    width: 250px;
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  #email-input {
+    width: 250px;
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  #bio-input {
+    width: 250px;
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  .logout-button {
+    font-weight: 700;
+  }
+
+  .settings-input-title {
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+
+  #settings-header {
+    margin-top: 15px;
+    font-size: 1.6em;
   }
