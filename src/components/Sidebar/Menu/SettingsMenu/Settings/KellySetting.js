@@ -91,14 +91,13 @@ class KellySetting extends Component {
     return (
       <div className="setting">
         <div className="settings">
-          <h3>Change Account Details:</h3>
-          <hr />
+          <h3 id="settings-header">Change Account Details:</h3>
           <div className="popup">
               <div>
                 <label className="changeForm">
-                  Display Name:
+                  <span className="settings-input-title ">Display Name:</span>
                   <form onSubmit={this.sendDisplayName}>
-                    <input
+                    <input className="header-input" id="display-input"
                       onChange={e => updateDisplayNameField(e.target.value)}
                       type="text"
                       name="name"
@@ -109,9 +108,9 @@ class KellySetting extends Component {
                 <br />
                 <label className="changeForm">
                   
-                  Email:
+                  <span className="settings-input-title ">Email:</span>
                   <form onSubmit={this.sendNewEmailName}>
-                  <input
+                  <input className="header-input" id="email-input"
                     onChange={e => updateEmailField(e.target.value)}
                     type="text"
                     name="email"
@@ -122,9 +121,9 @@ class KellySetting extends Component {
                 <br />
                 <label className="changeForm">
                   {' '}
-                  Bio:
+                  <span className="settings-input-title ">Bio:</span>
                   <form onSubmit={this.sendNewBio}>
-                  <input
+                  <input className="header-input" id="bio-input"
                     onChange={e => updateBioField(e.target.value)}
                     type="field"
                     name="bio"

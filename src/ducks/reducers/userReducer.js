@@ -2,8 +2,8 @@ const axios = require('axios');
 
 // State Variables
 const initialState = {
-  usernameInput: 'asd',
-  passwordInput: 'asd',
+  usernameInput: '',
+  passwordInput: '',
   userIsLoggedIn: false,
   userID: '',
   displayName: '',
@@ -66,11 +66,11 @@ function reducer(state = initialState, action) {
      case ON_SUBMIT_LOGIN + '_PENDING':
        return { ...state };
      case ON_SUBMIT_LOGIN + '_FULFILLED':
-      return {...state, usernameInput: '',};
+      return {...state, usernameInput: '', passwordInput: ''};
     case LOGOUT_USER + '_PENDING':
         return {...state};
     case LOGOUT_USER + '_FULFILLED':
-        return initialState;
+        return {...initialState};
     // case ON_SUBMIT_LOGIN:
     //   return { ...state, userIsLoggedIn: true };
 
