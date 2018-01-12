@@ -207,7 +207,7 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:3000/dashboard', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 ); // Might need to return the user here
@@ -217,7 +217,7 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: 'http://localhost:3000/dashboard', //Will redirect to user dashboard
+    successRedirect: '/dashboard', //Will redirect to user dashboard
     failureRedirect: '/'
   })
 );

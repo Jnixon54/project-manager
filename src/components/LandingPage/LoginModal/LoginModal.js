@@ -73,7 +73,7 @@ class LoginModal extends Component {
               </span>
             </div>
             <div className="social-login">
-              <a href="http://localhost:3001/auth/google" className="social-login-button" id="google-login">
+              <a href="/auth/google" className="social-login-button" id="google-login">
               <div className="logo-wrapper">
                 <div id="google-logo">
                 </div>
@@ -82,7 +82,7 @@ class LoginModal extends Component {
                 </div>
               </div>
               </a>
-              <a href="http://localhost:3001/auth/facebook" className="social-login-button" id="facebook-login">
+              <a href="/auth/facebook" className="social-login-button" id="facebook-login">
                 <div className="logo-wrapper">
                 <div id="facebook-logo">
                 </div>
