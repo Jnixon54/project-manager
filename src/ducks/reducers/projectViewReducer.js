@@ -12,7 +12,8 @@ const initialState = {
   tasks: [],
   searchedUser: [],
   members: [],
-  localUserID: 0
+  localUserID: 0,
+  changed: 0
 };
 
 
@@ -55,6 +56,7 @@ const DRAG_TASK = 'DRAG_TASK'
 const REMOVE_CURRENT_MEMBER = 'REMOVE_CURRENT_MEMBER'
 const DELETE_PROJECT = 'DELETE_PROJECT' 
 const SEND_NEW_TITLE = 'SEND_NEW_TITLE'
+const MOVED_TASK = 'MOVED_TASK'
 const GET_LOCAL_USER = 'GET_LOCAL_USER'
 
 
@@ -109,7 +111,6 @@ export function getCards2(projectID){
   }
 }
 export function getTasks(projectID){
-  console.log(projectID,":  Project id");
   return {
     type: GET_TASKS,
     payload: axios.get(`/api/getAllTasks/${projectID}`).then(response => {
@@ -233,6 +234,13 @@ export function sendNewTitle(title, projectID) {
   return {
     type: SEND_NEW_TITLE,
     payload: axios.put(`/api/sendNewTitle/${title}/${projectID}`)
+  }
+}
+
+export function movedTask(newTaskArray) {
+  return {
+    type: MOVED_TASK,
+    payload: newTaskArray
   }
 }
 
@@ -370,10 +378,11 @@ export default function reducer(state = initialState, action) {
         return { ...state, isLoading: true}
     case GET_ASSIGNED_TASKS + '_FULFILLED':
         return { ...state, isLoading: false, assignedTasks: action.payload}
+    case MOVED_TASK:
+        return { ...state, tasks: action.payload, changed: state.changed++}
     case GET_LOCAL_USER + '_PENDING':
         return { ...state, isLoading: true}
     case GET_LOCAL_USER + '_FULFILLED':
-    console.log(action.payload)
         return { ...state, isLoading: false, localUserID: action.payload}
     case RESET_CARDS:
         return { ...state, cards: []};

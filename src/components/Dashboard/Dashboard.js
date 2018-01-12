@@ -58,7 +58,6 @@ componentWillUnmount(){
   }
 
   pickColor(color, projectID){
-    console.log(color, projectID);
     axios.post('/api/changeColor', {color, projectID}).then(response => {
       this.props.getAllProjects();
       this.setState({colorsOpen: !this.state.colorsOpen, projectID})

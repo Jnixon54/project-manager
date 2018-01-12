@@ -28,7 +28,6 @@ class Sidebar extends Component {
 
   toggleMenu() {
     this.setState({ settingsOpen: !this.state.settingsOpen, taskListOpen: false });
-    console.log(this.state.settingsOpen)
   }
 
   toggleTaskList() {

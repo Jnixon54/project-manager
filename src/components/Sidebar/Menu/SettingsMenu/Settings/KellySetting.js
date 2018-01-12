@@ -17,7 +17,9 @@ import {
   sendNewDisplayName,
   sendNewEmailName,
   sendNewBio,
-  logOut
+  logOut,
+  updateDN,
+  getUserInfo
 } from '../../../../../ducks/reducers/userReducer';
 
 class KellySetting extends Component {
@@ -35,15 +37,17 @@ class KellySetting extends Component {
     this.sendNewBio = this.sendNewBio.bind(this);
   }
 
+  componentDidMount(){
+    this.props.getUserInfo()
+  }
+
   handleImageChange(image) {
-    console.log(image, 'image');
     this.setState({
       avatarImage: this.state.avatarImage.concat(image)
     });
   }
 
   uploadImage(event) {
-    console.log(event, 'event');
     // event.preventDefault();
     let file = event[0][0];
     const storageRef = firebase.storage().ref();
@@ -55,7 +59,6 @@ class KellySetting extends Component {
       snapshot => {},
       function(error) {},
       function() {
-        console.log(uploadTask.snapshot.downloadURL);
         // that.setState({ downloadURL: uploadTask.snapshot.downloadURL });
         // console.log(this.state.downloadURL);
       }
@@ -66,6 +69,9 @@ class KellySetting extends Component {
   sendDisplayName(e){
     e.preventDefault()
     this.props.sendNewDisplayName(this.props.user.newDisplayName)
+    .then(() => {
+      this.props.updateDN()
+    })
   }
 
   sendNewEmailName(e){
@@ -79,7 +85,6 @@ class KellySetting extends Component {
   }
 
   render() {
-    console.log(this.props, 'kelly props')
     const {
       updateUserName,
       updatePasswordField,
@@ -187,5 +192,7 @@ export default withRouter(connect(mapStateToProps, {
   sendNewDisplayName,
   sendNewEmailName,
   sendNewBio,
-  logOut
+  logOut,
+  updateDN,
+  getUserInfo
 })(KellySetting));

@@ -22,7 +22,7 @@
   margin-right: auto;
   margin-left: 12px;
   margin-top: 2px;
-  height: 30px;
+  /* height: 30px; */
   width: calc(100% - 12px);
   font-family: 'Open Sans Condensed';
   font-weight: 700;
@@ -84,9 +84,8 @@
   border-radius: 3px;
 }
 .editHeader{
-  height: 50px;
-  width: 210px;
-  padding: 0 10px;
+  height: 25px;
+  width: 200px;
   position: relative;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;

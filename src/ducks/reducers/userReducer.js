@@ -32,6 +32,7 @@ const UPDATE_IMAGE_URL = 'UPDATE_IMAGE_URL';
 const SEND_NEW_DISPLAY_NAME = 'SEND_NEW_DISPLAY_NAME';
 const SEND_NEW_EMAIL_NAME = 'SEND_NEW_EMAIL_NAME';
 const SEND_NEW_BIO_NAME = 'SEND_NEW_BIO_NAME';
+const UPDATE_DN = 'UPDATE_DN'
 
 // Reducer
 function reducer(state = initialState, action) {
@@ -85,6 +86,8 @@ function reducer(state = initialState, action) {
       case UPDATE_IMAGE_URL:
         return { ...state, newProfilePicture: action.payload };
 
+      case UPDATE_DN:
+        return { ...state, displayName: state.newDisplayName, newDisplayName: ''}
     default:
       return state;
   }
@@ -204,4 +207,9 @@ export function sendNewBio(bio){
   }
 }
 
+export function updateDN(){
+  return {
+    type: UPDATE_DN
+  }
+}
 export default reducer;

@@ -100,7 +100,6 @@ class ProjectView extends Component {
   }
   editTitle(e){
     this.setState({title: e.target.value})
-    console.log(e.target.value);
   }
   openEditTitle(){
     this.setState({titleEditor: !this.state.titleEditor})

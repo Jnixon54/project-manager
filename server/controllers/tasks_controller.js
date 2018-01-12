@@ -12,8 +12,6 @@ module.exports = {
     },
     addNewTask: (req, res, next) => {
         const dbInstance = req.app.get('db')
-        console.log(req.body)
-
 
         dbInstance.addNewTask([req.body.projectID, req.body.cardID, req.body.task])
             .then(response => {
@@ -130,10 +128,9 @@ module.exports = {
 
     assignToTask: (req, res, next) => {
         const dbInstance = req.app.get('db')
-        console.log(req.user.id, req.body.userID, "CHECK RIGHT HERE YOURS IS FIRST")
         dbInstance.assignToTask([req.body.taskID, req.body.userID, req.body.projectID])
             .then(response => {
-                res.status(200).srsend(response)
+                res.status(200).send(response)
            })
            .catch(console.log)
     },
@@ -150,7 +147,6 @@ module.exports = {
     removeFromTask: (req, res, next) => {
         const dbInstance = req.app.get('db')
         
-        console.log(req.params.assignID)
         dbInstance.removeFromTask([req.params.taskID, req.params.memberID])
             .then(response => {
                 res.status(200).send(response)
@@ -177,7 +173,6 @@ module.exports = {
     },
     deleteProject: (req, res, next) => {
         const dbInstance = req.app.get('db')
-        console.log("Hit the controller", req.params.projID);
         dbInstance.deleteProject([req.params.projID])
             .then(response => {
                 res.status(200).send(response)
