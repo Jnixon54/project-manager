@@ -85,6 +85,7 @@ export function cardInput(e) {
   }
 }
 export function addCard(card, projectID) {
+  console.log('in reducer')
   return {
     type: NEW_CARD,
     payload: axios.post('/api/newCard', { card, projectID }).then(res => {

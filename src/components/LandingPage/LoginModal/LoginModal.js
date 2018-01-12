@@ -28,6 +28,7 @@ class LoginModal extends Component {
           <input
               className="input login-input"
               placeholder="Password"
+              type="password"
               onChange={e =>
                 this.props.updatePasswordInputField(e.target.value)
               }

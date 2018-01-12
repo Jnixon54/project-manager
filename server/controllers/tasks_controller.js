@@ -3,7 +3,7 @@ module.exports = {
         const dbInstance = req.app.get('db')
 
 
-        dbInstance.addNewCard([req.body.projectID, req.body.card, 1])
+        dbInstance.addNewCard([req.body.projectID, req.body.card, req.user.id])
             .then(response => {
                 res.status(200).send(response)})
 
