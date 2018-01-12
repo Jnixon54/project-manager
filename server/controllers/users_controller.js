@@ -3,7 +3,6 @@ const axios = require('axios');
 
 module.exports = {
   createLocalUser: (req, res) => {
-    // console.log('BODY: ', req.body);
     const db = req.app.get('db');
     const hashData = hashPassword.saltHashString(req.body.password);
     req.session.user = {};
@@ -32,7 +31,6 @@ module.exports = {
   },
   getUserInfo: (req, res) => {
     const dbInstance = req.app.get('db');
-    console.log("hit")
     dbInstance
       .getUserInfo([req.user.id])
       .then(response => res.status(200).send(response))
@@ -74,7 +72,6 @@ module.exports = {
 
   sendNewDisplayName: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    console.log("hit")
     dbInstance
       .sendNewDisplayName([req.params.displayName, req.session.passport.user])
       .then(response => res.status(200).send(response))

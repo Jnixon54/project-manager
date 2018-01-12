@@ -57,7 +57,6 @@ const cardSource = {
           
           let taskProps = props.tasks
           let updatedTaskIndex = taskProps.findIndex(task => task.task_id === selectedTask[0].task_id)
-          console.log(props.tasks, taskProps)
           taskProps.splice(updatedTaskIndex, 1, updatedTask)
           props.movedTask(taskProps)
           
@@ -200,9 +199,9 @@ class Task extends Component {
 
     const { isDragging, connectDragSource, name } = this.props
     const opacity = isDragging ? 0.4 : 1;
-    const complete = this.props.task.completed ? 'green' : 'rgba(242, 242, 242, 0.906)'
+    const complete = this.props.task.completed ? 'blue' : 'rgba(242, 242, 242, 0.906)'
     const userTasks = this.props.assignedTasks ? this.props.assignedTasks.filter( task => task.task_id === this.props.task.task_id) : []
-console.log("Here are the user tasks", userTasks, this.props.localUserID)
+
     const style = { opacity: opacity, background: complete};
     const userFreeMembers = this.props.members ? this.props.members.filter(member => member.id !== this.props.userID) : []
     
@@ -244,35 +243,35 @@ console.log("Here are the user tasks", userTasks, this.props.localUserID)
                 {this.state.assignModel === true &&
                       <div style={{width: '100%'}}>
                       {this.props.assignedTasks.length === 0 && 
-                      <h4 style={ userTasks.find(me => me.user_id === this.props.localUserID) ? {background: 'white'} : {background: 'blue'}}
+                      <h4 className='collaberators' style={ userTasks.find(me => me.user_id === this.props.localUserID) ? {background: 'white'} : {background: '#5c5c8a', color: 'white'}}
                       onClick={
                         userTasks.find(me => me.user_id === this.props.localUserID ) ? 
                         () => this.removeFromTasks(this.props.localUserID, this.props.task.task_id): 
                         () => this.assigningOfTasks(this.props.task.task_id, this.props.localUserID, this.props.match.params.id)}
-                      >Assign Self</h4>}
+                      >{userTasks.find(me => me.user_id === this.props.localUserID) ? 'You Got This' : 'Assign Self'}</h4>}
 
                         {this.props.assignedTasks.length > 0 && 
-                      <h4 style={
-                        userTasks.find(currentID =>  currentID.user_id === this.props.localUserID ) ? {background: 'white'} : {background: 'blue'}
+                      <h4 className='collaberators' style={
+                        userTasks.find(currentID =>  currentID.user_id === this.props.localUserID ) ? {background: 'white'} : {background: '#5c5c8a', color: 'white'}
                       }
                       onClick={
                         userTasks.find(me => me.user_id === this.props.localUserID) ? 
                         () => this.removeFromTasks(this.props.localUserID, this.props.task.task_id) : 
                         () => this.assigningOfTasks(this.props.task.task_id, this.props.localUserID, this.props.match.params.id)}>
-                        Assign Self</h4>
-                       }{console.log()}
+                        {userTasks.find(me => me.user_id === this.props.localUserID) ? 'You Got This' : 'Assign Self'}</h4>
+                       }
                         {this.props.members && userFreeMembers.map((member, index) => {
                           const assignedUser = this.props.assignedTasks.filter(task => task.task_id === this.props.task.task_id)
                           
                           return (
                           
-                          <h4 key={index} className="teamMembers"
-                          style={assignedUser.find(currentID => currentID.user_id === member.id)  ? {background: 'white'} : {background: 'blue'}}
+                          <h4 key={index} className="collaberators"
+                          style={assignedUser.find(currentID => currentID.user_id === member.id)  ? {background: 'white'} : {background: '#5c5c8a', color: 'white'}}
                           onClick={
                             assignedUser.find(currentID => currentID.user_id === member.id) ? 
                             () => this.removeFromTasks(member.id, this.props.task.task_id): 
                             () => this.assigningOfTasks(this.props.task.task_id, member.id, this.props.match.params.id)}>
-                          {member.display_name}{console.log(member, "heres the member")}</h4>)
+                          {member.display_name}{assignedUser.find(currentID => currentID.user_id === member.id) ? ' is on it!' : ''}</h4>)
                         
                         })}
                       </div>

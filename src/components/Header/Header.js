@@ -17,7 +17,6 @@ const Header = (props) => {
   return (
     <div className="header-container">
       { props.path == 'Board' ? <BackButton goBack={props.history.goBack} /> : null}
-      {console.log(props)}
       <div>
         <span className="header-light">{props.path}</span> - <span className="header-bold">{props.currentPath}</span>
       </div>

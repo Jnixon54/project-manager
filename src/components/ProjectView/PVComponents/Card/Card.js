@@ -116,11 +116,9 @@ class Card extends Component {
 
   showColors(cardID) {
     this.setState({ colorsOpen: !this.state.colorsOpen, cardID });
-    console.log('Hit!');
   }
 
   pickColor(color, cardID) {
-    console.log(color, cardID);
     axios.post('/api/changeCardColor', { color, cardID }).then(response => {
       this.props.getNewCards(this.props.match.params.id);
       this.setState({ colorsOpen: !this.state.colorsOpen, cardID });

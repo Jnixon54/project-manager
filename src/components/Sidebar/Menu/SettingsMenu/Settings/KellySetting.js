@@ -42,14 +42,12 @@ class KellySetting extends Component {
   }
 
   handleImageChange(image) {
-    console.log(image, 'image');
     this.setState({
       avatarImage: this.state.avatarImage.concat(image)
     });
   }
 
   uploadImage(event) {
-    console.log(event, 'event');
     // event.preventDefault();
     let file = event[0][0];
     const storageRef = firebase.storage().ref();
@@ -61,7 +59,6 @@ class KellySetting extends Component {
       snapshot => {},
       function(error) {},
       function() {
-        console.log(uploadTask.snapshot.downloadURL);
         // that.setState({ downloadURL: uploadTask.snapshot.downloadURL });
         // console.log(this.state.downloadURL);
       }
@@ -88,7 +85,6 @@ class KellySetting extends Component {
   }
 
   render() {
-    console.log(this.props, 'kelly props')
     const {
       updateUserName,
       updatePasswordField,

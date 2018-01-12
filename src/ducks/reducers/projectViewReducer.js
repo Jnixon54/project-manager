@@ -111,7 +111,6 @@ export function getCards2(projectID){
   }
 }
 export function getTasks(projectID){
-  console.log(projectID,":  Project id");
   return {
     type: GET_TASKS,
     payload: axios.get(`/api/getAllTasks/${projectID}`).then(response => {
@@ -384,7 +383,6 @@ export default function reducer(state = initialState, action) {
     case GET_LOCAL_USER + '_PENDING':
         return { ...state, isLoading: true}
     case GET_LOCAL_USER + '_FULFILLED':
-    console.log(action.payload)
         return { ...state, isLoading: false, localUserID: action.payload}
     case RESET_CARDS:
         return { ...state, cards: []};
