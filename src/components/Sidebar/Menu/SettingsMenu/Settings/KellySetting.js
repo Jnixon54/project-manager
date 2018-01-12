@@ -17,7 +17,9 @@ import {
   sendNewDisplayName,
   sendNewEmailName,
   sendNewBio,
-  logOut
+  logOut,
+  updateDN,
+  getUserInfo
 } from '../../../../../ducks/reducers/userReducer';
 
 class KellySetting extends Component {
@@ -33,6 +35,10 @@ class KellySetting extends Component {
     this.sendDisplayName = this.sendDisplayName.bind(this);
     this.sendNewEmailName = this.sendNewEmailName.bind(this);
     this.sendNewBio = this.sendNewBio.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.getUserInfo()
   }
 
   handleImageChange(image) {
@@ -66,6 +72,9 @@ class KellySetting extends Component {
   sendDisplayName(e){
     e.preventDefault()
     this.props.sendNewDisplayName(this.props.user.newDisplayName)
+    .then(() => {
+      this.props.updateDN()
+    })
   }
 
   sendNewEmailName(e){
@@ -187,5 +196,7 @@ export default withRouter(connect(mapStateToProps, {
   sendNewDisplayName,
   sendNewEmailName,
   sendNewBio,
-  logOut
+  logOut,
+  updateDN,
+  getUserInfo
 })(KellySetting));
