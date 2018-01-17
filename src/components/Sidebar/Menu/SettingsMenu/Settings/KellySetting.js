@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import { fire as firebase } from '../fire';
 
-import ImageUploader from 'react-images-upload';
+// import ImageUploader from 'react-images-upload';
 
 import { connect } from 'react-redux';
 import {

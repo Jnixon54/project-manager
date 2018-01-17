@@ -1,0 +1,35 @@
+{
+	"id": "9e00e938-27d1-8861-8480-c5bf67823324",
+	"name": "Group Tasker Endpoint Testing",
+	"description": "",
+	"order": [
+		"16d8072b-611e-0f1e-4177-5197ce55e63a"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1515377082105,
+	"owner": "2965963",
+	"public": false,
+	"requests": [
+		{
+			"id": "16d8072b-611e-0f1e-4177-5197ce55e63a",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:3001/api/getAllCards2/1",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": null,
+			"tests": "const response = pm.response.json();\n\n\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\npm.test(\"Response return with correct information\", function () {\n    pm.expect( response.response.length ).to.eql( 4 )\n});\npm.test('All projects should have the same parent project id', function() {\n    let sameProjectID = true;\n    response.response.map( obj => {\n        if (obj.parent_project_id !== 1) sameProjectID = false;\n    })\n    pm.expect(sameProjectID).to.eql(true);\n})",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1515378575488,
+			"name": "Get all Cards 2",
+			"description": null,
+			"collectionId": "9e00e938-27d1-8861-8480-c5bf67823324"
+		}
+	]
+}
